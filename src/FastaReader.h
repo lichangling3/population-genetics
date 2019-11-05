@@ -8,6 +8,7 @@ class FastaReader
 {
 	public:
 	FastaReader();	//constructor without arguments
+	FastaReader(std::vector<int> marks_, std::string file_to_read_);	//constructor with arguments used essentialy for tests
 	
 	private:
 	std::vector<int> marks;		//I expect marks given as a vector
