@@ -1,13 +1,29 @@
+#include <gtest/gtest.h>
 #include "FastaReader.h"
-#incude "random.h"
+#include "random.h"
 
-TEST(readFileTest, readFile) {
-	FastaReader s1({1,3,6}, "file.txt");
-	//Write the rest of the test below
+TEST(readFileTest, freq_per_allele) 
+{
+	std::vector<int> marks({1,3,6});
+	const std::string file_to_read("../tests/test.fasta");
+
+	FastaReader s1(marks, file_to_read);
+	std::map<std::string, double> freq_received = s1.freq_per_allele();
+	std::map<std::string, double> freq_test;
+	freq_test["ACG"] = 0.25;
+	freq_test["AGG"] = 0.25;
+	freq_test["TGC"] = 0.5;
+	int N_test = 4;
+
+	std::map<std::string, double>::const_iterator i, j;
+	for(i = freq_received.begin(), j = freq_test.begin(); j != freq_test.end(); ++i, ++j) {
+		EXPECT_EQ(i->first, j->first);
+		EXPECT_DOUBLE_EQ(i->second, j->second);
+	}
+	EXPECT_EQ(N_test, s1.get_N());
 }
 
 TEST(Random, multinomial){
 	RandomNumbers rng;
 	//write rest of the test
-	
 }
