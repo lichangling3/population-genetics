@@ -52,3 +52,36 @@ double RandomNumbers::binomial (int n, double p) {
 	std::binomial_distribution <> dist (n,p);
 	return dist (rng);
 }
+
+std::vector<int> RandomNumbers::multinomial (std::vector<double> n_frequence)
+{
+	int N(0);
+	for (auto n : n_frequence)
+	{
+		N += n;
+	}
+	
+	std::vector<int> k_frequence;
+	int new_k(0);
+	double old_n (N);
+	int new_n (N);
+	int sum_k(0);
+	double p;
+	
+	for (size_t i(0); i < n_frequence.size(); ++i)
+	{
+		
+		p = (n_frequence[i]/old_n);
+		new_k = binomial(new_n , p);
+		old_n -= n_frequence[i];
+		new_n -= new_k; 
+		
+		k_frequence.push_back(new_k);
+		sum_k += new_k;
+	}
+	
+	k_frequence.push_back(1 - sum_k);
+
+
+return k_frequence;	
+}
