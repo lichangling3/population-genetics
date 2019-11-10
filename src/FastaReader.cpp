@@ -1,7 +1,8 @@
 #include "FastaReader.h"
+#include "main.cpp"
 
 FastaReader::FastaReader()
-:marks(_MARKS_), file_to_read(_FILE_TO_READ_);		//I expect _MARKS_ and _FILE_TO_READ_ as global elements
+:marks(_MARKS_), file_to_read(_FILE_TO_READ_)		//I expect _MARKS_ and _FILE_TO_READ_ as global elements
 {}
 
 FastaReader::FastaReader(std::vector<int> marks_, const std::string file_to_read_)
