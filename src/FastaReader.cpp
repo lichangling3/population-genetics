@@ -42,7 +42,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std
     }
 }
 
-std::map<std::string, double> FastaReader::freq_per_allele(std::vector<int> marks, const std::string file_to_read) 
+std::map<std::string, double> FastaReader::retrieveData(std::vector<int> marks, const std::string file_to_read) 
 {
     std::map<std::string, double> alleles_freq;
     std::vector<std::string> all_combinations_ = readFile(marks, file_to_read);
