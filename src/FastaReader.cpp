@@ -1,25 +1,15 @@
 #include "FastaReader.h"
-#include "main.cpp"
 
-FastaReader::FastaReader()
-:marks(_MARKS_), file_to_read(_FILE_TO_READ_)		//I expect _MARKS_ and _FILE_TO_READ_ as global elements
-{}
-
-FastaReader::FastaReader(std::vector<int> marks_, const std::string file_to_read_)
-:marks(marks_), file_to_read(file_to_read_)
-{
-    std::sort(marks.begin(), marks.end());
-}
-
-std::vector<std::string> FastaReader::readFile() 
+std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std::string file_to_read) 
 {
     std::vector<std::string> all_combinations;
     try {
         std::ifstream confstr(file_to_read);
         if (confstr.is_open()) {
+            std::sort(marks.begin(), marks.end());
             std::string line, id, genome, combination;
-            while(std::getline(confstr, line )) {
-                if(line.empty() or line[0] == '>' ) { 
+            while(std::getline(confstr, line)) {
+                if(line.empty() or line[0] == '>') { 
                     if(!id.empty()) { 
                         id.clear();
                     }
@@ -52,11 +42,11 @@ std::vector<std::string> FastaReader::readFile()
     }
 }
 
-std::map<std::string, double> FastaReader::freq_per_allele() 
+std::map<std::string, double> FastaReader::freq_per_allele(std::vector<int> marks, const std::string file_to_read) 
 {
     std::map<std::string, double> alleles_freq;
-    std::vector<std::string> all_combinations_ = readFile();
-    N = all_combinations_.size();
+    std::vector<std::string> all_combinations_ = readFile(marks, file_to_read);
+    size_t N = all_combinations_.size();
     double init_freq(1.0/N);
 
     for (size_t i(0); i < all_combinations_.size(); ++i) {
@@ -64,3 +54,9 @@ std::map<std::string, double> FastaReader::freq_per_allele()
     }
     return alleles_freq;
 }
+
+size_t FastaReader::size(std::vector<int> marks, const std::string file_to_read) 
+{
+    return readFile(marks, file_to_read).size();
+}
+

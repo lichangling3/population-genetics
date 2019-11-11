@@ -4,11 +4,7 @@
 
 TEST(readFileTest, freq_per_allele) 
 {
-	std::vector<int> marks({1,3,6});
-	const std::string file_to_read("../tests/test.fasta");
-
-	FastaReader s1(marks, file_to_read);
-	std::map<std::string, double> freq_received = s1.freq_per_allele();
+	std::map<std::string, double> freq_received = FastaReader::freq_per_allele({1,3,6}, "../tests/test.fasta");
 	std::map<std::string, double> freq_test;
 	freq_test["ACG"] = 0.25;
 	freq_test["AGG"] = 0.25;
@@ -20,7 +16,7 @@ TEST(readFileTest, freq_per_allele)
 		EXPECT_EQ(i->first, j->first);
 		EXPECT_DOUBLE_EQ(i->second, j->second);
 	}
-	EXPECT_EQ(N_test, s1.get_N());
+	EXPECT_EQ(N_test, FastaReader::size({1,3,6}, "../tests/test.fasta"));
 }
 
 TEST(Random, multinomial){
