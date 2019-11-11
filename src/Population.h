@@ -1,8 +1,9 @@
 #ifndef POPULATION_H
 #define POPULATION_H
 #include <iostream>
+#include <map>
 
-typedef std::vector<std::pair<std::string, double>> Alleles; //each allele codon and it's frequency
+typedef std::map<std::string, double> Alleles; //each allele codon and it's frequency
 
 class Population {
 public :
@@ -14,7 +15,9 @@ public :
 
 private :
 	Alleles popAlleles;	
-	const int N;	//pop size is constant
+	const int N;
 	
 
 };
+
+#endif
