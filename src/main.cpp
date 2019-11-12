@@ -2,9 +2,6 @@
 #include <string>
 #include <tclap/CmdLine.h>
 
-//Global variables for FastaReader
-std::vector<int> _MARKS_;
-std::string _FILE_TO_READ_;
 
 void parse_args(int argc, char **argv) 
 {
