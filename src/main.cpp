@@ -28,7 +28,8 @@ void parse_args(int argc, char **argv)
     size_t repetitions = repeat.getValue();
     size_t nb_alleles = number_alleles.getValue();
     std::string file = file_name.getValue();
-    std::vector<double>nb_freq = freq.getValue();
+    std::vector<double> nb_freq = freq.getValue();
+    std::vector<size_t> nb_marks = marks.getValue();
     
 	if (file_name.isSet()) {
 		if (!marks.isSet()) {
@@ -58,6 +59,7 @@ int main(int argc, char **argv)
 	int nerr = 0;
 	try {
 		parse_args(argc, argv);
+		
 		
 		//Mettre ici vos fonctions pour initialiser simulation.
 	} catch(std::runtime_error &e) {
