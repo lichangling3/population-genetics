@@ -8,7 +8,7 @@ class Display{
 public:
 	Display();
 	
-	void display_1_gen(Population);
+	void displayGen(Population);
 	
 	
 	

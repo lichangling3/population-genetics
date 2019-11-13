@@ -6,20 +6,18 @@
 typedef std::map<std::string, double> Alleles; //each allele codon and it's frequency
 
 class Population {
-
 public :
-	Population(const Alleles& al, const int& taille);
+	Population(const Alleles& al, int gen);
 	
+	int getSize()const{return popAlleles.size();};
 	
-	int getSize() const {return N;};
+	Alleles getpopAlleles()const{return popAlleles;};
 	
-	Alleles getpopAlleles() const {return popAlleles;};
-	
+	int getGeneration()const {return generation;};		
+		
 private :
 	Alleles popAlleles;	
-	const int N;
-	
-
+	int generation; 	//the generation we are in at the moment
 };
 
 #endif
