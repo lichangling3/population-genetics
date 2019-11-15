@@ -53,7 +53,7 @@ double RandomNumbers::binomial (int n, double p) {
 	return dist (rng);
 }
 
-std::vector<int> RandomNumbers::multinomial (std::vector<double> n_frequence)
+std::vector<double> RandomNumbers::multinomial (std::vector<double> n_frequence)
 {
 	int N(0);
 	for (auto n : n_frequence)
@@ -61,7 +61,7 @@ std::vector<int> RandomNumbers::multinomial (std::vector<double> n_frequence)
 		N += n;
 	}
 	
-	std::vector<int> k_frequence;
+	std::vector<double> k_frequence;
 	int new_k(0);
 	double old_n (N);
 	int new_n (N);
@@ -80,7 +80,11 @@ std::vector<int> RandomNumbers::multinomial (std::vector<double> n_frequence)
 		sum_k += new_k;
 	}
 	
-	k_frequence.push_back(1 - sum_k);
+	k_frequence.push_back(N - sum_k);
+	
+	for (auto freq : k_frequence) { //mutinomial return now the frequency of the alleles in the population 
+		freq /= N;
+	}
 
 
 return k_frequence;	
