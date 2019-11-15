@@ -87,8 +87,7 @@
 // {
 // 	int nerr = 0;
 // 	try {
-// 		parse_args(argc, argv);
-// 		//Petit résumé des valeurs 
+// 		//Petit résumé des valeurs à manipuler
 // 		// int time
 // 		// int repetion
 // 		// std::map<std::string, double> freq_per_allele (lorsque l'utilisateur fournit un fichier FASTA)
