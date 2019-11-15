@@ -35,7 +35,7 @@ public:
     void poisson(std::vector<int>&, double mean=1);
     int poisson(double mean=1);
     double binomial (int, double);
-    std::vector<int> multinomial (std::vector<double>);
+    std::vector<double> multinomial (std::vector<double>);
 
 ///@}
 /*! @name Auxiliary function
