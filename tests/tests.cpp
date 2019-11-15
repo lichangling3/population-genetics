@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
 #include "FastaReader.h"
 #include "random.h"
+#include "Simulation.h"
+
+RandomNumbers* _RNG;
+Simulation* _SIM;
+
 
 TEST(readFileTest, retrieveData) 
 {
