@@ -1,5 +1,7 @@
 #include "FastaReader.h"
 
+FastaReader::FastaReader() {}
+
 std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const std::string file_to_read) 
 {
     std::vector<std::string> all_combinations;
