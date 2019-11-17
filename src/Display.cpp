@@ -4,8 +4,8 @@
 
 Display::Display(){}
 
+
 void Display::displayGen(Population pop , std::ofstream& write){ 
-	
  //will be created if it doesn't exist
 
 	if(write){	//did it open well? 
