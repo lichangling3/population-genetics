@@ -4,7 +4,7 @@
 
 Display::Display(){}
 
-void Display::displayGen(Population pop , size_t time){ 
+void Display::displayGen(Population& pop , size_t time){ 
 	
 
 std::ofstream write;
