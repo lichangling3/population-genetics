@@ -5,6 +5,7 @@
 #include <random.h>
 #include <Display.h>
 #include <FastaReader.h>
+#include <fstream>
 
 // void parse_args(int argc, char **argv) 
 // {
@@ -166,14 +167,13 @@ int main(int argc, char **argv)
 	
 	_RNG = new RandomNumbers();
 	
-	Display display;
-	FastaReader fasta;
 	if (file_name.isSet()) {	
 		
-		Alleles alleles = fasta.retrieveData(nb_marks, file);
+		std::ofstream my_flow = std::ofstream("build/display.txt");
+		Alleles alleles = FastaReader::retrieveData(nb_marks, file);
 		Population pop(alleles);
 		_SIM = new Simulation(pop);
-		display.displayGen(pop, sim_duration);
+		Display::displayGen(pop, my_flow);
 	//~ parse_args(argc, argv);
 	}	
 	} catch(std::runtime_error &e) {

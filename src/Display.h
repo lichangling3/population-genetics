@@ -8,7 +8,8 @@ class Display{
 public:
 	Display();
 	
-	void displayGen(Population pop, size_t time);
+	static void displayGen(Population pop, std::ofstream& write);
+	static void DisplayAll(Population pop, std::ofstream& write);
 	
 };	
 	
