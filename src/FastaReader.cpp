@@ -2,8 +2,7 @@
 
 FastaReader::FastaReader() {}
 
-std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const std::string file_to_read) 
-{
+std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const std::string file_to_read) {
     std::vector<std::string> all_combinations;
     try {
         std::ifstream confstr(file_to_read);
@@ -11,7 +10,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
             std::sort(marks.begin(), marks.end());
             std::string line, id, genome, combination;
             while(std::getline(confstr, line)) {
-                if(line.empty() or line[0] == '>') { 
+                if(line[0] == '>') { 
                     if(!id.empty()) { 
                         id.clear();
                     }
@@ -26,10 +25,17 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     // This puts all the letters in upper case
                     std::transform(genome.begin(), genome.end(), genome.begin(), ::toupper);
                     for (size_t i(0); i < marks.size(); ++i) {
-                        combination += genome[marks[i]-1];
+                        if (genome[marks[i]-1] == 'N') {
+                            // genome[marks[i]-1] = randomNucleotide();
+                            combination += randomNucleotide();
+                        } else {
+                            combination += genome[marks[i]-1];
+                        }
                     }
                     all_combinations.push_back(combination);
                     combination.clear();
+                } else {
+                    throw std::runtime_error("It seems that you did not provided a FASTA file.");
                 }
             }
             confstr.close();
@@ -44,8 +50,29 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
     }
 }
 
-std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> marks, const std::string file_to_read) 
-{
+std::string FastaReader::randomNucleotide() {
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(1, 4);
+    int number = distribution(generator);
+    std::string nucleotide;
+    switch (number) {
+        case 1 :
+            nucleotide = 'A';
+            break;
+        case 2 :
+            nucleotide = 'C';
+            break;
+        case 3 :
+            nucleotide = 'T';
+            break;
+        case 4 :
+            nucleotide = 'G';
+            break;
+    }
+    return nucleotide;
+}
+
+std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> marks, const std::string file_to_read) {
     std::map<std::string, double> alleles_freq;
     std::vector<std::string> all_combinations_ = readFile(marks, file_to_read);
     size_t N = all_combinations_.size();
@@ -57,8 +84,7 @@ std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> mark
     return alleles_freq;
 }
 
-size_t FastaReader::size(std::vector<size_t> marks, const std::string file_to_read) 
-{
+size_t FastaReader::size(std::vector<size_t> marks, const std::string file_to_read) {
     return readFile(marks, file_to_read).size();
 }
 

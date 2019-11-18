@@ -3,6 +3,7 @@
 #include <map>
 #include <fstream>
 #include <algorithm>
+#include <random>
 
 #ifndef FASTAREADER_H
 #define FASTAREADER_H
@@ -16,6 +17,7 @@ class FastaReader
 
 	private:
 	static std::vector<std::string> readFile(std::vector<size_t> marks, const std::string file_to_read); //reads file provided and returns all the combinations indicated by the marks
+	static std::string randomNucleotide();
 };
 
 #endif //FASTAREADER_H
