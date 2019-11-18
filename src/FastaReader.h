@@ -17,10 +17,10 @@ class FastaReader
 {
 	public:
 	/*! @name Initializing
-  The constructor does not up any arguments and is empty as FastaReader does not have any attribuites.
+  The constructor does not need any arguments and is empty as FastaReader does not have any attribuites.
  */
 ///@{
-	FastaReader();	//constructor without arguments
+	FastaReader();
 	///@}
 
 /*! @name Retrieving functions
@@ -48,7 +48,9 @@ class FastaReader
 	/*! 
 	 * Generates a random number between 1 and 4 using the normal distribution and returns a different nucleotide for each number
 	 */
+	 ///@{
 	static std::string randomNucleotide();
+	///@}
 };
 
 #endif //FASTAREADER_H
