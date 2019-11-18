@@ -17,7 +17,7 @@ class FastaReader
 {
 	public:
 	/*! @name Initializing
-  The constructor does not need any arguments and is empty as FastaReader does not have any attribuites.
+  The constructor does not need any arguments and is empty as FastaReader does not have any attributes.
  */
 ///@{
 	FastaReader();
