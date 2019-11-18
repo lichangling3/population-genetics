@@ -35,7 +35,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     all_combinations.push_back(combination);
                     combination.clear();
                 } else {
-                    throw std::runtime_error("It seems that you did not provided a FASTA file.");
+                    throw std::runtime_error("It seems that you did not provide a FASTA file.");
                 }
             }
             confstr.close();
