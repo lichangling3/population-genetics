@@ -4,28 +4,25 @@
 
 Display::Display(){}
 
+void Display::displayGen(Population pop, std::ofstream& write){ 
+	 //will be created if it doesn't exist
 
-void Display::displayGen(Population pop , std::ofstream& write){ 
- //will be created if it doesn't exist
-
-	if(write){	//did it open well? 
-		for (auto all:pop.getpopAlleles()) {
-			write << all.second <<"|";
-		}
-		write << std::endl;
+if(write.is_open()){	//did it open well? 
+	for (auto x:pop.getpopAlleles())
+	{
+		write << x.second << "|";
 	}
-	else { 
-		std::cerr << "error while opening text file"<< std::endl;
-	}
+	write << std::right << std::setw(3);
 }
 
-void Display::DisplayAll(Population pop, std::ofstream& write) {
-	if(write){
-		for(auto all:pop.getpopAlleles()){		
-			write << all.first <<"|"; 
-		}
+else { std::cerr << "error while opening text file"<< std::endl;}
+
+}
+
+void Display::displayAll(Population pop, std::ofstream& write) {
+	for (auto x:pop.getpopAlleles())
+	{
+		write << x.first << "|";
 	}
-	else {
-		std::cerr << "error while opening text file"<< std::endl;
-	}
+	write << std::right << std::setw(5);
 }

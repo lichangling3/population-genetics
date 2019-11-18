@@ -62,3 +62,4 @@ size_t FastaReader::size(std::vector<size_t> marks, const std::string file_to_re
     return readFile(marks, file_to_read).size();
 }
 
+

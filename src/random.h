@@ -1,6 +1,9 @@
+#ifndef RANDOM_H
+#define RANDOM_H
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 /*! \class RandomNumbers
   This is a random number class based on standard c++-11 generators.
@@ -34,8 +37,15 @@ public:
     double normal(double mean=0, double sd=1);
     void poisson(std::vector<int>&, double mean=1);
     int poisson(double mean=1);
-    double binomial (int, double);
+    double binomial (int n, double p);
     std::vector<double> multinomial (std::vector<double>);
+    std::vector<double> multinomialDistribution(double N,std::vector<double> freq);
+    std::vector<double> multinomials(std::vector<double> f, unsigned int N);
+    std::vector<double> multibinomial (int N, std::vector<double> f);
+    std::vector<double> multinomiale(int N, std :: vector<double> effectif_allele);
+    void multinomial(std::vector<double> old_repartition, std::vector<double> new_repartition);
+    double sum(std::vector<double> vec);
+    std::vector<double> multinomialeTest(int N, std :: vector<double> effectif_allele);
 
 ///@}
 /*! @name Auxiliary function
@@ -52,3 +62,5 @@ private:
 };
 
 extern RandomNumbers* _RNG;
+
+#endif
