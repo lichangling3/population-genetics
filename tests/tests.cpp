@@ -42,7 +42,7 @@ TEST(Display, displayGen) {
 	Display::displayGen(pop, my_flow);
 	std::vector<std::string> split;
 	std::string line, f;
-	
+	my_flow.close();
 	try {
         std::ifstream confstr("../tests/test_for_display.txt");
         if (confstr.is_open()) {

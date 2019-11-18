@@ -11,7 +11,6 @@ void Display::displayGen(Population pop, std::ofstream& write){
 			write << x.second << "|";
 		}
 		write << std::right << std::setw(3);
-		write.close();
 	}
 	else { std::cerr << "error while opening text file"<< std::endl;}
 }
@@ -23,7 +22,6 @@ void Display::displayAll(Population pop, std::ofstream& write) {
 			write << x.first << "|";
 		}
 		write << std::right << std::setw(5);
-		write.close();
 	}
 	else { std::cerr << "error while opening text file"<< std::endl;}
 }

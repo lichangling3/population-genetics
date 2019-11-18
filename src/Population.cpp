@@ -5,7 +5,7 @@ void Population::setAlleles(size_t nb_alleles, std::vector<double> nb_freq_)
 {
 	for(size_t i(0); i < nb_alleles; ++i) {
 		std::string key = std::to_string(i+1);
-		popAlleles[key] = nb_freq_[i]; std::cout << "erreur" << std::endl;
+		popAlleles[key] = nb_freq_[i];
 	}
 	
 }
