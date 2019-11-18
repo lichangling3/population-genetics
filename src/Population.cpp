@@ -1,35 +1,13 @@
 #include "Population.h"
 
 
-/*
-void Population::setFrequencies(std::vector<double> new_frequency)
-{
-	int i(0);
-	if (new_frequency.size() == getSize()) {
-		for (auto allele : popAlleles) {
-			allele.second = new_frequency[i];
-			++i;
-		}
-	} else {
-		std::cerr << "Error : parameter new_frequency doesn't have the right size N " << std::endl;
-	}
-}
-
-std::vector<double> Population::getFrequencies()
-{
-	std::vector<double> frequencies;
-	for (auto allele:popAlleles){
-		frequencies.push_back(allele.second);
-	}
-	return frequencies;
-}
-*/
 void Population::setAlleles(size_t nb_alleles, std::vector<double> nb_freq_)
 {
 	for(size_t i(0); i < nb_alleles; ++i) {
 		std::string key = std::to_string(i+1);
-		popAlleles[key] = nb_freq_[i];
+		popAlleles[key] = nb_freq_[i]; std::cout << "erreur" << std::endl;
 	}
+	
 }
 
 void Population::setWithFile(Alleles popAlleles_) {
@@ -54,3 +32,6 @@ void Population::setSize(size_t size_) {
 	size = size_;
 }
 
+void Population::setPopAlleles(std::map<std::string, double> map) {
+	popAlleles = map;
+}

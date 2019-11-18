@@ -11,9 +11,7 @@ Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles
 	my_flow = std::ofstream("display.txt");
 	for(auto& population:populations) {
 		population.setSize(pop_size_);
-		for(size_t i(0); i < nb_alleles_; ++i) {
 		population.setAlleles(nb_alleles_, nb_freq_);
-		}
 	}
 }
 
@@ -31,23 +29,6 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 	}
 }
 
-
-/*
-Simulation::Simulation(const Population& pop) : population(pop) {}
-
-void Simulation::update(std::vector<double> new_number_alleles) 
-{
-	if (new_number_alleles.size() != population.getSize()) 
-	{
-		std::cerr<< "parameter new_number_allele doesn't have the right size" <<std::endl;
-	}
-	for (auto nbr : new_number_alleles)
-	{
-		nbr *= new_number_alleles.size();
-	}
-	population.setFrequencies(_RNG -> multinomial(new_number_alleles));
-}
-*/
 void Simulation::run() {
 	size_t gen_counter = 0;
 	my_flow << std::left << std::setw(15);

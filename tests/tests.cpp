@@ -2,11 +2,10 @@
 #include "FastaReader.h"
 #include "random.h"
 #include "Simulation.h"
+#include <fstream>
 #include "Display.h"
-#include "fstream"
 
 RandomNumbers* _RNG;
-Simulation* _SIM;
 
 
 TEST(readFileTest, retrieveData) 
@@ -32,18 +31,20 @@ TEST(Random, multinomial){
 }
 
 TEST(Display, displayGen) {
-	std::ofstream my_flow = std::ofstream("../tests/test_for_display");
-	std::map<std::string,double> alleles;
+	Population pop;
+	std::ofstream my_flow = std::ofstream("../tests/test_for_display.txt");
+	Alleles alleles;
 	for(double i(1); i < 5; ++i) {
 		std::string s = std::to_string(i);
 		alleles[s] = (i/10);
 	}
-	Population pop(alleles);
+	pop.setPopAlleles(alleles);
 	Display::displayGen(pop, my_flow);
 	std::vector<std::string> split;
 	std::string line, f;
+	
 	try {
-        std::ifstream confstr("../tests/test_for_display");
+        std::ifstream confstr("../tests/test_for_display.txt");
         if (confstr.is_open()) {
             while(std::getline(confstr, line)) {
 				std::stringstream ss(line);
@@ -53,7 +54,7 @@ TEST(Display, displayGen) {
 			}
         } 
         else {
-            throw("Could not open FASTA file ../tests/test_for_display");
+            throw("Could not open FASTA file ../tests/test_for_display.txt");
         }
     } 
     catch(std::ifstream::failure &e) {
@@ -70,3 +71,5 @@ int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+
