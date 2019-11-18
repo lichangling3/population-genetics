@@ -1,4 +1,5 @@
 #include "FastaReader.h"
+#include <iostream>
 
 FastaReader::FastaReader() {}
 
@@ -26,7 +27,6 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     std::transform(genome.begin(), genome.end(), genome.begin(), ::toupper);
                     for (size_t i(0); i < marks.size(); ++i) {
                         if (genome[marks[i]-1] == 'N') {
-                            // genome[marks[i]-1] = randomNucleotide();
                             combination += randomNucleotide();
                         } else {
                             combination += genome[marks[i]-1];
@@ -49,12 +49,13 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
         throw("Error with FASTA file " + file_to_read + ": " + e.what());
     }
 }
-
+//Corriger pk il calcule 2x ?
 std::string FastaReader::randomNucleotide() {
-    std::default_random_engine generator;
+    std::random_device rd;
+    std::mt19937 gen(rd());
     std::uniform_int_distribution<int> distribution(1, 4);
-    int number = distribution(generator);
-    std::string nucleotide;
+    int number = distribution(gen);
+    std::string nucleotide = "";
     switch (number) {
         case 1 :
             nucleotide = 'A';

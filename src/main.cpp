@@ -37,8 +37,6 @@ int main(int argc, char **argv) {
 			throw std::runtime_error("Number of repetitions of simulation needed");
 		}
 		_RNG = new RandomNumbers();
-		size_t sim_duration = duration.getValue();
-		size_t repetitions = repeat.getValue();
 		if (file_name.isSet()) {
 			if (!marks.isSet()) {
 				throw std::runtime_error("Provide marks, frequences not needed");
@@ -52,9 +50,7 @@ int main(int argc, char **argv) {
 			else if (!marks.isSet()) {
 				throw std::runtime_error("Marks needed");
 			}
-			std::string file = file_name.getValue();
-			std::vector<size_t> nb_marks = marks.getValue();
-			Simulation sim(file, nb_marks, sim_duration, repetitions);
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue());
 			sim.run();
 		} else if (!file_name.isSet()) {
 			if (marks.isSet()) {
@@ -83,10 +79,7 @@ int main(int argc, char **argv) {
 					throw std::runtime_error("The sum of frequences must be equal to 1.0");
 				}
 			}
-			size_t pop_size = nsample.getValue();
-			size_t nb_alleles = number_alleles.getValue();
-			std::vector<double> nb_freq = freq.getValue();
-			Simulation sim(pop_size, sim_duration, nb_alleles, nb_freq, repetitions);
+			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue());
 			sim.run();
 		}
 	} catch(std::runtime_error &e) {
@@ -98,6 +91,5 @@ int main(int argc, char **argv) {
     }
     if (_RNG) delete _RNG;
     if (_SIM) delete _SIM;
-
 	return nerr;
 }
