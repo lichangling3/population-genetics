@@ -38,14 +38,8 @@ public:
     void poisson(std::vector<int>&, double mean=1);
     int poisson(double mean=1);
     double binomial (int n, double p);
-    std::vector<double> multinomial (std::vector<double>);
-    std::vector<double> multinomialDistribution(double N,std::vector<double> freq);
-    std::vector<double> multinomials(std::vector<double> f, unsigned int N);
-    std::vector<double> multibinomial (int N, std::vector<double> f);
-    std::vector<double> multinomiale(int N, std :: vector<double> effectif_allele);
-    void multinomial(std::vector<double> old_repartition, std::vector<double> new_repartition);
-    double sum(std::vector<double> vec);
-    std::vector<double> multinomialeTest(int N, std :: vector<double> effectif_allele);
+    std::vector<double> multinomial (int N, std::vector<double>&);
+    
 
 ///@}
 /*! @name Auxiliary function
