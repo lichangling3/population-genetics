@@ -38,10 +38,14 @@ public:
     void poisson(std::vector<int>&, double mean=1);
     int poisson(double mean=1);
     double binomial (int n, double p);
-    std::vector<double> multinomial (int N, std::vector<double>&);
-    
-
 ///@}
+
+/*! Multinomial distribution law
+ * \param N (int): sample size
+ * \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
+ * \return new frquencies, randomly generated using a combination of \ref binomial
+ * */
+    std::vector<double> multinomial (int N, std::vector<double>& n_frequence);
 /*! @name Auxiliary function
   This takes a vector of indices and re-orders it randomly.
  */
