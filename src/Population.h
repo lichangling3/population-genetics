@@ -10,7 +10,8 @@ typedef std::map<std::string, double> Alleles; //each allele codon and it's freq
 class Population {
 public :
 	Population(){};
-	size_t getSize()const{return popAlleles.size();};
+	size_t getSize()const{return size;};
+	size_t getAllelesSize() const {return popAlleles.size();};
 	Alleles getpopAlleles()const{return popAlleles;};
 	void setAlleles(size_t nb_alleles, std::vector<double> nb_freq_);
 	void setWithFile(Alleles popAlleles_);

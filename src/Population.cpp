@@ -21,7 +21,7 @@ void Population::step() {
 	for(std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it) {
 	start.push_back(it->second);
 	}
-	end = _RNG->multibinomial(size,start);
+	end = _RNG->multinomial(size,start);
 	for(std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it) {
 		it->second = end[i];
 		++i;
