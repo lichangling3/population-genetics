@@ -54,7 +54,7 @@ public:
 ///@}
 
 /*! 
- * Generates a random number between 1 and 4 using the normal distribution \return std::string a different nucleotide for each number
+ * Generates a random number between 1 and 4 using the normal distribution \return std::string a different letter for each number
  */
 ///@{
 	std::string randomLetter();
