@@ -90,3 +90,24 @@ std::vector<double> RandomNumbers::multinomial (int N, std::vector<double>& n_fr
 return k_frequence;	
 }
 
+std::string RandomNumbers::randomLetter() {
+    std::uniform_int_distribution<int> distribution(1, 4);
+    int number = distribution(rng);
+    std::string letter = "";
+    switch (number) {
+        case 1 :
+            letter = 'A';
+            break;
+        case 2 :
+            letter = 'C';
+            break;
+        case 3 :
+            letter = 'T';
+            break;
+        case 4 :
+            letter = 'G';
+            break;
+    }
+    return letter;
+}
+

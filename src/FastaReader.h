@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <random>
+#include "random.h"
 
 #ifndef FASTAREADER_H
 #define FASTAREADER_H
@@ -47,13 +48,6 @@ class FastaReader
  * \return a string containing all alleles in the provided file, all in capital letters and without spaces.
   */
 	static std::vector<std::string> readFile(std::vector<size_t> marks, const std::string file_to_read); 
-	
-	/*! 
-	 * Generates a random number between 1 and 4 using the normal distribution \return std::string a different nucleotide for each number
-	 */
-	 ///@{
-	static std::string randomNucleotide();
-	///@}
 };
 
 #endif //FASTAREADER_H

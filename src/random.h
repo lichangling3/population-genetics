@@ -52,6 +52,13 @@ public:
 ///@{
     void shuffle(std::vector<size_t> &_v) {std::shuffle(_v.begin(), _v.end(), rng);}
 ///@}
+
+/*! 
+ * Generates a random number between 1 and 4 using the normal distribution \return std::string a different nucleotide for each number
+ */
+///@{
+	std::string randomLetter();
+///@}
      
 private:
     std::mt19937 rng;
