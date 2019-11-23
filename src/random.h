@@ -43,7 +43,7 @@ public:
 /*! Multinomial distribution law
  * \param N (int): sample size
  * \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
- * \return new frquencies, randomly generated using a combination of \ref binomial
+ * \return new frequencies, randomly generated using a combination of \ref binomial
  * */
     std::vector<double> multinomial (int N, std::vector<double>& n_frequence);
 /*! @name Auxiliary function

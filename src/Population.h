@@ -8,8 +8,7 @@
 typedef std::map<std::string, double> Alleles;
 
 /*! \class Population
- * A population is a \typedef Alleles "set" of alleles and has a \ref size size that is equal to the total number of alleles.
- * \typedef Alleles are a typedef of a map. This map contains the allele's sequence as a string, and its frequency as a double.
+ * A population is a "set" of alleles and has a \ref size that is equal to the total number of alleles.
  * 
  * A population is created in two different manners, according to whether a Fasta file is provided or not. 
  * */
@@ -19,16 +18,24 @@ public :
 
 /*! @name Initializing
   The constructor does not need any arguments and is empty as attributes will be assigned in other functions.
-  * \ref setAlleles sets the frequencies of the alleles contained in \ref PopAlleles to those of the \param std::vector<double>.
-  * \ref setWithFile sets \ref PopAlleles to \param Alleles.
-  * \ref setPopAlleles sets \ref PopAlleles to \param std::map<std::string, double>.
 */
 ///@{
 	Population(){};
+	
+	
+	/*!  sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
+	 * \param nb_freq_
+	 * \param nb_alleles: number of alleles
+	*/
 	void setAlleles(size_t nb_alleles, std::vector<double> nb_freq_);
-	void setWithFile(Alleles popAlleles_);
-	void setSize(size_t size_);
+	
+	///sets \ref PopAlleles to the parameter \param popAlleles_
+	 void setWithFile(Alleles popAlleles_);
+	 
+	///  sets \ref PopAlleles to the parameter \param map
 	void setPopAlleles(std::map<std::string, double> map);
+	
+	void setSize(size_t size_);
 	///@}
 	
 	/*! @name Getters
@@ -39,13 +46,14 @@ public :
 	Alleles getpopAlleles()const{return popAlleles;};
 	///@}	
 		
-/*! Assignes a random new frequency to each allele of the population using the \ref multinomial method of \ref RandomGenerator.
+/*! Assignes a random new frequency to each allele of the population using the multinomial method of RandomNumbers.
+ * \see RandomNumbers::multinomial (int N, std::vector<double>& n_frequence).
  */	
   ///@{		
 	void step();
 	///@}
 private :
-	Alleles popAlleles;	
+	Alleles popAlleles;	///typedef of a map with a string as key and a double as value
 	size_t size;
 	
 };
