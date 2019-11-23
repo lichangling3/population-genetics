@@ -93,21 +93,17 @@ return k_frequence;
 std::string RandomNumbers::randomLetter() {
     std::uniform_int_distribution<int> distribution(1, 4);
     int number = distribution(rng);
-    std::string letter = "";
     switch (number) {
         case 1 :
-            letter = 'A';
-            break;
+            return "A";
         case 2 :
-            letter = 'C';
-            break;
+            return "C";
         case 3 :
-            letter = 'T';
-            break;
+            return "T";
         case 4 :
-            letter = 'G';
-            break;
+            return "G";
+		default : 
+			throw std::runtime_error("Wrong number generated in randomLetter");
     }
-    return letter;
 }
 
