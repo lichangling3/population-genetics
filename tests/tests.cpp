@@ -4,7 +4,6 @@
 #include "Simulation.h"
 #include <fstream>
 #include "Display.h"
-
 RandomNumbers* _RNG;
 
 
@@ -38,6 +37,32 @@ TEST(Random, multinomial){
 	
 	EXPECT_NEAR(1, total_freq, 0.0001);
 }
+
+
+TEST (Random, multinomial_average_freq){
+	RandomNumbers RN;
+	
+	size_t replications (30); // enter number of replications, knowing that a higher number means higher precision 
+	
+	std::vector<double> init_freq{0.2, 0.4};	
+	std::vector<double> alleles;
+	
+	for (size_t i(0); i<replications; ++i) {
+		std::vector<double> new_freq = RN.multinomial(20, init_freq);
+		for (size_t i(0); i<new_freq.size(); ++i){
+			alleles[i] += new_freq[i];
+			}
+	}
+	
+	for (size_t j(0); j<= alleles.size(); ++j){
+		j= j / init_freq.size();
+		
+		EXPECT_NEAR(alleles[j], init_freq[j], 0.05);		//enter precision according to nbr of replications
+	}
+	
+	
+}
+
 
 TEST(Random, fixation){
 	
