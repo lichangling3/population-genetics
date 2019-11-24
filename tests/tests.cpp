@@ -85,6 +85,52 @@ TEST(Display, displayGen) {
 	EXPECT_EQ(split[3],"0.4");
 }
 
+TEST(GlobalTest, SmallTest)
+{
+    //without fasta file
+    Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3);
+    sim.run();
+
+    try {
+        std::ifstream confstr("display.txt");
+        if (confstr.is_open()) {
+            std::string line;
+            while(std::getline(confstr, line)) {
+				if (line[0] == '0') {
+					EXPECT_EQ(line, "0              0.4|0.5|0.1|0.4|0.5|0.1|0.4|0.5|0.1|");
+				} else {
+					EXPECT_EQ(line, "                 1|2|3|    1|2|3|    1|2|3|");
+				}
+            }
+        } else {
+            throw std::runtime_error("Could not open display.txt");
+        }
+    } catch(std::ifstream::failure &e) {
+        throw("Error with display.txt file " and e.what());
+    }
+    
+    //with fasta file
+    Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3);
+    sim_file.run();
+
+    try {
+        std::ifstream confstr("display.txt");
+        if (confstr.is_open()) {
+            std::string line;
+            while(std::getline(confstr, line)) {
+				if (line[0] == '0') {
+					EXPECT_EQ(line, "0              0.25|0.25|0.5|0.25|0.25|0.5|0.25|0.25|0.5|");
+				} else {
+					EXPECT_EQ(line, "               ACG|AGG|TGC|  ACG|AGG|TGC|  ACG|AGG|TGC|");
+				}
+            }
+        } else {
+            throw std::runtime_error("Could not open display.txt");
+        }
+    } catch(std::ifstream::failure &e) {
+        throw("Error with display.txt file " and e.what());
+    }
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

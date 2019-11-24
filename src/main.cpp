@@ -6,6 +6,31 @@
 #include <Display.h>
 #include <FastaReader.h>
 
+/*!
+  \mainpage Genetic drift dynamics
+  This is an implementation of the model of Wright-Fisher
+  [(Wright-Fisher Models, Approximations, and Minimum Increments of Evolution, William H. Press)] (https://pdfs.semanticscholar.org/1699/94e73dacc2bc1c0855d83b0a049e19f6b17f.pdf)
+  
+  The prgramm can be used with a Fasta file with typical command:
+  \verbatim
+  ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5
+  \endverbatim
+  which will simulate the time evolution of a Population of 100 indiviuals with 2 different alleles, 
+  both with frequency 0.5.
+  The Simulation will last 10 seconds and be repeated 2 times.
+  
+  or without Fasta file with typical command:
+  \verbatim
+  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12
+  \endverbatim
+  which will simulate the time evolution of the Population described in the Fasta file. 
+  The alleles will be found thanks to the provided marks.
+  The Simulation will last 10 seconds and be repeated 2 times.
+
+   The generated output will by a table of the alleles' frequencies for each generation of each simulation.
+   The corresponding alleles can be found at the bottom of the corresponding column.
+  */
+
 RandomNumbers *_RNG;
 Simulation* _SIM;
 

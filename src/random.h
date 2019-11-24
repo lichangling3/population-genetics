@@ -40,17 +40,25 @@ public:
     double binomial (int n, double p);
 ///@}
 
+///@name Additional distribution
 /*! Multinomial distribution law
- * \param N (int): sample size
- * \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
- * \return new frquencies, randomly generated using a combination of \ref binomial
- * */
+  \param N (int): sample size
+  \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
+  \return new frequencies, randomly generated using a combination of \ref binomial
+  */
     std::vector<double> multinomial (int N, std::vector<double>& n_frequence);
 /*! @name Auxiliary function
   This takes a vector of indices and re-orders it randomly.
  */
 ///@{
     void shuffle(std::vector<size_t> &_v) {std::shuffle(_v.begin(), _v.end(), rng);}
+///@}
+
+/*! 
+ * Generates a random number between 1 and 4 using the normal distribution \return std::string a different letter for each number
+ */
+///@{
+	std::string randomLetter();
 ///@}
      
 private:

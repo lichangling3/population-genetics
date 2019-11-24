@@ -8,6 +8,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
     try {
         std::ifstream confstr(file_to_read);
         if (confstr.is_open()) {
+            RandomNumbers random;
             std::sort(marks.begin(), marks.end());
             std::string line, id, genome, combination;
             while(std::getline(confstr, line)) {
@@ -27,7 +28,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     std::transform(genome.begin(), genome.end(), genome.begin(), ::toupper);
                     for (size_t i(0); i < marks.size(); ++i) {
                         if (genome[marks[i]-1] == 'N') {
-                            combination += randomNucleotide();
+                            combination += random.randomLetter();
                         } else {
                             combination += genome[marks[i]-1];
                         }
@@ -48,29 +49,6 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
     catch(std::ifstream::failure &e) {
         throw("Error with FASTA file " + file_to_read + ": " + e.what());
     }
-}
-//Corriger pk il calcule 2x ?
-std::string FastaReader::randomNucleotide() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> distribution(1, 4);
-    int number = distribution(gen);
-    std::string nucleotide = "";
-    switch (number) {
-        case 1 :
-            nucleotide = 'A';
-            break;
-        case 2 :
-            nucleotide = 'C';
-            break;
-        case 3 :
-            nucleotide = 'T';
-            break;
-        case 4 :
-            nucleotide = 'G';
-            break;
-    }
-    return nucleotide;
 }
 
 std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> marks, const std::string file_to_read) {

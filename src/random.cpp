@@ -90,3 +90,20 @@ std::vector<double> RandomNumbers::multinomial (int N, std::vector<double>& n_fr
 return k_frequence;	
 }
 
+std::string RandomNumbers::randomLetter() {
+    std::uniform_int_distribution<int> distribution(1, 4);
+    int number = distribution(rng);
+    switch (number) {
+        case 1 :
+            return "A";
+        case 2 :
+            return "C";
+        case 3 :
+            return "T";
+        case 4 :
+            return "G";
+		default : 
+			throw std::runtime_error("Wrong number generated in randomLetter");
+    }
+}
+
