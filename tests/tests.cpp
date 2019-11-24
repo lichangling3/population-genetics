@@ -26,8 +26,27 @@ TEST(readFileTest, retrieveData)
 }
 
 TEST(Random, multinomial){
+	
 	RandomNumbers rng;
-	//write rest of the test
+	int N (10);
+	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
+	std::vector<double> new_frequence (rng.multinomial(N, n_frequence)) ;
+	double total_freq (0.0);
+	for (auto freq: new_frequence) {
+		total_freq += freq;
+	}
+	
+	EXPECT_NEAR(1, total_freq, 0.0001);
+}
+
+TEST(Random, fixation){
+	
+	RandomNumbers rng;
+	int N (10);
+	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
+	std::vector<double> new_frequence (rng.multinomial(N, freq)) ;
+
+	EXPECT_EQ(0, new_frequence[2]);
 }
 
 TEST(Display, displayGen) {
