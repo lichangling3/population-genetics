@@ -54,7 +54,7 @@ double RandomNumbers::binomial (int n, double p) {
 	return dist(rng);
 }
 
-std::vector<double> RandomNumbers::multinomial (int N, std::vector<double>& n_frequence)
+std::vector<double> RandomNumbers::multinomial (int N, std::vector<double> n_frequence)
 {
 	
 	for(auto& nb : n_frequence) {

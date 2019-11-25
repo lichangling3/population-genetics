@@ -26,10 +26,9 @@ TEST(readFileTest, retrieveData)
 
 TEST(Random, multinomial){
 	
-	RandomNumbers rng;
 	int N (10);
 	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
-	std::vector<double> new_frequence (rng.multinomial(N, n_frequence)) ;
+	std::vector<double> new_frequence (_RNG->multinomial(N, n_frequence)) ;
 	double total_freq (0.0);
 	for (auto freq: new_frequence) {
 		total_freq += freq;
@@ -39,37 +38,13 @@ TEST(Random, multinomial){
 }
 
 
-TEST (Random, multinomial_average_freq){
-	RandomNumbers RN;
-	
-	size_t replications (30); // enter number of replications, knowing that a higher number means higher precision 
-	
-	std::vector<double> init_freq{0.2, 0.4};	
-	std::vector<double> alleles;
-	
-	for (size_t i(0); i<replications; ++i) {
-		std::vector<double> new_freq = RN.multinomial(20, init_freq);
-		for (size_t i(0); i<new_freq.size(); ++i){
-			alleles[i] += new_freq[i];
-			}
-	}
-	
-	for (size_t j(0); j<= alleles.size(); ++j){
-		j= j / init_freq.size();
-		
-		EXPECT_NEAR(alleles[j], init_freq[j], 0.05);		//enter precision according to nbr of replications
-	}
-	
-	
-}
 
 
 TEST(Random, fixation){
 	
-	RandomNumbers rng;
 	int N (10);
 	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
-	std::vector<double> new_frequence (rng.multinomial(N, freq)) ;
+	std::vector<double> new_frequence (_RNG->multinomial(N, freq)) ;
 
 	EXPECT_EQ(0, new_frequence[2]);
 }
@@ -157,9 +132,27 @@ TEST(GlobalTest, SmallTest)
     }
 }
 
+
+TEST (Random, multinomial_average_freq) {
+	size_t replications (100000); // enter number of replications, knowing that a higher number means higher precision 
+	int size_pop(2000000);
+	std::vector<double> init_freq {0.7, 0.1, 0.2};
+	std::vector<double> alleles(init_freq.size(),0);
+	std::vector<double> new_freq;
+	for (size_t i(0); i<replications; ++i) {
+		new_freq = _RNG->multinomial(size_pop, init_freq);
+		for (size_t n(0); n<alleles.size(); ++n){
+			alleles[n] += new_freq[n]; 
+		}
+	}
+	for (size_t j(0); j < alleles.size(); ++j){
+		alleles[j] /= replications;
+		EXPECT_NEAR(alleles[j], init_freq[j], 0.05);		//enter precision according to nbr of replications
+	}
+}
+				
 int main(int argc, char **argv) {
+	_RNG = new RandomNumbers();
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
-
