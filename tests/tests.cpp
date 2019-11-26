@@ -4,7 +4,6 @@
 #include "Simulation.h"
 #include <fstream>
 #include "Display.h"
-
 RandomNumbers* _RNG;
 
 
@@ -26,8 +25,28 @@ TEST(readFileTest, retrieveData)
 }
 
 TEST(Random, multinomial){
-	RandomNumbers rng;
-	//write rest of the test
+	
+	int N (10);
+	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
+	std::vector<double> new_frequence (_RNG->multinomial(N, n_frequence)) ;
+	double total_freq (0.0);
+	for (auto freq: new_frequence) {
+		total_freq += freq;
+	}
+	
+	EXPECT_NEAR(1, total_freq, 0.0001);
+}
+
+
+
+
+TEST(Random, fixation){
+	
+	int N (10);
+	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
+	std::vector<double> new_frequence (_RNG->multinomial(N, freq)) ;
+
+	EXPECT_EQ(0, new_frequence[2]);
 }
 
 TEST(Display, displayGen) {
@@ -113,9 +132,27 @@ TEST(GlobalTest, SmallTest)
     }
 }
 
+
+TEST (Random, multinomial_average_freq) {
+	size_t replications (100000); // enter number of replications, knowing that a higher number means higher precision 
+	int size_pop(2000000);
+	std::vector<double> init_freq {0.7, 0.1, 0.2};
+	std::vector<double> alleles(init_freq.size(),0);
+	std::vector<double> new_freq;
+	for (size_t i(0); i<replications; ++i) {
+		new_freq = _RNG->multinomial(size_pop, init_freq);
+		for (size_t n(0); n<alleles.size(); ++n){
+			alleles[n] += new_freq[n]; 
+		}
+	}
+	for (size_t j(0); j < alleles.size(); ++j){
+		alleles[j] /= replications;
+		EXPECT_NEAR(alleles[j], init_freq[j], 0.05);		//enter precision according to nbr of replications
+	}
+}
+				
 int main(int argc, char **argv) {
+	_RNG = new RandomNumbers();
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
-
