@@ -24,6 +24,7 @@ double RandomNumbers::uniform_double(double lower, double upper){
 	return dist(rng);
 }
 
+
 void RandomNumbers::normal(std::vector<double>& numbers, double mean, double sd){
 	std::normal_distribution<> dist (mean, sd);
 	for (auto I = numbers.begin(); I != numbers.end(); I++){ 
@@ -49,12 +50,12 @@ int RandomNumbers::poisson(double mean){
 }
 
 
-double RandomNumbers::binomial (int n, double p) {
+size_t RandomNumbers::binomial (int n, double p) {
 	std::binomial_distribution <int> dist (n,p);
 	return dist(rng);
 }
 
-std::vector<double> RandomNumbers::multinomial (int N, std::vector<double> n_frequence)
+std::vector<double> RandomNumbers::multinomial (size_t N, std::vector<double> n_frequence)
 {
 	
 	for(auto& nb : n_frequence) {

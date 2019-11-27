@@ -32,7 +32,6 @@
   */
 
 RandomNumbers *_RNG;
-Simulation* _SIM;
 
 int main(int argc, char **argv) {
 	int nerr = 0;	
@@ -61,7 +60,6 @@ int main(int argc, char **argv) {
 		if (!repeat.isSet()) {
 			throw std::runtime_error("Number of repetitions of simulation needed");
 		}
-		_RNG = new RandomNumbers();
 		if (file_name.isSet()) {
 			if (!marks.isSet()) {
 				throw std::runtime_error("Provide marks, frequences not needed");
@@ -114,7 +112,5 @@ int main(int argc, char **argv) {
         std::cerr << "Error: " + e.error() + " " + e.argId();
        	nerr = 2;
     }
-    if (_RNG) delete _RNG;
-    if (_SIM) delete _SIM;
 	return nerr;
 }

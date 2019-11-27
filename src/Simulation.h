@@ -52,6 +52,7 @@ std::vector<Population> populations;
 
 size_t sim_duration;
 size_t pop_size;
+std::vector<size_t> nb_marks;
 
 ///number of generations in a population
 size_t repetitions;

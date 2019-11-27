@@ -16,7 +16,7 @@ Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles
 }
 
 Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_)
-:sim_duration(sim_duration_), repetitions(repetitions_)
+: nb_marks(nb_marks_), sim_duration(sim_duration_), repetitions(repetitions_)
 {
 	for(size_t i(0); i < repetitions; ++i) {
 		Population pop;
@@ -24,8 +24,8 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 	}
 	my_flow = std::ofstream("display.txt");
 	for(auto& population:populations) {
-		population.setSize(FastaReader::size(nb_marks_, file_name_));
-		population.setWithFile(FastaReader::retrieveData(nb_marks_, file_name_));
+		population.setSize(FastaReader::size(nb_marks, file_name_));
+		population.setWithFile(FastaReader::retrieveData(nb_marks, file_name_));
 	}
 }
 
@@ -37,7 +37,9 @@ void Simulation::run() {
 			++gen_counter;
 			for (auto& population:populations) {
 				Display::displayGen(population, my_flow);
+				std::cout<<population.getAllelesSize()<<std::endl;
 				population.step();
+				population.mutation({std::make_pair(2,0.01), std::make_pair(4,0.01), std::make_pair(8,0.01)});
 			}
 		my_flow << std::left << std::setw(15);
 		my_flow << std::endl;

@@ -57,6 +57,10 @@ public :
   ///@{		
 	void step();
 	///@}
+	
+	void mutation(std::vector<std::pair<size_t,double>> marks);
+	
+	char single_base_mut(char base);
 private :
 ///typedef of a map with a string as key (sequence) and a double as value (frequency)
 	Alleles popAlleles;	
