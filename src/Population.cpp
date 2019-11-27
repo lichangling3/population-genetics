@@ -14,6 +14,10 @@ void Population::setWithFile(Alleles popAlleles_) {
 	popAlleles = popAlleles_;
 }
 
+void Population::setFitness(std::vector<double> new_fit) {
+	fitness = new_fit;
+}
+
 void Population::step() {
 	_RNG = new RandomNumbers();
 	std::vector<double> start, end;
@@ -21,7 +25,7 @@ void Population::step() {
 	for(std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it) {
 	start.push_back(it->second);
 	}
-	end = _RNG->multinomial(size,start);
+	end = _RNG->multinomial(size,start, fitness);
 	for(std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it) {
 		it->second = end[i];
 		++i;
