@@ -18,11 +18,6 @@
   which will simulate the time evolution of a Population of 100 indiviuals with 2 different alleles, 
   both with frequency 0.5.
   The Simulation will last 10 seconds and be repeated 2 times.
-  This command produces a simulation without natural selection. To add this penomenon,
-  provide a fitness coefficient for each allele.
-  \verbatim 
-  ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -s 0.5 -s 0.8
-  \endverbatim
   
   or with a Fasta file with typical command:
   \verbatim
@@ -31,15 +26,23 @@
   which will simulate the time evolution of the Population described in the Fasta file. 
   The alleles will be found thanks to the provided marks.
   The Simulation will last 10 seconds and be repeated 2 times.
-  This command produces a simulation without natural selection. To add this penomenon,
-  provide a fitness coefficient \b for each allele. Mutations can also be introduced 
+
+  The generated output will by a table of the alleles' frequencies for each generation of each simulation.
+  The corresponding alleles can be found at the bottom of the corresponding column.
+   
+  \b Extensions
+  When run without Fasta file, the program can also simulate natural selection. To add this penomenon,
+  provide a fitness coefficient for each allele.
+  \verbatim 
+  ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -s 0.5 -s 0.8
+  \endverbatim
+  
+  When run with a Fasta file, the programm can also simulate natural selection. To add this penomenon,
+  provide a fitness coefficient for each allele.Mutations can also be introduced 
   when a Fasta file is provided. To produce them, provide a mutation rate for each site
   \verbatim
   ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.6 -M 0.2 -M 0.3
   \endverbatim
-
-   The generated output will by a table of the alleles' frequencies for each generation of each simulation.
-   The corresponding alleles can be found at the bottom of the corresponding column.
   */
 
 RandomNumbers *_RNG;
