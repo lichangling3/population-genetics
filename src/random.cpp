@@ -55,7 +55,7 @@ size_t RandomNumbers::binomial (int n, double p) {
 	return dist(rng);
 }
 
-std::vector<double> RandomNumbers::multinomial (size_t N, std::vector<double> n_frequence)
+std::vector<double> RandomNumbers::multinomial (int N, std::vector<double> n_frequence, std::vector<double> fitness_)
 {
 	
 	for(auto& nb : n_frequence) {
@@ -68,11 +68,19 @@ std::vector<double> RandomNumbers::multinomial (size_t N, std::vector<double> n_
 	double new_n (N); 
 	double sum_k(0.0);
 	double p;
+	double sum(0);
+	
+	for(size_t i(0); i<fitness_.size(); ++i){
+		sum += n_frequence[i]*fitness_[i];
+	}
 	
 	for (size_t i(0); i < n_frequence.size()-1; ++i)
 	{
 		
-		p = (n_frequence[i]/old_n); 
+		p = (n_frequence[i]*(1 + fitness_[i]))/(old_n + sum);
+		if(fitness_[i] == -1) {
+			p = 0;
+		}
 		new_k = binomial(new_n , p); 
 		old_n -= n_frequence[i]; 
 		new_n -= new_k; 
@@ -81,7 +89,11 @@ std::vector<double> RandomNumbers::multinomial (size_t N, std::vector<double> n_
 		sum_k += new_k;
 	}
 	
-	k_frequence.push_back(N - sum_k);
+	if(fitness_[fitness_.size()-1] == -1) {
+		k_frequence.push_back(0);
+	} else {
+		k_frequence.push_back(N - sum_k);
+	}
 	
 	for (auto& freq : k_frequence) { //mutinomial return now the frequency of the alleles in the population 
 		freq /= N;

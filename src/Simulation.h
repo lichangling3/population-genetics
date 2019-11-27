@@ -25,7 +25,7 @@ public :
  \see Population::setSize(size_t)
  \see Population::setAlleles (std::vector<double>,  size:t);
  */
-Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles_, std::vector<double> nb_freq_, size_t repetitions_);
+Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles_, std::vector<double> nb_freq_, size_t repetitions_, std::vector<double> new_fit);
 
 /*! 
   Constructor used when a Fasta fille is provided.
@@ -37,7 +37,7 @@ Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles_, std::vect
   \see Population::setSize (size_t)
   \see Population::setWithFile (Alleles);
  */
-Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_);
+Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu);
 
 /// Method that runs the simulation itself
 /*! This method calls Display to show the evolution of a number of \typedef Alleles in a Population.
@@ -53,6 +53,7 @@ std::vector<Population> populations;
 size_t sim_duration;
 size_t pop_size;
 std::vector<size_t> nb_marks;
+std::vector<std::pair<size_t,double>> marks_mu;
 
 ///number of generations in a population
 size_t repetitions;

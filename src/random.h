@@ -46,7 +46,7 @@ public:
   \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
   \return new frequencies, randomly generated using a combination of \ref binomial
   */
-    std::vector<double> multinomial (size_t N, std::vector<double> n_frequence);
+    std::vector<double> multinomial (int N, std::vector<double> n_frequence, std::vector<double> fitness_);
 /*! @name Auxiliary function
   This takes a vector of indices and re-orders it randomly.
  */
@@ -55,7 +55,7 @@ public:
 ///@}
 
 /*! 
- * Generates a random number between 1 and 4 using the normal distribution \return std::string a different letter for each number
+  Generates a random number between 1 and 4 using the normal distribution \return std::string a different letter for each number
  */
 ///@{
 	std::string randomLetter();

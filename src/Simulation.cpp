@@ -1,7 +1,7 @@
 #include "Simulation.h"
 #include "random.h"
 
-Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles_, std::vector<double> nb_freq_, size_t repetitions_)
+Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles_, std::vector<double> nb_freq_, size_t repetitions_, std::vector<double> new_fit)
 :sim_duration(sim_duration_), repetitions(repetitions_)
 {
 	for(size_t i(0); i < repetitions; ++i) {
@@ -12,12 +12,16 @@ Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles
 	for(auto& population:populations) {
 		population.setSize(pop_size_);
 		population.setAlleles(nb_alleles_, nb_freq_);
+		population.setFitness(new_fit);
 	}
 }
 
-Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_)
+Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu)
 : nb_marks(nb_marks_), sim_duration(sim_duration_), repetitions(repetitions_)
 {
+	for(size_t i(0); i < mu.size(); ++i) {
+		marks_mu.push_back(std::make_pair(nb_marks[i],mu[i]));
+	}
 	for(size_t i(0); i < repetitions; ++i) {
 		Population pop;
 		populations.push_back(pop);
@@ -26,6 +30,7 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 	for(auto& population:populations) {
 		population.setSize(FastaReader::size(nb_marks, file_name_));
 		population.setWithFile(FastaReader::retrieveData(nb_marks, file_name_));
+		population.setFitness(new_fit);
 	}
 }
 
@@ -37,9 +42,8 @@ void Simulation::run() {
 			++gen_counter;
 			for (auto& population:populations) {
 				Display::displayGen(population, my_flow);
-				std::cout<<population.getAllelesSize()<<std::endl;
 				population.step();
-				population.mutation({std::make_pair(2,0.01), std::make_pair(4,0.01), std::make_pair(8,0.01)});
+				population.mutation(marks_mu);
 			}
 		my_flow << std::left << std::setw(15);
 		my_flow << std::endl;

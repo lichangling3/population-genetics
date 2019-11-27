@@ -38,7 +38,7 @@ public :
 	\param map (map<string, double>): should contain allele sequences and frequencies
 */
 	void setPopAlleles(std::map<std::string, double> map);
-	
+	void setFitness(std::vector<double> new_fit);
 	void setSize(size_t size_);
 	///@}
 	
@@ -48,6 +48,7 @@ public :
 	size_t getSize()const{return size;};
 	size_t getAllelesSize() const {return popAlleles.size();};
 	Alleles getpopAlleles()const{return popAlleles;};
+	std::vector<double> getFitness() const {return fitness;};
 	///@}	
 		
 /// @name Evolution function
@@ -65,7 +66,8 @@ private :
 ///typedef of a map with a string as key (sequence) and a double as value (frequency)
 	Alleles popAlleles;	
 	size_t size;
-	
+	///the fitness coefficient of each allele. We assume that these coefficients correspond to the alleles of popAlleles (same order)
+	std::vector<double> fitness; 
 };
 
 #endif
