@@ -54,5 +54,5 @@ class FastaReader
   */
 	static std::vector<std::string> readFile(std::vector<size_t> marks, const std::string file_to_read); 
 
-
+};
 #endif //FASTAREADER_H
