@@ -28,7 +28,7 @@ TEST(Random, multinomial){
 	
 	int N (10);
 	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
-	std::vector<double> new_frequence (_RNG->multinomial(N, n_frequence)) ;
+	std::vector<double> new_frequence (_RNG->multinomial(N, n_frequence, {0,0,0,0})) ;
 	double total_freq (0.0);
 	for (auto freq: new_frequence) {
 		total_freq += freq;
@@ -44,7 +44,7 @@ TEST(Random, fixation){
 	
 	int N (10);
 	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
-	std::vector<double> new_frequence (_RNG->multinomial(N, freq)) ;
+	std::vector<double> new_frequence (_RNG->multinomial(N, freq, {0,0,0,0,0})) ;
 
 	EXPECT_EQ(0, new_frequence[2]);
 }
@@ -88,7 +88,7 @@ TEST(Display, displayGen) {
 TEST(GlobalTest, SmallTest)
 {
     //without fasta file
-    Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3);
+    Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3, {0,0,0});
     sim.run();
 
     try {
@@ -110,7 +110,7 @@ TEST(GlobalTest, SmallTest)
     }
     
     //with fasta file
-    Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3);
+    Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0,0,0});
     sim_file.run();
 
     try {
@@ -140,7 +140,7 @@ TEST (Random, multinomial_average_freq) {
 	std::vector<double> alleles(init_freq.size(),0);
 	std::vector<double> new_freq;
 	for (size_t i(0); i<replications; ++i) {
-		new_freq = _RNG->multinomial(size_pop, init_freq);
+		new_freq = _RNG->multinomial(size_pop, init_freq, {0,0,0});
 		for (size_t n(0); n<alleles.size(); ++n){
 			alleles[n] += new_freq[n]; 
 		}

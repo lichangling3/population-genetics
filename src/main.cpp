@@ -47,7 +47,6 @@
   */
 
 RandomNumbers *_RNG;
-Simulation* _SIM;
 
 int main(int argc, char **argv) {
 	int nerr = 0;	
@@ -71,8 +70,9 @@ int main(int argc, char **argv) {
 		cmd.add(mu);
 		TCLAP::MultiArg <double> fit("s", "fitness_coeff", "Fitness coefficient for each allele", false, "double");
 		cmd.add(fit);
-
+		
 		cmd.parse(argc, argv);
+		std::vector<double> new_fit;
 
 		_RNG = new RandomNumbers();
 		if (file_name.isSet()) {
@@ -94,6 +94,7 @@ int main(int argc, char **argv) {
 				throw std::runtime_error ("The number of mutation rates should match the number of marks");
 			}
 			if (fit.isSet()){
+				new_fit = fit.getValue();
 				if ((fit.getValue()).size() != FastaReader::size(marks.getValue(), file_name.getValue())){
 					throw std::runtime_error ("The number of fitness coefficients should match the number of alleles");
 				}else{
@@ -103,8 +104,12 @@ int main(int argc, char **argv) {
 						}
 					}
 				}
+			} else if(!fit.isSet()){
+				for(size_t i(0); i<number_alleles.getValue(); ++i) {
+					new_fit.push_back(0.0);
+				}
 			}
-			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue());
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit);
 			sim.run();
 			
 		} else if (!file_name.isSet()) {
@@ -128,22 +133,28 @@ int main(int argc, char **argv) {
 					throw std::runtime_error("The sum of frequences must be equal to 1.0");
 				}
 			}
-			if (fit.isSet() && (fit.getValue()).size() != number_alleles.getValue()){
-				throw std::runtime_error("The number of fitness coefficients should match the number of alleles");
-			}else{
+			if (fit.isSet()) {
+				new_fit = fit.getValue();
+				if((fit.getValue()).size() != number_alleles.getValue()){
+					throw std::runtime_error("The number of fitness coefficients should match the number of alleles");
+				}else{
 					for (auto coeff: fit.getValue()){
 						if (coeff < -1){
 							throw std::runtime_error ("The fitness coefficient must be at least -1");
 						}
 					}
 				}
+			} else if(!fit.isSet()){
+				for(size_t i(0); i<number_alleles.getValue(); ++i) {
+					new_fit.push_back(0.0);
+				}
+			}
 			if (mu.isSet()){
 				throw std::runtime_error ("Mutations only possible with Fasta file");
 			}
-			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue());
+			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue(), new_fit);
 			sim.run();
 		}
-			
 		if (!fit.isSet()){
 			std::cout<<"You will not have natural selection."<<std::endl;
 		}
@@ -156,6 +167,5 @@ int main(int argc, char **argv) {
        	nerr = 2;
     }
     if (_RNG) delete _RNG;
-    if (_SIM) delete _SIM;
 	return nerr;
 }
