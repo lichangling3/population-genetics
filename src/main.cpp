@@ -30,7 +30,8 @@
   The generated output will by a table of the alleles' frequencies for each generation of each simulation.
   The corresponding alleles can be found at the bottom of the corresponding column.
    
-  \b Extensions
+  \n 
+  \b Extensions \n 
   When run without Fasta file, the program can also simulate natural selection. To add this penomenon,
   provide a fitness coefficient for each allele.
   \verbatim 
