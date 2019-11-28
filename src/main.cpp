@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
 					}
 				}
 			} else if(!fit.isSet()){
-				for(size_t i(0); i<FastaReader::size(marks.getValue(), file_name.getValue()); ++i) {
+				for(size_t i(0); i<FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size(); ++i) {
 					new_fit.push_back(0.0);
 				}
 			}
