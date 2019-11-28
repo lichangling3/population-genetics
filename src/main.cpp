@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
 			}
 			if (fit.isSet()){
 				new_fit = fit.getValue();
-				if ((fit.getValue()).size() != FastaReader::size(marks.getValue(), file_name.getValue())){
+				if ((fit.getValue()).size() != FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size()){
 					throw std::runtime_error ("The number of fitness coefficients should match the number of alleles");
 				}else{
 					for (auto coeff: fit.getValue()){
