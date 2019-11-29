@@ -134,8 +134,8 @@ TEST(GlobalTest, SmallTest)
 
 
 TEST (Random, multinomial_average_freq) {
-	size_t replications (100000); // enter number of replications, knowing that a higher number means higher precision 
-	int size_pop(2000000);
+	size_t replications (10000); // enter number of replications, knowing that a higher number means higher precision 
+	int size_pop(200000);
 	std::vector<double> init_freq {0.7, 0.1, 0.2};
 	std::vector<double> alleles(init_freq.size(),0);
 	std::vector<double> new_freq;
@@ -150,6 +150,50 @@ TEST (Random, multinomial_average_freq) {
 		EXPECT_NEAR(alleles[j], init_freq[j], 0.05);		//enter precision according to nbr of replications
 	}
 }
+
+TEST (mutation, new_allele_freq)
+{
+	Population Pop;
+	Alleles alleles;
+	std::vector<std::pair<size_t,double>> marks{ std::make_pair(1, 0.01), std::make_pair(2, 0.00001), std::make_pair(3,0.00001 ) };
+	alleles["ACG"] = 0.2;
+	alleles["TCC"] = 0.3;
+	alleles["GAT"] = 0.5;
+	
+	
+	int init_size (alleles.size());
+	std::cout << "init size" << init_size << std::endl;
+	
+	Pop.setPopAlleles(alleles);
+	
+	Pop.setSize(80);
+	Pop.mutation(marks);
+	Alleles new_pop (Pop.getpopAlleles());
+	int new_size(Pop.getAllelesSize());
+	std::cout << "new size " << new_size<< std::endl;
+	
+	EXPECT_TRUE(new_size - init_size >=0);
+	
+	if(new_size - init_size ==0){ 
+		std::cout << "there wasn't any new allele created this time..." << std::endl;
+	}
+	
+	if (new_size - init_size > 0){
+		std::map<std::string, double>::const_iterator it;
+
+		for(it = new_pop.begin(); it != new_pop.end(); ++it) {
+			if(alleles.count(it->first)) {
+				std::cout << std::endl<< "old " <<it->first << it->second<<std::endl;
+			}
+			
+			else{
+				std::cout<<std::endl << "new "<< it->first <<std::endl;
+				EXPECT_EQ( 1.0/Pop.getSize(), it->second);
+			}
+		}
+	}
+}
+
 				
 int main(int argc, char **argv) {
 	_RNG = new RandomNumbers();
