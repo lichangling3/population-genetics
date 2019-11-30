@@ -7,8 +7,7 @@
 RandomNumbers* _RNG;
 
 
-TEST(readFileTest, retrieveData) 
-{
+TEST(readFileTest, retrieveData) {
 	std::map<std::string, double> freq_received = FastaReader::retrieveData({1,3,9}, "../tests/test_for_retrieveData.fasta");
 	std::map<std::string, double> freq_test;
 	freq_test["ACA"] = 0.25;
@@ -24,7 +23,7 @@ TEST(readFileTest, retrieveData)
 	EXPECT_EQ(N_test, FastaReader::size({1,3,9}, "../tests/test_for_retrieveData.fasta"));
 }
 
-TEST(Random, multinomial){
+TEST(Random, multinomial) {
 	
 	int N (10);
 	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
@@ -37,10 +36,7 @@ TEST(Random, multinomial){
 	EXPECT_NEAR(1, total_freq, 0.0001);
 }
 
-
-
-
-TEST(Random, fixation){
+TEST(Random, fixation) {
 	
 	int N (10);
 	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
@@ -85,8 +81,7 @@ TEST(Display, displayGen) {
 	EXPECT_EQ(split[3],"0.4");
 }
 
-TEST(GlobalTest, SmallTest)
-{
+TEST(GlobalTest, SmallTest) {
     //without fasta file
     Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3, {0,0,0});
     sim.run();
@@ -151,8 +146,7 @@ TEST (Random, multinomial_average_freq) {
 	}
 }
 
-TEST (mutation, new_allele_freq)
-{
+TEST (mutation, new_allele_freq) {
 	Population Pop;
 	Alleles alleles;
 	std::vector<std::pair<size_t,double>> marks{ std::make_pair(1, 0.01), std::make_pair(2, 0.00001), std::make_pair(3,0.00001 ) };
@@ -249,7 +243,6 @@ TEST (Mutation, modelMut) {
 	EXPECT_LT(sum_AC, sum_TG);
 }
 
-				
 int main(int argc, char **argv) {
 	_RNG = new RandomNumbers();
   ::testing::InitGoogleTest(&argc, argv);
