@@ -38,10 +38,10 @@
   \endverbatim
   
   When run with a Fasta file, the programm can also simulate natural selection. To add this penomenon,
-  provide a fitness coefficient for each allele.Mutations can also be introduced 
-  when a Fasta file is provided. To produce them, provide a mutation rate for each site
+  provide a fitness coefficient for each allele with its triplet.Mutations can also be introduced 
+  when a Fasta file is provided. To produce them, provide a mutation rate and the triplet of each allele to be mutated.
   \verbatim
-  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.6 -M 0.2 -M 0.3
+  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M ATG,0.3 -M CTA,0.6 -M GCA,0.2 -M TAG,0.3
   \endverbatim
   */
 
@@ -112,8 +112,10 @@ int main(int argc, char **argv) {
 		cmd.xorAdd(marks, freq);
 		TCLAP::MultiArg<TclapPair> mu("M", "mutation", "Mutation rate (<=1)", false, "mutation pair");
 		cmd.add(mu);
-		TCLAP::MultiArg<TclapPair> fit("s", "fitness_coeff", "Fitness coefficient for each allele, >0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal",false, "selection pair");
-		cmd.add(fit);
+		TCLAP::MultiArg<TclapPair> fit_fasta("s", "fitness_coeff_with_file", "Fasta File: fitness coefficient for each allele, >0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal",false, "selection pair");
+		cmd.add(fit_fasta);
+		TCLAP::MultiArg <double> fit_no_fasta ("S", "fitness_coeff_without_file", "No Fasta File: fitness coefficient for each allele, >0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal",false, "double");
+		cmd.add (fit_no_fasta);
 		
 		cmd.parse(argc, argv);
 
@@ -166,12 +168,12 @@ int main(int argc, char **argv) {
 					}
 				}
 			}
-			if (fit.isSet()){
-				if ((fit.getValue()).size() > FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size()){
+			if (fit_fasta.isSet()){
+				if ((fit_fasta.getValue()).size() > FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size()){
 					throw std::runtime_error ("The number of fitness coefficients should not exceed the number of alleles");
 				}else{
 					bool in_file (false);
-					for (auto coeff: fit.getValue()){
+					for (auto coeff: fit_fasta.getValue()){
 						for (auto allele: FastaReader::retrieveData(marks.getValue(), file_name.getValue())){
 							if (coeff.val.first == allele.first){
 								in_file = true;
@@ -182,17 +184,20 @@ int main(int argc, char **argv) {
 					if (!in_file)
 					throw std::runtime_error ("Fitness coefficients can only be defined for existing alleles");	
 				}
-					for (auto coeff: fit.getValue()){
+					for (auto coeff: fit_fasta.getValue()){
 						if (coeff.val.second < -1){
 							throw std::runtime_error ("The fitness coefficient must be at least -1");
 					}else{
 							new_fit.push_back(coeff.val.second);
 					}
 				}
-			} else if(!fit.isSet()){
+			} else if(!fit_fasta.isSet()){
 				for(size_t i(0); i<FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size(); ++i) {
 					new_fit.push_back(0.0);
 				}
+			}
+			if (fit_no_fasta.isSet()){
+				throw std::runtime_error ("Fitness coefficients should be provided with alleles");
 			}
 				
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations);
@@ -219,20 +224,20 @@ int main(int argc, char **argv) {
 					throw std::runtime_error("The sum of frequences must be equal to 1.0");
 				}
 			}
-			if (fit.isSet()) {
-				for (auto coeff: fit.getValue()){
-					new_fit.push_back(coeff.val.second);
+			if (fit_no_fasta.isSet()) {
+				for (auto coeff: fit_no_fasta.getValue()){
+					new_fit.push_back(coeff);
 				}
-				if((fit.getValue()).size() > number_alleles.getValue()){
+				if((fit_no_fasta.getValue()).size() > number_alleles.getValue()){
 					throw std::runtime_error("The number of fitness coefficients should not exceed the number of alleles");
 				}else{
-					for (auto coeff: fit.getValue()){
-						if (coeff.val.second < -1){
+					for (auto coeff: fit_no_fasta.getValue()){
+						if (coeff < -1){
 							throw std::runtime_error ("The fitness coefficient must be at least -1");
 						}
 					}
 				}
-			} else if(!fit.isSet()){
+			} else if(!fit_no_fasta.isSet()){
 				for(size_t i(0); i<number_alleles.getValue(); ++i) {
 					new_fit.push_back(0.0);
 				}
@@ -240,10 +245,13 @@ int main(int argc, char **argv) {
 			if (mu.isSet()){
 				throw std::runtime_error ("Mutations only possible with Fasta file");
 			}
+			if (fit_fasta.isSet()){
+				throw std::runtime_error("Fitness coefficients with allele names only possible when Fasta file provided.");
+			}
 			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue(), new_fit);
 			sim.run();
 		}
-		if (!fit.isSet()){
+		if (!fit_fasta.isSet() && !fit_no_fasta.isSet()){
 			std::cout<<"You will not have natural selection."<<std::endl;
 		}
 		
