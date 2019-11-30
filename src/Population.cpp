@@ -32,7 +32,7 @@ void Population::step() {
 	}
 }
 
-void Population::mutation(std::vector<std::pair<size_t,double>> marks) {
+void Population::mutation(std::vector<std::pair<size_t,double>> marks, double delta) {
 	_RNG = new RandomNumbers();
 	for(size_t i(0); i < marks.size(); ++i)
 	{	
@@ -48,8 +48,12 @@ void Population::mutation(std::vector<std::pair<size_t,double>> marks) {
 		
 		
 		for(size_t j(0); j < nbr_mutations ; ++j){
-			all_mutated[i] = single_base_mut(all.first[i]);
+			all_mutated[i] = modelMut(all.first[i], delta);
+			size_t old_size(popAlleles.size());
 			popAlleles[all_mutated] += (1./size);
+			if(popAlleles.size() != old_size) {
+				fitness.push_back(0.0);
+			}
 			
 			
 		}
@@ -84,25 +88,46 @@ void Population::mutation(std::vector<std::pair<size_t,double>> marks) {
 
 
 
-char Population::single_base_mut(char base){
+char Population::modelMut(char base){
 	char b1, b2, b3;
 	double alea = _RNG->uniform_double(0,1);
 	
-	if (base == 'C'){
-		b1 = 'A', b2 = 'T', b3 = 'G';}
-		
-	if (base == 'T'){
-		b1 = 'A', b2 = 'C', b3 = 'G';}
-		
-	if (base == 'G'){
-		b1 = 'A', b2 = 'T', b3 = 'C';}
-		
-	if (base == 'A'){
-		b1 = 'C', b2 = 'T', b3 = 'G';}	
+	if (base == 'C')
+		b1 = 'A', b2 = 'T', b3 = 'G';
+	else if (base == 'T')
+		b1 = 'A', b2 = 'C', b3 = 'G';
+	else if (base == 'G')
+		b1 = 'A', b2 = 'T', b3 = 'C';
+	else if (base == 'A')
+		b1 = 'C', b2 = 'T', b3 = 'G';
 				
-	if(alea<(1/3)){return b1;}
-	if(alea>(1/3) and alea<(2/3)){ return b2;}
-	else{ return b3;}
+	if(alea < 1./3)
+		return b1;
+	if(alea > 1./3 and alea < 2./3)
+		return b2;
+	else
+		return b3;
+}
+
+char Population::modelMut(char base, double delta){
+	char b1, b2, b3;
+	double alea = _RNG->uniform_double(0,1);
+	
+	if (base == 'C')
+		b1 = 'T', b2 = 'A', b3 = 'G';
+	else if (base == 'T')
+		b1 = 'C', b2 = 'A', b3 = 'G';
+	else if (base == 'G')
+		b1 = 'A', b2 = 'T', b3 = 'C';
+	else if (base == 'A')
+		b1 = 'G', b2 = 'T', b3 = 'C';	
+				
+	if(alea < delta)
+		return b1;
+	if(alea > delta and alea < (1.-delta)/2)
+		return b2;
+	else
+		return b3;
 }
 
 

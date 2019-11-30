@@ -160,38 +160,93 @@ TEST (mutation, new_allele_freq)
 	alleles["TCC"] = 0.3;
 	alleles["GAT"] = 0.5;
 	
-	
 	int init_size (alleles.size());
 	std::cout << "init size" << init_size << std::endl;
-	
 	Pop.setPopAlleles(alleles);
-	
 	Pop.setSize(80);
 	Pop.mutation(marks);
 	Alleles new_pop (Pop.getpopAlleles());
 	int new_size(Pop.getAllelesSize());
 	std::cout << "new size " << new_size<< std::endl;
+	int size_diff = new_size - init_size;
 	
-	EXPECT_TRUE(new_size - init_size >=0);
+	EXPECT_TRUE(size_diff >= 0);
 	
-	if(new_size - init_size ==0){ 
+	if(new_size - init_size ==0) { 
 		std::cout << "there wasn't any new allele created this time..." << std::endl;
 	}
 	
-	if (new_size - init_size > 0){
+	if (new_size - init_size > 0) {
 		std::map<std::string, double>::const_iterator it;
-
 		for(it = new_pop.begin(); it != new_pop.end(); ++it) {
 			if(alleles.count(it->first)) {
 				std::cout << std::endl<< "old " <<it->first << it->second<<std::endl;
 			}
-			
-			else{
+			else {
 				std::cout<<std::endl << "new "<< it->first <<std::endl;
 				EXPECT_EQ( 1.0/Pop.getSize(), it->second);
 			}
 		}
 	}
+}
+
+TEST (Mutation, modelMut) {
+	Population Pop;
+	Alleles alleles;
+	std::vector<std::pair<size_t,double>> marks;
+	for(size_t i(1); i < 21; ++i) {
+		marks.push_back(std::make_pair(i, 0.01));
+	}
+	alleles["ACCTTACGAATACGGATCAC"] = 0.2;
+	alleles["TCAATTCAGCCGAATCAGCA"] = 0.3;
+	alleles["TACGTACTACTATAAGACAC"] = 0.3;
+	alleles["CACATACGACTGAAGAGCCT"] = 0.1;
+	alleles["AATACTTCAGGCCCCGAAGC"] = 0.1;
+	
+	Pop.setPopAlleles(alleles);
+	Pop.setSize(1000);
+	std::vector<double> fit (5,0);
+	Pop.setFitness(fit);
+	
+	std::map<char,size_t> init_map;
+	init_map['A'] = 0;
+	init_map['C'] = 0;
+	init_map['T'] = 0;
+	init_map['G'] = 0;
+	std::map<std::string, double>::const_iterator it;
+	for(it = alleles.begin(); it != alleles.end(); ++it) {
+			for(size_t i(0); i < 20; ++i) {
+				init_map[it->first[i]] += 1;
+			}
+	}
+	size_t sum_AC = init_map['A'] + init_map['C'];
+	size_t sum_TG = init_map['T'] + init_map['G'];
+	EXPECT_GT(sum_AC, sum_TG);
+	
+	size_t timer = 100;
+	for(size_t i(0); i < timer; ++i) {
+		Pop.step();
+		Pop.mutation(marks, 0.99);
+	}
+	
+	Alleles mutated_alleles(Pop.getpopAlleles());
+	init_map.clear();
+	sum_AC = 0;
+	sum_TG = 0;
+	size_t counter(0);
+	std::map<std::string, double>::reverse_iterator rit;
+	for(rit = mutated_alleles.rbegin(); rit != mutated_alleles.rend(); ++rit) {
+			if (counter > 4)
+					break;
+			counter += 1;
+			for(size_t i(0); i < 20; ++i) {
+				init_map[rit->first[i]] += 1;
+			}
+	}
+	sum_AC = init_map['A'] + init_map['C'];
+	sum_TG = init_map['T'] + init_map['G'];
+	EXPECT_LT(alleles.size(), mutated_alleles.size());
+	EXPECT_LT(sum_AC, sum_TG);
 }
 
 				
