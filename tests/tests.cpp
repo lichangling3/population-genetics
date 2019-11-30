@@ -9,11 +9,11 @@ RandomNumbers* _RNG;
 
 TEST(readFileTest, retrieveData) 
 {
-	std::map<std::string, double> freq_received = FastaReader::retrieveData({1,3,6}, "../tests/test_for_retrieveData.fasta");
+	std::map<std::string, double> freq_received = FastaReader::retrieveData({1,3,9}, "../tests/test_for_retrieveData.fasta");
 	std::map<std::string, double> freq_test;
-	freq_test["ACG"] = 0.25;
-	freq_test["AGG"] = 0.25;
-	freq_test["TGC"] = 0.5;
+	freq_test["ACA"] = 0.25;
+	freq_test["AGA"] = 0.25;
+	freq_test["TGT"] = 0.5;
 	size_t N_test = 4;
 
 	std::map<std::string, double>::const_iterator i, j;
@@ -21,7 +21,7 @@ TEST(readFileTest, retrieveData)
 		EXPECT_EQ(i->first, j->first);
 		EXPECT_DOUBLE_EQ(i->second, j->second);
 	}
-	EXPECT_EQ(N_test, FastaReader::size({1,3,6}, "../tests/test_for_retrieveData.fasta"));
+	EXPECT_EQ(N_test, FastaReader::size({1,3,9}, "../tests/test_for_retrieveData.fasta"));
 }
 
 TEST(Random, multinomial){
