@@ -48,13 +48,14 @@
   [(Jukes-Cantor model of DNA substition)](https://www.megasoftware.net/web_help_7/hc_jukes_cantor_distance.htm) \n
   [(Kimura two parameter model of DNA substition)](http://www.dbbm.fiocruz.br/molbiol/dnadist.html)
   */
-  
 
 RandomNumbers *_RNG;
 
-int main(int argc, char **argv) {
-	int nerr = 0;	
-	try {
+int main(int argc, char **argv)
+{
+	int nerr = 0;
+	try
+	{
 		TCLAP::CmdLine cmd("Population definition");
 
 		TCLAP::ValueArg<size_t> duration("T", "time", "Simulation's duration", false, 10, "size_t");
@@ -67,162 +68,220 @@ int main(int argc, char **argv) {
 		cmd.add(number_alleles);
 		TCLAP::ValueArg<std::string> file_name("F", "file_name", "Name of the FASTA file", false, "../tests/test_for_retrieveData.fasta", "string");
 		cmd.add(file_name);
-		TCLAP::MultiArg <double> freq("f", "frequences", "Initial frequences of the alleles", false, "double");
-		TCLAP::MultiArg <size_t> marks("m", "marks", "Sequence positions when FASTA file provided", false, "size_t");
+		TCLAP::MultiArg<double> freq("f", "frequences", "Initial frequences of the alleles", false, "double");
+		TCLAP::MultiArg<size_t> marks("m", "marks", "Sequence positions when FASTA file provided", false, "size_t");
 		cmd.xorAdd(marks, freq);
 		TCLAP::MultiArg<double> mu("M", "mutation", "Mutation rate (<=1), please specifiy mutation sites", false, "double");
 		cmd.add(mu);
 		TCLAP::MultiArg<size_t> mu_sites("s", "mutation_site", "Mutation sites (should be the same as marks)", false, "size_t");
-		TCLAP::MultiArg <double> fit ("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)",false, "double");
-		cmd.add (fit);
-		TCLAP::ValueArg <double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1/3, "double");
+		TCLAP::MultiArg<double> fit("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)", false, "double");
+		cmd.add(fit);
+		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1 / 3, "double");
 		cmd.add(delta);
-		
+
 		cmd.parse(argc, argv);
 
-    
-		if (!duration.isSet()) {
+		if (!duration.isSet())
+		{
 			throw std::runtime_error("Simulation duration needed");
 		}
-		if (!repeat.isSet()) {
+		if (!repeat.isSet())
+		{
 			throw std::runtime_error("Number of repetitions of simulation needed");
 		}
 
 		std::vector<double> new_fit;
-		std::vector<double> mutations;	
+		std::vector<double> mutations;
 		std::vector<size_t> mutation_sites;
 
 		//_RNG = new RandomNumbers();
 
-		if (file_name.isSet()) {
-			if (!marks.isSet()) {
+		if (file_name.isSet())
+		{
+			if (!marks.isSet())
+			{
 				throw std::runtime_error("Provide marks, frequencies not needed");
-			} 
-			else if (nsample.isSet()) {
+			}
+			else if (nsample.isSet())
+			{
 				throw std::runtime_error("Population size not needed");
 			}
-			else if (freq.isSet()) {
+			else if (freq.isSet())
+			{
 				throw std::runtime_error("Frequences not needed");
 			}
-			else if (!marks.isSet()) {
+			else if (!marks.isSet())
+			{
 				throw std::runtime_error("Marks needed");
 			}
-			if (!mu.isSet()){
-				if (mu_sites.isSet()){
-					throw std::runtime_error ("Please set mutation rates for provided mutation sites");
-				}else {
-					std::cout<<"You will not have any mutations (programm still runs)."<<std::endl;
+			if (!mu.isSet())
+			{
+				if (mu_sites.isSet())
+				{
+					throw std::runtime_error("Please set mutation rates for provided mutation sites");
+				}
+				else
+				{
+					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
 				}
 			}
-			if (mu.isSet()){
-				if (!mu_sites.isSet()){
-					throw std::runtime_error ("Please provided mutation sites.");
-				}else if (mu.getValue().size() != (mu_sites.getValue().size())){
-					throw std::runtime_error ("The number of mutation rates should matches the number of mutation sites");
+			if (mu.isSet())
+			{
+				if (!mu_sites.isSet())
+				{
+					throw std::runtime_error("Please provided mutation sites.");
+				}
+				else if (mu.getValue().size() != (mu_sites.getValue().size()))
+				{
+					throw std::runtime_error("The number of mutation rates should matches the number of mutation sites");
 				}
 			}
-			if(mu_sites.isSet() && mu.isSet()){
-				bool match (false);
-				for (size_t i(0); i<mu_sites.getValue().size(); ++i){
-					for (size_t j(0); j<marks.getValue().size(); ++j){
-						if (mu_sites.getValue()[i] == marks.getValue()[j]){
+			if (mu_sites.isSet() && mu.isSet())
+			{
+				bool match(false);
+				for (size_t i(0); i < mu_sites.getValue().size(); ++i)
+				{
+					for (size_t j(0); j < marks.getValue().size(); ++j)
+					{
+						if (mu_sites.getValue()[i] == marks.getValue()[j])
+						{
 							match = true;
 							break;
 						}
 					}
 				}
-				if (!match){
-					throw std::runtime_error ("Mutation sites should match marks.");
-				}else{
-					for (auto site: mu_sites.getValue()){
+				if (!match)
+				{
+					throw std::runtime_error("Mutation sites should match marks.");
+				}
+				else
+				{
+					for (auto site : mu_sites.getValue())
+					{
 						mutation_sites.push_back(site);
 					}
 				}
 			}
-			if (fit.isSet()){
-				if ((fit.getValue()).size() > FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size()){
-					throw std::runtime_error ("The number of fitness coefficients should not exceed the number of alleles");
+			if (fit.isSet())
+			{
+				if ((fit.getValue()).size() > FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size())
+				{
+					throw std::runtime_error("The number of fitness coefficients should not exceed the number of alleles");
 				}
-					for (auto coeff: fit.getValue()){
-						if (coeff < -1){
-							throw std::runtime_error ("The fitness coefficient must be at least -1");
-					}else{
-							new_fit.push_back(coeff);
+				for (auto coeff : fit.getValue())
+				{
+					if (coeff < -1)
+					{
+						throw std::runtime_error("The fitness coefficient must be at least -1");
+					}
+					else
+					{
+						new_fit.push_back(coeff);
 					}
 				}
-			} else if(!fit.isSet()){
-				for(size_t i(0); i<FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size(); ++i) {
+			}
+			else if (!fit.isSet())
+			{
+				for (size_t i(0); i < FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size(); ++i)
+				{
 					new_fit.push_back(0.0);
 				}
 			}
-			if (delta.getValue() < 1/3 || delta.getValue() > 1.0){
-				throw std::runtime_error ("Delta value should be between 1/3 and 1.");
+			if (delta.getValue() < 1 / 3 || delta.getValue() > 1.0)
+			{
+				throw std::runtime_error("Delta value should be between 1/3 and 1.");
 			}
-				
+
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue());
 			sim.run();
-			
-		} else if (!file_name.isSet()) {
-			if (marks.isSet()) {
+		}
+		else if (!file_name.isSet())
+		{
+			if (marks.isSet())
+			{
 				throw std::runtime_error("Provide frequences, marks not needed");
 			}
-			else if (!freq.isSet()) {
+			else if (!freq.isSet())
+			{
 				throw std::runtime_error("Initial frequences of each allele needed");
 			}
-			else if (nsample.getValue() < number_alleles.getValue()) {
+			else if (nsample.getValue() < number_alleles.getValue())
+			{
 				throw std::runtime_error("There are too many alleles compared to the size of population");
 			}
-			else if (number_alleles.getValue() != (freq.getValue()).size()) {
+			else if (number_alleles.getValue() != (freq.getValue()).size())
+			{
 				throw std::runtime_error("The number of alleles must be equal to the number of frequences provided");
-			} else {
+			}
+			else
+			{
 				double sum(0);
-				for (size_t i(0); i < (freq.getValue()).size(); ++i) {
+				for (size_t i(0); i < (freq.getValue()).size(); ++i)
+				{
 					sum += (freq.getValue())[i];
 				}
-				if (std::abs(sum - 1.0) > 1e-6) {
+				if (std::abs(sum - 1.0) > 1e-6)
+				{
 					throw std::runtime_error("The sum of frequences must be equal to 1.0");
 				}
 			}
-			if (fit.isSet()) {
-				for (auto coeff: fit.getValue()){
+			if (fit.isSet())
+			{
+				for (auto coeff : fit.getValue())
+				{
 					new_fit.push_back(coeff);
 				}
-				if((fit.getValue()).size() != number_alleles.getValue()){
+				if ((fit.getValue()).size() != number_alleles.getValue())
+				{
 					throw std::runtime_error("The number of fitness coefficients should match the number of alleles");
-				}else{
-					for (auto coeff: fit.getValue()){
-						if (coeff < -1){
-							throw std::runtime_error ("The fitness coefficient must be at least -1");
+				}
+				else
+				{
+					for (auto coeff : fit.getValue())
+					{
+						if (coeff < -1)
+						{
+							throw std::runtime_error("The fitness coefficient must be at least -1");
 						}
 					}
 				}
-			} else if(!fit.isSet()){
-				for(size_t i(0); i<number_alleles.getValue(); ++i) {
+			}
+			else if (!fit.isSet())
+			{
+				for (size_t i(0); i < number_alleles.getValue(); ++i)
+				{
 					new_fit.push_back(0.0);
 				}
 			}
-			if (mu.isSet()){
-				throw std::runtime_error ("Mutations only possible with Fasta file");
+			if (mu.isSet())
+			{
+				throw std::runtime_error("Mutations only possible with Fasta file");
 			}
-			if(delta.isSet()){
-				throw std::runtime_error ("Mutations only possible with Fasta file");
+			if (delta.isSet())
+			{
+				throw std::runtime_error("Mutations only possible with Fasta file");
 			}
 			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue(), new_fit);
 			sim.run();
 		}
-		if (!fit.isSet()){
-			std::cout<<"You will not have natural selection (programm still runs)."<<std::endl;
+		if (!fit.isSet())
+		{
+			std::cout << "You will not have natural selection (programm still runs)." << std::endl;
 		}
-		
-	} catch(std::runtime_error &e) {
+	}
+	catch (std::runtime_error &e)
+	{
 		std::cerr << e.what() << "\n";
 		nerr = 1;
-	} catch(TCLAP::ArgException &e) {
-        std::cerr << "Error: " + e.error() + " " + e.argId();
-       	nerr = 2;
-    }
+	}
+	catch (TCLAP::ArgException &e)
+	{
+		std::cerr << "Error: " + e.error() + " " + e.argId();
+		nerr = 2;
+	}
 
-    if (_RNG) delete _RNG;
+	if (_RNG)
+		delete _RNG;
 
 	return nerr;
-	}
+}
