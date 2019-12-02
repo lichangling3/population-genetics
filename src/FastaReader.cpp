@@ -25,7 +25,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                                 throw std::runtime_error("The marks provided are not suitable for the genomes");
                             } else if (marks[i] == 0) {
                                 throw std::runtime_error("The value of marks start at 1");
-                            } else if (genome[marks[i]-1] == 'N') {
+                            } else if (!(genome[marks[i]-1] == 'A' || genome[marks[i]-1] == 'C' || genome[marks[i]-1] == 'T' || genome[marks[i]-1] == 'G')) {
                                 combination += random.randomLetter();
                             } else {
                                 combination += genome[marks[i]-1];

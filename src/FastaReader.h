@@ -34,7 +34,7 @@ class FastaReader
   */
  	static std::map<std::string, double> retrieveData(std::vector<size_t> marks, const std::string file_to_read);
  	 
-/*! Retrives the size of the Population in the provided Fasta file.
+/*! Retrieves the size of the Population in the provided Fasta file.
   \param marks (vector<size_t>): divide the alleles of the file 
   \param file_to_read name (string): of the file 
   \return population size.
