@@ -59,15 +59,34 @@ public :
 	void step();
 	///@}
 	
+///@name Mutation functions
+///@{
+/*! Mutates all alleles that need to be mutated according to user's input.
+  This function uses one of the model mut function depending on the provided parameters.
+  \param marks mark and the corresponding mutation rate
+  \param delta optionnal parameter, depending on the chosen mutation model
+*/
 	void mutation(std::vector<std::pair<size_t,double>> marks, double delta = (1/3));
 	
+	/*! Changes a base to another, each of the other bases having a probability of 1/3 to be chosen.
+	 \param base the base that needs to be mutated
+	 \return a new base, different from the parameter
+	 */
 	char modelMut(char base);
 	
+	/*! Changes a base to another, each of the other bases having a probability depending on delta.
+	 \param base the base that needs to be mutated
+	 \param delta probability of each base to be chosen is (1-delta)/2
+	 \return a new base, different from the parameter
+	 */
 	char modelMut(char base, double delta);
+	///@}
+	
 private :
 ///typedef of a map with a string as key (sequence) and a double as value (frequency)
 	Alleles popAlleles;	
 	size_t size;
+	
 	///the fitness coefficient of each allele. We assume that these coefficients correspond to the alleles of popAlleles (same order)
 	std::vector<double> fitness; 
 };

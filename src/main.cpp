@@ -34,57 +34,58 @@
   When run without Fasta file, the program can also simulate natural selection. To add this penomenon,
   provide a fitness coefficient for each allele.
   \verbatim 
-  ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -s 0.5 -s 0.8
+  ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -S 0.5 -S 0.8
   \endverbatim
   
   When run with a Fasta file, the programm can also simulate natural selection. To add this penomenon,
-  provide a fitness coefficient for each allele with its triplet.Mutations can also be introduced 
+  provide a fitness coefficient for each allele with its triplet. Mutations can also be introduced 
   when a Fasta file is provided. To produce them, provide a mutation rate and the triplet of each allele to be mutated.
   \verbatim
   ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M ATG,0.3 -M CTA,0.6 -M GCA,0.2 -M TAG,0.3
   \endverbatim
+  Mutations are either based on the Jukes-Cantor or on the Kimura model. \n
+  [(Jukes-Cantor model of DNA substition)](https://www.megasoftware.net/web_help_7/hc_jukes_cantor_distance.htm) \n
+  [(Kimura two parameter model of DNA substition)](http://www.dbbm.fiocruz.br/molbiol/dnadist.html)
   */
+  
 
 RandomNumbers *_RNG;
 
 struct TclapPair {
-	std::string parts[1];
+	///vector of 2 strings used to check that the argument parsed is indeed a pair
+	std::string parts[1]; 
 	std::pair<std::string, double> val;
 	
 	TclapPair& operator=(const std::string &str) {
-		std::istringstream ss(str);
+		std::istringstream iss(str);
 		
-		// check that at least 2 arguments are given
-		if (!(ss >> parts[0] >> parts[1])) {
+		// checks that at least 2 arguments are given
+		if (!(iss >> parts[0] >> parts[1])) {
 			throw TCLAP::ArgParseException(str + " is not a pair");
 		}
 		
-		// check that only 2 arguments are given
-		std::string c;
-		if (ss >> c) {
-			throw TCLAP::ArgParseException("Too many arguments given");
-		}
 		
 		// check that nucleotides are valid
 		for (size_t i = 0; i < parts[0].size(); ++i) {
-			if (!(parts[0][i] == 'A' || parts[0][i] == 'C' || parts[0][i] == 'G' || parts[0][i] == 'T')) {
-				throw TCLAP::ArgParseException(parts[0] + " is not a valid allele (only bases ACTG are allowed)");
+			if (!(parts[0][i] == 'A' || parts[0][i] == 'T' || parts[0][i] == 'G' || parts[0][i] == 'C')) {
+				throw TCLAP::ArgParseException(parts[0] + " is not a valid allele (nucleotides are ATGC)");
 			}
 		}
 		
 		// check that second value is a double
-		double s = 0.0;
+		double d = 0.0;
 		try {
-			s = std::stod(parts[1]);
+			d= std::stod(parts[1]);
 		} catch (const std::invalid_argument &e) {
 			throw TCLAP::ArgParseException(parts[1] + " is not a double");
 		}
 		
-		val = std::make_pair(parts[0], s);
+		val = std::make_pair(parts[0], d);
 		return *this;
 	}
 };
 
+/// This allows to parse a pair made of a string and a double using TCLAP
 namespace TCLAP {
 	template<>
 	struct ArgTraits<TclapPair> {

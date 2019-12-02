@@ -44,7 +44,8 @@ public:
 /*! Multinomial distribution law
   \param N (int): sample size
   \param n_frequence (std::vector<double>&): frequencies that need to be modified by the function
-  \return new frequencies, randomly generated using a combination of \ref binomial
+  \param fitness_ fitness coefficients used for natural selection (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)
+  \return new frequencies, randomly generated using a combination of binomial
   */
     std::vector<double> multinomial (int N, std::vector<double> n_frequence, std::vector<double> fitness_);
 /*! @name Auxiliary function
