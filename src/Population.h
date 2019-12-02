@@ -66,7 +66,7 @@ public :
   \param marks mark and the corresponding mutation rate
   \param delta optionnal parameter, depending on the chosen mutation model
 */
-	void mutation(std::vector<std::pair<size_t,double>> marks, double delta = (1/3));
+	void mutation(std::vector<std::pair<size_t,double>> marks, double delta);
 	
 	/*! Changes a base to another, each of the other bases having a probability of 1/3 to be chosen.
 	 \param base the base that needs to be mutated
