@@ -247,6 +247,17 @@ TEST (Mutation, modelMut) {
 	sum_TG = init_map['T'] + init_map['G'];
 	EXPECT_LT(alleles.size(), mutated_alleles.size());
 	EXPECT_LT(sum_AC, sum_TG);
+	
+	init_map.clear();
+	std::vector<char> mut_vec;
+	for(size_t j(0); j < 1000 ; ++j) {
+		mut_vec.push_back(Pop.modelMut('C', 0.6));
+		init_map[mut_vec[j]] += 1;
+	}
+	EXPECT_GT(init_map['T'], init_map['A']);
+	EXPECT_GT(init_map['T'], init_map['C']);
+	EXPECT_GT(init_map['T'], init_map['G']);
+	EXPECT_EQ(init_map['C'], 0.0);
 }
 
 				
