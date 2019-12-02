@@ -195,7 +195,7 @@ TEST (Mutation, modelMut) {
 	Alleles alleles;
 	std::vector<std::pair<size_t,double>> marks;
 	for(size_t i(1); i < 21; ++i) {
-		marks.push_back(std::make_pair(i, 0.01));
+		marks.push_back(std::make_pair(i, 0.05));
 	}
 	alleles["ACCTTACGAATACGGATCAC"] = 0.2;
 	alleles["TCAATTCAGCCGAATCAGCA"] = 0.3;
@@ -223,7 +223,7 @@ TEST (Mutation, modelMut) {
 	size_t sum_TG = init_map['T'] + init_map['G'];
 	EXPECT_GT(sum_AC, sum_TG);
 	
-	size_t timer = 100;
+	size_t timer = 120;
 	for(size_t i(0); i < timer; ++i) {
 		Pop.step();
 		Pop.mutation(marks, 0.99);
