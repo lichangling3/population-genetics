@@ -56,7 +56,6 @@ private:
   std::vector<Population> populations;
 
   size_t sim_duration;
-  size_t pop_size;
   std::vector<size_t> nb_marks;
   double delta;
 

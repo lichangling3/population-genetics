@@ -175,54 +175,54 @@ TEST(Random, multinomial_average_freq)
 	}
 }
 
-// TEST(mutation, new_frequencies)
-// {
-// 	Population Pop;
-// 	Alleles alleles;
-// 	std::vector<std::pair<size_t, double>> marks{std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3, 0.01)};
-// 	alleles["ACG"] = 0.2;
-// 	alleles["TCC"] = 0.3;
-// 	alleles["GAT"] = 0.5;
+TEST(mutation, new_frequencies)
+{
+	Population Pop;
+	Alleles alleles;
+	std::vector<std::pair<size_t, double>> marks{std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3, 0.01)};
+	alleles["ACG"] = 0.2;
+	alleles["TCC"] = 0.3;
+	alleles["GAT"] = 0.5;
 
-// 	int init_size(alleles.size());
+	int init_size(alleles.size());
 
-// 	Pop.setPopAlleles(alleles);
-// 	Pop.setSize(800);
+	Pop.setPopAlleles(alleles);
+	Pop.setSize(800);
 
-// 	Pop.mutation(marks);
+	Pop.mutation(marks);
 
-// 	Alleles new_pop(Pop.getpopAlleles());
-// 	int new_size(Pop.getAllelesSize());
-// 	double sum(0.0);
+	Alleles new_pop(Pop.getpopAlleles());
+	int new_size(Pop.getAllelesSize());
+	double sum(0.0);
 
-// 	EXPECT_TRUE(new_size - init_size >= 0);
+	EXPECT_TRUE(new_size - init_size >= 0);
 
-// 	if (new_size - init_size == 0)
-// 	{
-// 		std::cout << "TEST IRREVELENT, there wasn't any new allele(s) created this time..." << std::endl;
-// 	}
-// 	if (new_size - init_size > 0)
-// 	{
-// 		std::map<std::string, double>::const_iterator it, IT;
+	if (new_size - init_size == 0)
+	{
+		std::cout << "TEST IRREVELENT, there wasn't any new allele(s) created this time..." << std::endl;
+	}
+	if (new_size - init_size > 0)
+	{
+		std::map<std::string, double>::const_iterator it, IT;
 
-// 		for (it = new_pop.begin(), IT = alleles.begin(); it != new_pop.end(); ++it, ++IT)
-// 		{
-// 			sum += it->second;
+		for (it = new_pop.begin(), IT = alleles.begin(); it != new_pop.end(); ++it, ++IT)
+		{
+			sum += it->second;
 
-// 			if (alleles.count(it->first))
-// 			{
-// 				int number(it->second * Pop.getSize() + 0.1);
-// 				EXPECT_NEAR(number, it->second * Pop.getSize(), 0.000001);
-// 			}
-// 			else
-// 			{
-// 				int number(it->second * Pop.getSize() + 0.1);
-// 				EXPECT_NEAR(number, it->second * Pop.getSize(), 0.000001);
-// 			}
-// 		}
-// 		EXPECT_NEAR(sum, 1.0, 0.00001);
-// 	}
-// }
+			if (alleles.count(it->first))
+			{
+				int number(it->second * Pop.getSize() + 0.1);
+				EXPECT_NEAR(number, it->second * Pop.getSize(), 0.000001);
+			}
+			else
+			{
+				int number(it->second * Pop.getSize() + 0.1);
+				EXPECT_NEAR(number, it->second * Pop.getSize(), 0.000001);
+			}
+		}
+		EXPECT_NEAR(sum, 1.0, 0.00001);
+	}
+}
 
 TEST(Mutation, modelMut)
 {
