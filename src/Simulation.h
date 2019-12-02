@@ -1,3 +1,5 @@
+#ifndef SIMULATION_H
+#define SIMULATION_H
 #include <vector>
 #include <Population.h>
 #include <fstream>
@@ -13,7 +15,6 @@
 
 class Simulation
 {
-
 public:
   /*! 
   Constructor used when no Fasta file is provided.
@@ -67,3 +68,5 @@ private:
   std::ofstream my_flow;
   static size_t gen_counter;
 };
+
+#endif

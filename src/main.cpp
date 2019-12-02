@@ -94,8 +94,6 @@ int main(int argc, char **argv)
 		std::vector<double> mutations;
 		std::vector<size_t> mutation_sites;
 
-		//_RNG = new RandomNumbers();
-
 		if (file_name.isSet())
 		{
 			if (!marks.isSet())
@@ -282,6 +280,5 @@ int main(int argc, char **argv)
 
 	if (_RNG)
 		delete _RNG;
-
 	return nerr;
 }
