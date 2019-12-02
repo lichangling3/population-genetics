@@ -90,6 +90,7 @@ int main(int argc, char **argv) {
 
 		std::vector<double> new_fit;
 		std::vector<double> mutations;	
+		std::vector<size_t> mutation_sites;
 
 		//_RNG = new RandomNumbers();
 
@@ -132,6 +133,10 @@ int main(int argc, char **argv) {
 				}
 				if (!match){
 					throw std::runtime_error ("Mutation sites should match marks.");
+				}else{
+					for (auto site: mu_sites.getValue()){
+						mutation_sites.push_back(site);
+					}
 				}
 			}
 			if (fit.isSet()){
@@ -154,7 +159,7 @@ int main(int argc, char **argv) {
 				throw std::runtime_error ("Delta value should be between 1/3 and 1.");
 			}
 				
-			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mu_sites.getValue(), delta.getValue());
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue());
 			sim.run();
 			
 		} else if (!file_name.isSet()) {
