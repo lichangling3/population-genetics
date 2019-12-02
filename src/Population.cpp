@@ -58,9 +58,6 @@ void Population::mutation(std::vector<std::pair<size_t,double>> marks, double de
 				
 				//popAlleles[all_mutated] += (nbr_mutations/size * all.second);
 				popAlleles[all.first] -= (nbr_mutations/size);
-				if (popAlleles[all.first] < 1e-12) {
-					popAlleles.erase(all.first);
-				}
 			}
 			
 				/*std::vector<char> nucl{'A','C','T','G'};
