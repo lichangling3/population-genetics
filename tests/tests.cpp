@@ -7,13 +7,12 @@
 RandomNumbers* _RNG;
 
 
-TEST(readFileTest, retrieveData) 
-{
-	std::map<std::string, double> freq_received = FastaReader::retrieveData({1,3,6}, "../tests/test_for_retrieveData.fasta");
+TEST(readFileTest, retrieveData) {
+	std::map<std::string, double> freq_received = FastaReader::retrieveData({1,3,9}, "../tests/test_for_retrieveData.fasta");
 	std::map<std::string, double> freq_test;
-	freq_test["ACG"] = 0.25;
-	freq_test["AGG"] = 0.25;
-	freq_test["TGC"] = 0.5;
+	freq_test["ACA"] = 0.25;
+	freq_test["AGA"] = 0.25;
+	freq_test["TGT"] = 0.5;
 	size_t N_test = 4;
 
 	std::map<std::string, double>::const_iterator i, j;
@@ -21,10 +20,10 @@ TEST(readFileTest, retrieveData)
 		EXPECT_EQ(i->first, j->first);
 		EXPECT_DOUBLE_EQ(i->second, j->second);
 	}
-	EXPECT_EQ(N_test, FastaReader::size({1,3,6}, "../tests/test_for_retrieveData.fasta"));
+	EXPECT_EQ(N_test, FastaReader::size({1,3,9}, "../tests/test_for_retrieveData.fasta"));
 }
 
-TEST(Random, multinomial){
+TEST(Random, multinomial) {
 	
 	int N (10);
 	std::vector<double> n_frequence {0.1, 0.4, 0.3, 0.2};
@@ -37,10 +36,7 @@ TEST(Random, multinomial){
 	EXPECT_NEAR(1, total_freq, 0.0001);
 }
 
-
-
-
-TEST(Random, fixation){
+TEST(Random, fixation) {
 	
 	int N (10);
 	std::vector<double> freq {0.1, 0.4, 0.0, 0.3,  0.2};
@@ -85,8 +81,7 @@ TEST(Display, displayGen) {
 	EXPECT_EQ(split[3],"0.4");
 }
 
-TEST(GlobalTest, SmallTest)
-{
+TEST(GlobalTest, SmallTest) {
     //without fasta file
     Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3, {0,0,0});
     sim.run();
@@ -151,42 +146,47 @@ TEST (Random, multinomial_average_freq) {
 	}
 }
 
-TEST (mutation, new_allele_freq)
+TEST (mutation, new_frequencies)
 {
 	Population Pop;
 	Alleles alleles;
-	std::vector<std::pair<size_t,double>> marks{ std::make_pair(1, 0.01), std::make_pair(2, 0.00001), std::make_pair(3,0.00001 ) };
+	std::vector<std::pair<size_t,double>> marks{ std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3,0.01 ) };
 	alleles["ACG"] = 0.2;
 	alleles["TCC"] = 0.3;
 	alleles["GAT"] = 0.5;
 	
 	int init_size (alleles.size());
-	std::cout << "init size" << init_size << std::endl;
+	
 	Pop.setPopAlleles(alleles);
-	Pop.setSize(80);
+	Pop.setSize(800);
+	
 	Pop.mutation(marks);
+	
 	Alleles new_pop (Pop.getpopAlleles());
 	int new_size(Pop.getAllelesSize());
-	std::cout << "new size " << new_size<< std::endl;
-	int size_diff = new_size - init_size;
+	double sum(0.0);
 	
-	EXPECT_TRUE(size_diff >= 0);
+	EXPECT_TRUE(new_size - init_size >=0);
 	
-	if(new_size - init_size ==0) { 
-		std::cout << "there wasn't any new allele created this time..." << std::endl;
+	if(new_size - init_size ==0){ 
+		std::cout << "TEST IRREVELENT, there wasn't any new allele(s) created this time..." << std::endl;
 	}
-	
-	if (new_size - init_size > 0) {
-		std::map<std::string, double>::const_iterator it;
-		for(it = new_pop.begin(); it != new_pop.end(); ++it) {
-			if(alleles.count(it->first)) {
-				std::cout << std::endl<< "old " <<it->first << it->second<<std::endl;
-			}
-			else {
-				std::cout<<std::endl << "new "<< it->first <<std::endl;
-				EXPECT_EQ( 1.0/Pop.getSize(), it->second);
+	if (new_size - init_size > 0){
+		std::map<std::string, double>::const_iterator it, IT;
+
+		for(it = new_pop.begin(), IT = alleles.begin(); it != new_pop.end(); ++it, ++IT) {
+			sum += it->second;
+			
+			if( alleles.count(it->first)){
+				int number(it->second*Pop.getSize() + 0.1);
+				EXPECT_NEAR( number, it->second*Pop.getSize(), 0.000001);
+				}
+			else{
+				int number(it->second*Pop.getSize() + 0.1);
+				EXPECT_NEAR( number, it->second*Pop.getSize(), 0.000001);
 			}
 		}
+		EXPECT_NEAR(sum, 1.0, 0.00001);
 	}
 }
 
@@ -260,7 +260,6 @@ TEST (Mutation, modelMut) {
 	EXPECT_EQ(init_map['C'], 0.0);
 }
 
-				
 int main(int argc, char **argv) {
 	_RNG = new RandomNumbers();
   ::testing::InitGoogleTest(&argc, argv);
