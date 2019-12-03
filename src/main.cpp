@@ -189,6 +189,10 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("Delta value should be between 1/3 and 1.");
 			}
+			if (!mu.isSet() && !mu_sites.isSet()){
+				mutations.push_back(0.0);
+				mutation_sites.push_back (0);
+			}
 
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue());
 			sim.run();
