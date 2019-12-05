@@ -189,7 +189,7 @@ TEST(mutation, new_frequencies)
 	Pop.setPopAlleles(alleles);
 	Pop.setSize(800);
 
-	Pop.mutation(marks);
+	Pop.mutation(marks,1./3);
 
 	Alleles new_pop(Pop.getpopAlleles());
 	int new_size(Pop.getAllelesSize());
