@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 		TCLAP::MultiArg<double> mu("M", "mutation", "Mutation rate (<=1), please specifiy mutation sites", false, "double");
 		cmd.add(mu);
 		TCLAP::MultiArg<size_t> mu_sites("s", "mutation_site", "Mutation sites (should be the same as marks)", false, "size_t");
+		cmd.add(mu_sites);
 		TCLAP::MultiArg<double> fit("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)", false, "double");
 		cmd.add(fit);
 		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1 / 3, "double");
