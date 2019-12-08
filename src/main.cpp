@@ -11,11 +11,11 @@
   This is an implementation of the model of Wright-Fisher
   [(Wright-Fisher Models, Approximations, and Minimum Increments of Evolution, William H. Press)] (https://pdfs.semanticscholar.org/1699/94e73dacc2bc1c0855d83b0a049e19f6b17f.pdf)
   
-  The prgramm can be used without Fasta file with typical command:
+  The program can be used without Fasta file with typical command:
   \verbatim
   ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5
   \endverbatim
-  which will simulate the time evolution of a Population of 100 indiviuals with 2 different alleles, 
+  which will simulate the time evolution of a Population of 100 individuals with 2 different alleles, 
   both with frequency 0.5.
   The Simulation will last 10 seconds and be repeated 2 times.
   
@@ -31,13 +31,13 @@
    
   \n 
   \b Extensions \n 
-  When run without Fasta file, the program can also simulate natural selection. To add this penomenon,
+  When run without Fasta file, the program can also simulate natural selection. To add this phenomenon,
   provide a fitness coefficient for each allele \b in the order you entered them.
   \verbatim 
   ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -S 0.5 -S 0.8
   \endverbatim
   
-  When run with a Fasta file, the programm can also simulate natural selection. To add this penomenon,
+  When run with a Fasta file, the programm can also simulate natural selection. To add this phenomenon,
   provide a fitness coefficient for each allele  \b in the order you entered them.. Mutations can also be introduced 
   when a Fasta file is provided. To produce them, provide a mutation rate and the corresponding marker for every site be mutated.
   The order of mutation rates should match that of the marks.The marks without mutation rates will not be mutated.
