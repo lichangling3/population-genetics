@@ -30,15 +30,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     {
                         for (size_t i(0); i < marks.size(); ++i)
                         {
-                            if (marks[i] - 1 > genome.size())
-                            {
-                                throw std::runtime_error("The marks provided are not suitable for the genomes");
-                            }
-                            else if (marks[i] == 0)
-                            {
-                                throw std::runtime_error("The value of marks start at 1");
-                            }
-                            else if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G'))
+                            if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
                             {
                                 combination += random.randomLetter();
                             }
@@ -69,15 +61,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
             {
                 for (size_t i(0); i < marks.size(); ++i)
                 {
-                    if (marks[i] - 1 > genome.size())
-                    {
-                        throw std::runtime_error("The marks provided are not suitable for the genomes");
-                    }
-                    else if (marks[i] == 0)
-                    {
-                        throw std::runtime_error("The value of marks start at 1");
-                    }
-                    else if (genome[marks[i] - 1] == 'N')
+                    if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
                     {
                         combination += random.randomLetter();
                     }
