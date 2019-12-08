@@ -189,7 +189,7 @@ TEST(mutation, new_frequencies)
 	Pop.setPopAlleles(alleles);
 	Pop.setSize(800);
 
-	Pop.mutation(marks,1./3);
+	Pop.mutation(marks, 1. / 3);
 
 	Alleles new_pop(Pop.getpopAlleles());
 	int new_size(Pop.getAllelesSize());
@@ -302,10 +302,11 @@ TEST(Mutation, modelMut)
 	EXPECT_EQ(init_map['C'], 0.0);
 }
 
-TEST(Mutations, delta_and_mu){
+TEST(Mutations, delta_and_mu)
+{
 	std::vector<Population> pop1(40);
 	std::vector<Population> pop2(40);
-	
+
 	size_t size_pop(800);
 	double sum_inf, sum_sup, sum_inf2, sum_sup2;
 	Alleles alleles;
@@ -313,29 +314,31 @@ TEST(Mutations, delta_and_mu){
 
 	std::vector<std::pair<size_t, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 	std::vector<std::pair<size_t, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
-	
-	for( size_t i(0) ; i<20; ++i){
-		pop1[i].setPopAlleles(alleles);
-		pop1[i].setSize(size_pop);
-		pop2[i] = pop1[i];
-		
-		pop1[i].mutation(marks,0.4);	//big delta means : when G mutates there are more A than C,T
-		sum_sup += pop1[i].getpopAlleles()["ACG"];
-		
-		pop2[i].mutation(marks, 0.99);
-		sum_sup2 +=  pop2[i].getpopAlleles()["ACG"];
-	}
-	
-	for( size_t i(21) ; i<40; ++i){
+
+	for (size_t i(0); i < 20; ++i)
+	{
 		pop1[i].setPopAlleles(alleles);
 		pop1[i].setSize(size_pop);
 		pop2[i] = pop1[i];
 
-		pop1[i].mutation(marks,0.01);			//small delta means : when G mutates there are less A than C,T
+		pop1[i].mutation(marks, 0.4); //big delta means : when G mutates there are more A than C,T
+		sum_sup += pop1[i].getpopAlleles()["ACG"];
+
+		pop2[i].mutation(marks, 0.99);
+		sum_sup2 += pop2[i].getpopAlleles()["ACG"];
+	}
+
+	for (size_t i(21); i < 40; ++i)
+	{
+		pop1[i].setPopAlleles(alleles);
+		pop1[i].setSize(size_pop);
+		pop2[i] = pop1[i];
+
+		pop1[i].mutation(marks, 0.01); //small delta means : when G mutates there are less A than C,T
 		sum_inf += pop1[i].getpopAlleles()["ACG"];
-		
-		pop2[i].mutation(marks2, 0.99);			
-		sum_inf2+= pop2[i].getpopAlleles()["ACG"];
+
+		pop2[i].mutation(marks2, 0.99);
+		sum_inf2 += pop2[i].getpopAlleles()["ACG"];
 	}
 
 	EXPECT_LT(sum_inf, sum_sup);
