@@ -77,9 +77,9 @@ char Population::modelMut(char base, double delta)
 	else if (base == 'A')
 		b1 = 'G', b2 = 'T', b3 = 'C';
 
-	if (alea < delta)
+	if (alea <= delta)
 		return b1;
-	if (alea > delta and alea < (1. - (1. - delta) / 2))
+	if (alea > delta and alea <= (1. - (1. - delta) / 2))
 		return b2;
 	else
 		return b3;
