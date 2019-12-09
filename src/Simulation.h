@@ -40,6 +40,8 @@ public:
   \param repetitions_ (size_t): used to initialize \ref repetition attribute
   \param new_fit(std::vector <double>): used to initialize a Population
   \param new_mu(std::vector <double>): used to initialize \ref marks_mu attribute
+  \param sites (std::vector<size_t>): sites that should be mutated
+  \param delta (double): chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   \see Population::setSize (size_t)
   \see Population::setWithFile (Alleles)
  */
@@ -55,9 +57,11 @@ public:
 private:
   /// \see Population
   std::vector<Population> populations;
-
+  ///length of the simulation
   size_t sim_duration;
+  ///marks of the alleles to read if Fasta file provided
   std::vector<size_t> nb_marks;
+  ///chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   double delta;
 
   /// a vector containg pairs of marks indexes (size_t) and the corresponding mutation rates
@@ -65,8 +69,9 @@ private:
 
   ///number of generations in a population
   size_t repetitions;
+  ///file to which the output will be written
   std::ofstream my_flow;
-  static size_t gen_counter;
+  static size_t gen_counter; //is it used?
 };
 
 #endif

@@ -17,7 +17,7 @@ public:
   /*! @name Initializing
   The generator \ref rng is a Mersenne twister *mt19937* engine. 
 
-  A seed *s>0* can be provided, by default it is seeded with a *random_device*.
+  A \ref seed *s>0* can be provided, by default it is seeded with a *random_device*.
  */
   ///@{
   RandomNumbers(unsigned long int s = 0);

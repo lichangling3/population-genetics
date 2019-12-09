@@ -39,11 +39,12 @@
   \endverbatim
   
   When run with a Fasta file, the programm can also simulate natural selection. To add this phenomenon,
-  provide a fitness coefficient for each allele  \b in the order you entered them.. Mutations can also be introduced 
+  provide a fitness coefficient for each allele  \b in the order you entered them. Mutations can also be introduced 
   when a Fasta file is provided. To produce them, provide a mutation rate and the corresponding marker for every site be mutated.
-  The order of mutation rates should match that of the marks.The marks without mutation rates will not be mutated.
+  The order of mutation rates should match that of the marks.The marks without mutation rates will not be mutated. The chances of being mutated
+  to one nucleotide or another are proportional to a number delta if using the Kimura model (see below).
   \verbatim
-  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12
+  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12 -d 2/3
   \endverbatim
   Mutations are either based on the Jukes-Cantor or on the Kimura model. \n
   [(Jukes-Cantor model of DNA substition)](https://www.megasoftware.net/web_help_7/hc_jukes_cantor_distance.htm) \n

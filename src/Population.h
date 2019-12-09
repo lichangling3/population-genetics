@@ -10,38 +10,42 @@ typedef std::map<std::string, double> Alleles;
  A population is a "set" of alleles of \ref size equal to the total number of alleles.
 
  A population is created in two different manners, according to whether a Fasta file is provided or not. 
- * */
+ */
 
 class Population
 {
 public:
-	/*! @name Initializing
+/*! @name Initializing
   The constructor does not need any arguments and is empty as attributes will be assigned in other functions.
 */
 	///@{
 	Population(){};
 
-	/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
+/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
 	 \param nb_freq_  frequencies of alleles
 	 \param nb_alleles: number of alleles
 */
 	void setAlleles(size_t nb_alleles, std::vector<double> nb_freq_);
 
-	/*! Sets \ref PopAlleles to the parameter 
+/*! Sets \ref PopAlleles to the parameter 
 	\param popAlleles_ (Alleles): map with a string as key (sequence) and a double as value (frequency)
 */
 	void setWithFile(Alleles popAlleles_);
 
-	/*! Sets \ref PopAlleles to the parameter 
+/*! Sets \ref PopAlleles to the parameter 
 	\param map (map<string, double>): should contain allele sequences and frequencies
 */
 	void setPopAlleles(std::map<std::string, double> map);
+/*! Sets \ref fitness to the parameter
+	\param new_fit (std::vector<double>): should contain the fitness coefficients of alleles
+	that should undergo natural selection
+ */
 	void setFitness(std::vector<double> new_fit);
+	/// Sets \ref size to the parameter \param size_
 	void setSize(size_t size_);
 	///@}
 
-	/*! @name Getters
-	 */
+/// @name Getters
 	///@{
 	size_t getSize() const { return size; };
 	size_t getAllelesSize() const { return popAlleles.size(); };
@@ -83,9 +87,10 @@ public:
 private:
 	///typedef of a map with a string as key (sequence) and a double as value (frequency)
 	Alleles popAlleles;
+	///size of the population
 	size_t size;
 
-	///the fitness coefficient of each allele. We assume that these coefficients correspond to the alleles of popAlleles (same order)
+	///the fitness coefficient of each allele. It is assumed that these coefficients correspond to the alleles of popAlleles (same order)
 	std::vector<double> fitness;
 };
 
