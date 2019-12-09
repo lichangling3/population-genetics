@@ -5,6 +5,7 @@
 #include <random.h>
 #include <Display.h>
 #include <FastaReader.h>
+#include <iostream>
 
 /*!
   \mainpage Genetic drift dynamics
@@ -158,6 +159,9 @@ int main(int argc, char **argv)
 					for (auto site : mu_sites.getValue())
 					{
 						mutation_sites.push_back(site);
+					}
+					for (auto mu_coeff : mu) {
+						mutations.push_back(mu_coeff);
 					}
 				}
 			}
