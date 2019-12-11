@@ -30,11 +30,13 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 		Population pop;
 		populations.push_back(pop);
 	}
+	size_t size_ (FastaReader::size(nb_marks, file_name_));
+	std::map<std::string, double> alleles (FastaReader::retrieveData(nb_marks, file_name_));
 	my_flow = std::ofstream("display.txt");
 	for (auto &population : populations)
 	{
-		population.setSize(FastaReader::size(nb_marks, file_name_));
-		population.setWithFile(FastaReader::retrieveData(nb_marks, file_name_));
+		population.setSize(size_);
+		population.setWithFile(alleles);
 		population.setFitness(new_fit);
 	}
 }
