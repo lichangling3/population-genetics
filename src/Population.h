@@ -25,22 +25,22 @@ public:
 	 \param nb_freq_  frequencies of alleles
 	 \param nb_alleles: number of alleles
 */
-	void setAlleles(size_t nb_alleles, std::vector<double> nb_freq_);
+	void setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_);
 
 /*! Sets \ref PopAlleles to the parameter 
 	\param popAlleles_ (Alleles): map with a string as key (sequence) and a double as value (frequency)
 */
-	void setWithFile(Alleles popAlleles_);
+	void setWithFile(const Alleles& popAlleles_);
 
 /*! Sets \ref PopAlleles to the parameter 
 	\param map (map<string, double>): should contain allele sequences and frequencies
 */
-	void setPopAlleles(std::map<std::string, double> map);
+	void setPopAlleles(const std::map<std::string, double>& map);
 /*! Sets \ref fitness to the parameter
 	\param new_fit (std::vector<double>): should contain the fitness coefficients of alleles
 	that should undergo natural selection
  */
-	void setFitness(std::vector<double> new_fit);
+	void setFitness(const std::vector<double>& new_fit);
 	/// Sets \ref size to the parameter \param size_
 	void setSize(size_t size_);
 	///@}
@@ -68,7 +68,7 @@ public:
   \param marks mark and the corresponding mutation rate
   \param delta optionnal parameter, depending on the chosen mutation model
 */
-	void mutation(std::vector<std::pair<size_t, double>> marks, double delta);
+	void mutation(const std::vector<std::pair<size_t, double>>& marks, double delta);
 
 	/*! Changes a base to another, each of the other bases having a probability of 1/3 to be chosen.
 	 \param base the base that needs to be mutated

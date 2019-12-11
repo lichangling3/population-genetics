@@ -1,6 +1,6 @@
 #include "Population.h"
 
-void Population::setAlleles(size_t nb_alleles, std::vector<double> nb_freq_)
+void Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_)
 {
 	for (size_t i(0); i < nb_alleles; ++i)
 	{
@@ -9,19 +9,18 @@ void Population::setAlleles(size_t nb_alleles, std::vector<double> nb_freq_)
 	}
 }
 
-void Population::setWithFile(Alleles popAlleles_)
+void Population::setWithFile(const Alleles& popAlleles_)
 {
 	popAlleles = popAlleles_;
 }
 
-void Population::setFitness(std::vector<double> new_fit)
+void Population::setFitness(const std::vector<double>& new_fit)
 {
 	fitness = new_fit;
 }
 
 void Population::step()
 {
-	_RNG = new RandomNumbers();
 	std::vector<double> start, end;
 	size_t i(0);
 	for (std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
@@ -36,9 +35,8 @@ void Population::step()
 	}
 }
 
-void Population::mutation(std::vector<std::pair<size_t, double>> marks, double delta)
+void Population::mutation(const std::vector<std::pair<size_t, double>>& marks, double delta)
 {
-	_RNG = new RandomNumbers();
 	for (size_t i(0); i < marks.size(); ++i)
 	{
 		for (auto all : popAlleles)
@@ -90,7 +88,7 @@ void Population::setSize(size_t size_)
 	size = size_;
 }
 
-void Population::setPopAlleles(std::map<std::string, double> map)
+void Population::setPopAlleles(const std::map<std::string, double>& map)
 {
 	popAlleles = map;
 }
