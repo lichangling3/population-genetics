@@ -56,6 +56,7 @@ RandomNumbers *_RNG;
 int main(int argc, char **argv)
 {
 	int nerr = 0;
+	_RNG = new RandomNumbers();
 	try
 	{
 		TCLAP::CmdLine cmd("Population definition");
