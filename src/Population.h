@@ -28,11 +28,6 @@ public:
 	static Alleles setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_);
 
 /*! Sets \ref PopAlleles to the parameter 
-	\param popAlleles_ (Alleles): map with a string as key (sequence) and a double as value (frequency)
-*/
-	void setWithFile(const Alleles& popAlleles_);
-
-/*! Sets \ref PopAlleles to the parameter 
 	\param map (map<string, double>): should contain allele sequences and frequencies
 */
 	void setPopAlleles(const std::map<std::string, double>& map);

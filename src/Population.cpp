@@ -15,21 +15,19 @@ Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_
 	return alleles;
 }
 
-void Population::setWithFile(const Alleles& popAlleles_)
-{
-	popAlleles = popAlleles_;
-}
 
 void Population::step()
 {
-	std::vector<double> start, end;
+	std::vector<double> start;
+	std::vector<double> end(popAlleles.size(),0);
+	start.reserve(popAlleles.size());
 	size_t i(0);
-	for (std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
+	for (Alleles::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
 	{
 		start.push_back(it->second);
 	}
 	end = _RNG->multinomial(size, start, fitness);
-	for (std::map<std::string, double>::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
+	for (Alleles::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
 	{
 		it->second = end[i];
 		++i;

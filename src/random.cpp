@@ -36,8 +36,9 @@ std::vector<double> RandomNumbers::multinomial(int N, std::vector<double> n_freq
 	double old_n(N);
 	double new_n(N);
 	double sum_k(0.0);
-	double p;
-	double sum(0);
+	double p(0.0);
+	double sum(0.0);
+	k_frequence.reserve(n_frequence.size());
 
 	for (size_t i(0); i < fitness_.size(); ++i)
 	{

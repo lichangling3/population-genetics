@@ -104,11 +104,11 @@ TEST(GlobalTest, SmallTest)
 			{
 				if (line[0] == '0')
 				{
-					EXPECT_EQ(line, "0              0.4|0.5|0.1|0.4|0.5|0.1|0.4|0.5|0.1|");
+					EXPECT_EQ(line, "0\t0.4|0.5|0.1|\t0.4|0.5|0.1|\t0.4|0.5|0.1|");
 				}
 				else
 				{
-					EXPECT_EQ(line, "                 1|2|3|    1|2|3|    1|2|3|");
+					EXPECT_EQ(line, "\t1|2|3|\t1|2|3|\t1|2|3|");
 				}
 			}
 		}
@@ -134,11 +134,11 @@ TEST(GlobalTest, SmallTest)
 			{
 				if (line[0] == '0')
 				{
-					EXPECT_EQ(line, "0              0.25|0.25|0.5|0.25|0.25|0.5|0.25|0.25|0.5|");
+					EXPECT_EQ(line, "0\t0.25|0.25|0.5|\t0.25|0.25|0.5|\t0.25|0.25|0.5|");
 				}
 				else
 				{
-					EXPECT_EQ(line, "               ACG|AGG|TGC|  ACG|AGG|TGC|  ACG|AGG|TGC|");
+					EXPECT_EQ(line, "\tACG|AGG|TGC|\tACG|AGG|TGC|\tACG|AGG|TGC|");
 				}
 			}
 		}
@@ -307,16 +307,15 @@ TEST(Mutations, delta_and_mu)
 	std::vector<Population> pop2;
 	pop1.reserve(40);
 	pop2.reserve(40);
-
+	for (size_t i(0); i < 40; ++i) {
+		Population pop(alleles,800,fit);
+		pop1.push_back(pop);
+		pop2.push_back(pop);
+	}	
 	std::vector<std::pair<size_t, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 	std::vector<std::pair<size_t, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 
-	for (size_t i(0); i < 20; ++i)
-	{
-		Population pop(alleles,800,fit);
-		pop1.push_back(pop);
-		pop2[i] = pop1[i];
-
+	for (size_t i(0); i < 20; ++i) {
 		pop1[i].mutation(marks, 0.4); //big delta means : when G mutates there are more A than C,T
 		sum_sup += pop1[i].getpopAlleles()["ACG"];
 
@@ -324,12 +323,7 @@ TEST(Mutations, delta_and_mu)
 		sum_sup2 += pop2[i].getpopAlleles()["ACG"];
 	}
 
-	for (size_t i(21); i < 40; ++i)
-	{
-		Population pop(alleles,800,fit);
-		pop1.push_back(pop);
-		pop2[i] = pop1[i];
-
+	for (size_t i(21); i < 40; ++i) {
 		pop1[i].mutation(marks, 0.01); //small delta means : when G mutates there are less A than C,T
 		sum_inf += pop1[i].getpopAlleles()["ACG"];
 

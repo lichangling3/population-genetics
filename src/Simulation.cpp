@@ -34,22 +34,27 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 
 void Simulation::run()
 {
-	size_t gen_counter = 0;
-	for (size_t j(0); j < sim_duration + 1; ++j)
-	{
-		my_flow << gen_counter;
-		++gen_counter;
-		for (auto &population : populations)
+	if(my_flow.is_open()) {
+		size_t gen_counter = 0;
+		for (size_t j(0); j < sim_duration + 1; ++j)
 		{
-			Display::displayGen(population, my_flow);
-			population.step();
-			//population.mutation(marks_mu, delta);
+			my_flow << gen_counter;
+			++gen_counter;
+			for (auto &population : populations)
+			{
+				Display::displayGen(population, my_flow);
+				population.step();
+				//population.mutation(marks_mu, delta);
+			}
+			my_flow << std::endl;
 		}
-		my_flow << std::endl;
+		for (auto population : populations)
+		{
+			Display::displayAll(population, my_flow);
+		}
 	}
-	for (auto population : populations)
-	{
-		Display::displayAll(population, my_flow);
+	else {
+		std::cerr << "error while opening text file" << std::endl;
 	}
 	my_flow.close();
 }
