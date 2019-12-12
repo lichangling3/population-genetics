@@ -19,13 +19,13 @@ public:
   The constructor does not need any arguments and is empty as attributes will be assigned in other functions.
 */
 	///@{
-	Population(){};
+	Population(const Alleles& popAlleles_, size_t size_, const std::vector<double>& fitness_);
 
 /*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
 	 \param nb_freq_  frequencies of alleles
 	 \param nb_alleles: number of alleles
 */
-	void setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_);
+	static Alleles setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_);
 
 /*! Sets \ref PopAlleles to the parameter 
 	\param popAlleles_ (Alleles): map with a string as key (sequence) and a double as value (frequency)

@@ -71,7 +71,6 @@ private:
   size_t repetitions;
   ///file to which the output will be written
   std::ofstream my_flow;
-  static size_t gen_counter; //is it used?
 };
 
 #endif

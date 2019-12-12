@@ -47,7 +47,6 @@ TEST(Random, fixation)
 
 TEST(Display, displayGen)
 {
-	Population pop;
 	std::ofstream my_flow = std::ofstream("../tests/test_for_display.txt");
 	Alleles alleles;
 	for (double i(1); i < 5; ++i)
@@ -55,7 +54,8 @@ TEST(Display, displayGen)
 		std::string s = std::to_string(i);
 		alleles[s] = (i / 10);
 	}
-	pop.setPopAlleles(alleles);
+	std::vector<double> fit(alleles.size(),0);
+	Population pop(alleles, 1, fit);
 	Display::displayGen(pop, my_flow);
 	std::vector<std::string> split;
 	std::string line, f;
@@ -83,7 +83,7 @@ TEST(Display, displayGen)
 	{
 		throw("Error with FASTA file ../tests/test_for_display:" and e.what());
 	}
-	EXPECT_EQ(split[0], "0.1");
+	EXPECT_EQ(split[0], "\t0.1");
 	EXPECT_EQ(split[1], "0.2");
 	EXPECT_EQ(split[2], "0.3");
 	EXPECT_EQ(split[3], "0.4");
@@ -177,7 +177,6 @@ TEST(Random, multinomial_average_freq)
 
 TEST(mutation, new_frequencies)
 {
-	Population Pop;
 	Alleles alleles;
 	std::vector<std::pair<size_t, double>> marks{std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3, 0.01)};
 	alleles["ACG"] = 0.2;
@@ -186,9 +185,8 @@ TEST(mutation, new_frequencies)
 
 	int init_size(alleles.size());
 
-	Pop.setPopAlleles(alleles);
-	Pop.setSize(800);
-
+	std::vector<double> fit(alleles.size(),0);
+	Population Pop(alleles, 800, fit);
 	Pop.mutation(marks, 1. / 3);
 
 	Alleles new_pop(Pop.getpopAlleles());
@@ -226,7 +224,6 @@ TEST(mutation, new_frequencies)
 
 TEST(Mutation, modelMut)
 {
-	Population Pop;
 	Alleles alleles;
 	std::vector<std::pair<size_t, double>> marks;
 	for (size_t i(1); i < 21; ++i)
@@ -239,10 +236,8 @@ TEST(Mutation, modelMut)
 	alleles["CACATACGACTGAAGAGCCT"] = 0.1;
 	alleles["AATACTTCAGGCCCCGAAGC"] = 0.1;
 
-	Pop.setPopAlleles(alleles);
-	Pop.setSize(1000);
 	std::vector<double> fit(5, 0);
-	Pop.setFitness(fit);
+	Population Pop(alleles, 1000, fit);
 
 	std::map<char, size_t> init_map;
 	init_map['A'] = 0;
@@ -304,21 +299,22 @@ TEST(Mutation, modelMut)
 
 TEST(Mutations, delta_and_mu)
 {
-	std::vector<Population> pop1(40);
-	std::vector<Population> pop2(40);
-
-	size_t size_pop(800);
 	double sum_inf, sum_sup, sum_inf2, sum_sup2;
 	Alleles alleles;
 	alleles["GCG"] = 1;
+	std::vector<double> fit(alleles.size(),0);
+	std::vector<Population> pop1;
+	std::vector<Population> pop2;
+	pop1.reserve(40);
+	pop2.reserve(40);
 
 	std::vector<std::pair<size_t, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 	std::vector<std::pair<size_t, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 
 	for (size_t i(0); i < 20; ++i)
 	{
-		pop1[i].setPopAlleles(alleles);
-		pop1[i].setSize(size_pop);
+		Population pop(alleles,800,fit);
+		pop1.push_back(pop);
 		pop2[i] = pop1[i];
 
 		pop1[i].mutation(marks, 0.4); //big delta means : when G mutates there are more A than C,T
@@ -330,8 +326,8 @@ TEST(Mutations, delta_and_mu)
 
 	for (size_t i(21); i < 40; ++i)
 	{
-		pop1[i].setPopAlleles(alleles);
-		pop1[i].setSize(size_pop);
+		Population pop(alleles,800,fit);
+		pop1.push_back(pop);
 		pop2[i] = pop1[i];
 
 		pop1[i].mutation(marks, 0.01); //small delta means : when G mutates there are less A than C,T

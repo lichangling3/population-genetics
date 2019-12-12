@@ -4,15 +4,15 @@
 
 Display::Display() {}
 
-void Display::displayGen(Population pop, std::ofstream &write)
+void Display::displayGen(const Population& pop, std::ofstream &write)
 {
 	if (write.is_open())
 	{
+		write << "\t";
 		for (auto x : pop.getpopAlleles())
 		{
 			write << x.second << "|";
 		}
-		write << std::right << std::setw(3);
 	}
 	else
 	{
@@ -20,15 +20,15 @@ void Display::displayGen(Population pop, std::ofstream &write)
 	}
 }
 
-void Display::displayAll(Population pop, std::ofstream &write)
+void Display::displayAll(const Population& pop, std::ofstream &write)
 {
 	if (write.is_open())
 	{
+		write << "\t";
 		for (auto x : pop.getpopAlleles())
 		{
 			write << x.first << "|";
 		}
-		write << std::right << std::setw(5);
 	}
 	else
 	{

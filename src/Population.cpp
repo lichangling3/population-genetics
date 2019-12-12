@@ -1,22 +1,23 @@
 #include "Population.h"
 
-void Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_)
+Population::Population(const Alleles& popAlleles_, size_t size_, const std::vector<double>& fitness_)
+:popAlleles(popAlleles_), size(size_), fitness(fitness_)
+{}
+
+Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_)
 {
+	Alleles alleles;
 	for (size_t i(0); i < nb_alleles; ++i)
 	{
 		std::string key = std::to_string(i + 1);
-		popAlleles[key] = nb_freq_[i];
+		alleles[key] = nb_freq_[i];
 	}
+	return alleles;
 }
 
 void Population::setWithFile(const Alleles& popAlleles_)
 {
 	popAlleles = popAlleles_;
-}
-
-void Population::setFitness(const std::vector<double>& new_fit)
-{
-	fitness = new_fit;
 }
 
 void Population::step()
@@ -81,14 +82,4 @@ char Population::modelMut(char base, double delta)
 		return b2;
 	else
 		return b3;
-}
-
-void Population::setSize(size_t size_)
-{
-	size = size_;
-}
-
-void Population::setPopAlleles(const std::map<std::string, double>& map)
-{
-	popAlleles = map;
 }

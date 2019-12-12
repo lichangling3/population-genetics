@@ -31,12 +31,7 @@ public:
   The additional parameters are the standard parameters of these distributions.
  */
   ///@{
-  void uniform_double(std::vector<double> &, double lower = 0, double upper = 1);
   double uniform_double(double lower = 0, double upper = 1);
-  void normal(std::vector<double> &, double mean = 0, double sd = 1);
-  double normal(double mean = 0, double sd = 1);
-  void poisson(std::vector<int> &, double mean = 1);
-  int poisson(double mean = 1);
   size_t binomial(int n, double p);
   ///@}
 
@@ -47,15 +42,8 @@ public:
   \param fitness_ fitness coefficients used for natural selection (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)
   \return new frequencies, randomly generated using a combination of binomial
   */
-  std::vector<double> multinomial(int N, std::vector<double> n_frequence, std::vector<double> fitness_);
+  std::vector<double> multinomial(int N, std::vector<double> n_frequence, const std::vector<double>& fitness_);
   /*! @name Auxiliary function
-  This takes a vector of indices and re-orders it randomly.
- */
-  ///@{
-  void shuffle(std::vector<size_t> &_v) { std::shuffle(_v.begin(), _v.end(), rng); }
-  ///@}
-
-  /*! 
   Generates a random number between 1 and 4 using the normal distribution \return std::string a different letter for each number
  */
   ///@{
