@@ -97,6 +97,7 @@ int main(int argc, char **argv)
 		std::vector<double> new_fit;
 		std::vector<double> mutations;
 		std::vector<size_t> mutation_sites;
+		bool isMutation(false);
 
 		if (file_name.isSet())
 		{
@@ -140,6 +141,7 @@ int main(int argc, char **argv)
 			}
 			if (mu_sites.isSet() && mu.isSet())
 			{
+				isMutation = true;
 				bool match(false);
 				for (size_t i(0); i < mu_sites.getValue().size(); ++i)
 				{
@@ -202,7 +204,7 @@ int main(int argc, char **argv)
 				mutation_sites.push_back(0);
 			}
 
-			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue());
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation);
 			sim.run();
 		}
 		else if (!file_name.isSet())

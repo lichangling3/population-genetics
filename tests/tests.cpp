@@ -122,7 +122,7 @@ TEST(GlobalTest, SmallTest)
 		throw("Error with display.txt file " and e.what());
 	}
 	//with fasta file
-	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0);
+	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false);
 	sim_file.run();
 	try
 	{

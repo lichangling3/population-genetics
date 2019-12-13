@@ -45,7 +45,7 @@ public:
   \see Population::setSize (size_t)
   \see Population::setWithFile (Alleles)
  */
-  Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<size_t> sites, double delta_);
+  Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<size_t> sites, double delta_, bool isMutation_);
 
   /// Method that runs the simulation itself
   /*! This method calls Display to show the evolution of a number of \typedef Alleles in a Population.
@@ -71,6 +71,9 @@ private:
   size_t repetitions;
   ///file to which the output will be written
   std::ofstream my_flow;
+  
+  ///boolean to see if mutations occur
+  bool isMutation;
 };
 
 #endif

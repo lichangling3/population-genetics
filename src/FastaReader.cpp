@@ -11,7 +11,6 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
         std::ifstream confstr(file_to_read);
         if (confstr.is_open())
         {
-            RandomNumbers random;
             std::sort(marks.begin(), marks.end());
             std::string line, id, genome, combination;
             while (std::getline(confstr, line))
@@ -32,7 +31,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                         {
                             if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
                             {
-                                combination += random.randomLetter();
+                                combination += _RNG->randomLetter();
                             }
                             else
                             {
@@ -63,7 +62,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                 {
                     if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
                     {
-                        combination += random.randomLetter();
+                        combination += _RNG->randomLetter();
                     }
                     else
                     {
