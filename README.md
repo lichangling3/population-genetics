@@ -20,7 +20,7 @@ III. How to execute the program
 
 	You have two possible ways to perform the simulation : with our without a fasta file.
   
-If you do not want to work with a fasta file you need to enter all the factors the simulation needs. : 
+If you do not want to work with a fasta file you need to enter all the factors the simulation needs :  
     • The time of simulation or the number of generations with -T (default value : 10)                          
     • The number of repetitions of the simulation with -R (default value : 2)                                      
     • The size of the population with -N (default value : 100)                                                                      
