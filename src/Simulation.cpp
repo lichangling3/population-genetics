@@ -21,8 +21,8 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 	{
 		marks_mu.push_back(std::make_pair(sites[i], mu[i]));
 	}
-	size_t size_ (FastaReader::size(nb_marks, file_name_));
-	
+	size_t size_(FastaReader::size(nb_marks, file_name_));
+
 	populations.reserve(repetitions);
 	for (size_t i(0); i < repetitions; ++i)
 	{
@@ -34,7 +34,8 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 
 void Simulation::run()
 {
-	if(my_flow.is_open()) {
+	if (my_flow.is_open())
+	{
 		size_t gen_counter = 0;
 		for (size_t j(0); j < sim_duration + 1; ++j)
 		{
@@ -44,7 +45,8 @@ void Simulation::run()
 			{
 				Display::displayGen(population, my_flow);
 				population.step();
-				if (isMutation) {
+				if (isMutation)
+				{
 					population.mutation(marks_mu, delta);
 				}
 			}
@@ -55,7 +57,8 @@ void Simulation::run()
 			Display::displayAll(population, my_flow);
 		}
 	}
-	else {
+	else
+	{
 		std::cerr << "error while opening text file" << std::endl;
 	}
 	my_flow.close();

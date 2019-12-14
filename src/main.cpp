@@ -164,14 +164,15 @@ int main(int argc, char **argv)
 					{
 						mutation_sites.push_back(site);
 					}
-					for (auto mu_coeff : mu) {
+					for (auto mu_coeff : mu)
+					{
 						mutations.push_back(mu_coeff);
 					}
 				}
 			}
-			
-			std::map<std::string, double> retrieveAlleles= FastaReader::retrieveData(marks.getValue(), file_name.getValue());
-			
+
+			std::map<std::string, double> retrieveAlleles = FastaReader::retrieveData(marks.getValue(), file_name.getValue());
+
 			if (fit.isSet())
 			{
 				if ((fit.getValue()).size() > retrieveAlleles.size())
@@ -192,7 +193,6 @@ int main(int argc, char **argv)
 			}
 			else if (!fit.isSet())
 			{
-								
 				for (size_t i(0); i < retrieveAlleles.size(); ++i)
 				{
 					new_fit.push_back(0.0);

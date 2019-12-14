@@ -22,14 +22,14 @@ public:
   \param pop (Population): population where the alleles and their frequencies can be found.
   \param write (std::ofstream&): ofstream where the frequencies will be written.
  */
-  static void displayGen(const Population& pop, std::ofstream &write);
+  static void displayGen(const Population &pop, std::ofstream &write);
 
   /*! 
   Displays the code of all the alleles of Population. 
   \param pop (Population): population where the alleles and their frequencies can be found.
   \param write (std::ofstream&): ofstream where the frequencies will be written.
  */
-  static void displayAll(const Population& pop, std::ofstream &write);
+  static void displayAll(const Population &pop, std::ofstream &write);
 };
 
 #endif

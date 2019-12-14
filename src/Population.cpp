@@ -1,10 +1,11 @@
 #include "Population.h"
 
-Population::Population(const Alleles& popAlleles_, size_t size_, const std::vector<double>& fitness_)
-:popAlleles(popAlleles_), size(size_), fitness(fitness_)
-{}
+Population::Population(const Alleles &popAlleles_, size_t size_, const std::vector<double> &fitness_)
+	: popAlleles(popAlleles_), size(size_), fitness(fitness_)
+{
+}
 
-Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_)
+Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double> &nb_freq_)
 {
 	Alleles alleles;
 	for (size_t i(0); i < nb_alleles; ++i)
@@ -14,7 +15,6 @@ Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_
 	}
 	return alleles;
 }
-
 
 void Population::step()
 {
@@ -34,7 +34,7 @@ void Population::step()
 	}
 }
 
-void Population::mutation(const std::vector<std::pair<size_t, double>>& marks, double delta)
+void Population::mutation(const std::vector<std::pair<size_t, double>> &marks, double delta)
 {
 	for (size_t i(0); i < marks.size(); ++i)
 	{

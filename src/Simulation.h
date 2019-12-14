@@ -75,7 +75,7 @@ private:
   size_t repetitions;
   ///file to which the output will be written
   std::ofstream my_flow;
-  
+
   ///boolean to see if mutations occur
   bool isMutation;
 };

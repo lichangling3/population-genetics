@@ -15,22 +15,22 @@ typedef std::map<std::string, double> Alleles;
 class Population
 {
 public:
-/*! @name Initializing
+	/*! @name Initializing
   The constructor sets the parameter values to the corresponding attributes.
   \param popAlleles_
   \param size_
   \param fitness_
 */
 	///@{
-	Population(const Alleles& popAlleles_, size_t size_, const std::vector<double>& fitness_);
+	Population(const Alleles &popAlleles_, size_t size_, const std::vector<double> &fitness_);
 
-/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
+	/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
 	 \param nb_freq_  frequencies of alleles
 	 \param nb_alleles: number of alleles
 */
-	static Alleles setAlleles(size_t nb_alleles, const std::vector<double>& nb_freq_);
+	static Alleles setAlleles(size_t nb_alleles, const std::vector<double> &nb_freq_);
 
-/// @name Getters
+	/// @name Getters
 	///@{
 	size_t getSize() const { return size; };
 	size_t getAllelesSize() const { return popAlleles.size(); };
@@ -52,7 +52,7 @@ public:
 	\param marks (std::vector<std::pair<size_t, double>>): mark and the corresponding mutation rate
 	\param delta (double): used to calculate mutation probabilities (see mainpage)
 */
-	void mutation(const std::vector<std::pair<size_t, double>>& marks, double delta);
+	void mutation(const std::vector<std::pair<size_t, double>> &marks, double delta);
 
 	/*! Changes a base to another, each of the other bases having a probability depending on delta.
 	 \param base the base that needs to be mutated

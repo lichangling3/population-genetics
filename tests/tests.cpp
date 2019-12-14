@@ -6,12 +6,14 @@
 #include "Display.h"
 RandomNumbers *_RNG;
 
-TEST(FastaReader, retrieveData) {
+TEST(FastaReader, retrieveData)
+{
 	std::map<std::string, double> freq_received = FastaReader::retrieveData({9, 1, 25, 0}, "../tests/test_for_retrieveData.fasta");
 	std::map<std::string, double>::const_iterator i;
 	double sum;
-	for (i = freq_received.begin(); i != freq_received.end(); ++i) {
-		EXPECT_TRUE(i->first.substr(1,3) == "AA" || "TT");
+	for (i = freq_received.begin(); i != freq_received.end(); ++i)
+	{
+		EXPECT_TRUE(i->first.substr(1, 3) == "AA" || "TT");
 		EXPECT_TRUE(i->first[3] == 'A' || 'T' || 'C' || 'G');
 		EXPECT_TRUE(i->first[0] == 'A' || 'T' || 'C' || 'G');
 		sum += i->second;
@@ -20,30 +22,41 @@ TEST(FastaReader, retrieveData) {
 	EXPECT_DOUBLE_EQ(1.0, sum);
 }
 
-TEST(FastaReader, size) {
+TEST(FastaReader, size)
+{
 	EXPECT_EQ(FastaReader::size({1, 2}, "../tests/test_for_retrieveData.fasta"), 4);
 }
 
-TEST(FastaReader, retrieveDataError) {
+TEST(FastaReader, retrieveDataError)
+{
 	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::string);
 	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../tests/test_for_retrieveDataError.fasta"), std::runtime_error);
 }
 
-TEST(Random, randomLetter) {
+TEST(Random, randomLetter)
+{
 	int A = 0;
 	int C = 0;
 	int T = 0;
 	int G = 0;
 	std::string nucleotide;
-	for (int i = 0; i < 1000; ++i) {
+	for (int i = 0; i < 1000; ++i)
+	{
 		nucleotide = _RNG->randomLetter();
-		if (nucleotide == "A") {
+		if (nucleotide == "A")
+		{
 			++A;
-		} else if (nucleotide == "C") {
+		}
+		else if (nucleotide == "C")
+		{
 			++C;
-		} else if (nucleotide == "T") {
+		}
+		else if (nucleotide == "T")
+		{
 			++T;
-		} else if (nucleotide == "G") {
+		}
+		else if (nucleotide == "G")
+		{
 			++G;
 		}
 	}
@@ -51,7 +64,7 @@ TEST(Random, randomLetter) {
 	EXPECT_NEAR(C, 250, 63);
 	EXPECT_NEAR(T, 250, 63);
 	EXPECT_NEAR(G, 250, 63);
-	EXPECT_EQ(A+C+T+G, 1000);
+	EXPECT_EQ(A + C + T + G, 1000);
 }
 
 TEST(Random, multinomial)
@@ -84,7 +97,7 @@ TEST(Display, displayGen)
 		std::string s = std::to_string(i);
 		alleles[s] = (i / 10);
 	}
-	std::vector<double> fit(alleles.size(),0);
+	std::vector<double> fit(alleles.size(), 0);
 	Population pop(alleles, 1, fit);
 	Display::displayGen(pop, my_flow);
 	std::vector<std::string> split;
@@ -151,9 +164,9 @@ TEST(GlobalTest, SmallTest)
 	{
 		throw("Error with display.txt file " and e.what());
 	}
-	//with fasta file
 
-	std::map<std::string, double> all= FastaReader::retrieveData({1, 3, 6}, "../tests/test_for_retrieveData.fasta");
+	//with fasta file
+	std::map<std::string, double> all = FastaReader::retrieveData({1, 3, 6}, "../tests/test_for_retrieveData.fasta");
 	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all);
 	sim_file.run();
 	try
@@ -217,7 +230,7 @@ TEST(mutation, new_frequencies)
 
 	int init_size(alleles.size());
 
-	std::vector<double> fit(alleles.size(),0);
+	std::vector<double> fit(alleles.size(), 0);
 	Population Pop(alleles, 800, fit);
 	Pop.mutation(marks, 1. / 3);
 
@@ -334,20 +347,22 @@ TEST(Mutations, delta_and_mu)
 	double sum_inf, sum_sup, sum_inf2, sum_sup2;
 	Alleles alleles;
 	alleles["GCG"] = 1;
-	std::vector<double> fit(alleles.size(),0);
+	std::vector<double> fit(alleles.size(), 0);
 	std::vector<Population> pop1;
 	std::vector<Population> pop2;
 	pop1.reserve(40);
 	pop2.reserve(40);
-	for (size_t i(0); i < 40; ++i) {
-		Population pop(alleles,800,fit);
+	for (size_t i(0); i < 40; ++i)
+	{
+		Population pop(alleles, 800, fit);
 		pop1.push_back(pop);
 		pop2.push_back(pop);
-	}	
+	}
 	std::vector<std::pair<size_t, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 	std::vector<std::pair<size_t, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 
-	for (size_t i(0); i < 20; ++i) {
+	for (size_t i(0); i < 20; ++i)
+	{
 		pop1[i].mutation(marks, 0.4); //big delta means : when G mutates there are more A than C,T
 		sum_sup += pop1[i].getpopAlleles()["ACG"];
 
@@ -355,7 +370,8 @@ TEST(Mutations, delta_and_mu)
 		sum_sup2 += pop2[i].getpopAlleles()["ACG"];
 	}
 
-	for (size_t i(21); i < 40; ++i) {
+	for (size_t i(21); i < 40; ++i)
+	{
 		pop1[i].mutation(marks, 0.01); //small delta means : when G mutates there are less A than C,T
 		sum_inf += pop1[i].getpopAlleles()["ACG"];
 
