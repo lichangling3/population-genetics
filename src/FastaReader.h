@@ -34,20 +34,22 @@ public:
 
   /*! Retrieves the size of the Population in the provided Fasta file.
   \param marks (vector<size_t>): divide the alleles of the file 
-  \param file_to_read name (string): of the file 
+  \param file_to_read (string) name of the file 
   \return population size.
 */
   static size_t size(std::vector<size_t> marks, const std::string file_to_read);
 
-  /*! @name Private functions
-  These functions are used by retrieveData and size. They should not be used outside of the class.
+  /*! @name Private function
+  This function is used by retrieveData and size. It should not be used outside of the class.
  */
 private:
   /*! 
-  Reads the provided Fasta file and returns a string containing all alleles in the provided file. In case the file contains an undefined nucleotide (N), it is replaced by a random nucleotide using \ref randomNucleotide.
+  Reads the provided Fasta file and returns a string containing all alleles in the provided file. 
+  In case the file contains an undefined nucleotide (N), it is replaced by a random nucleotide using RandomNumbers::randomLetter().
   \param marks (vector<size_t>):  marks demarcating the alleles.
   \param file_to_read (string): name of the Fasta file containing the data.
   \return a string containing all alleles in the provided file, all in capital letters and without spaces.
+  \see RandomNumbers::randomLetter()
   */
   static std::vector<std::string> readFile(std::vector<size_t> marks, const std::string file_to_read);
 };

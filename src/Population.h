@@ -16,7 +16,10 @@ class Population
 {
 public:
 /*! @name Initializing
-  The constructor does not need any arguments and is empty as attributes will be assigned in other functions.
+  The constructor sets the parameter values to the corresponding attributes.
+  \param popAlleles_
+  \param size_
+  \param fitness_
 */
 	///@{
 	Population(const Alleles& popAlleles_, size_t size_, const std::vector<double>& fitness_);
@@ -46,9 +49,8 @@ public:
 	///@name Mutation functions
 	///@{
 	/*! Mutates all alleles that need to be mutated according to user's input.
-  This function uses one of the model mut function depending on the provided parameters.
-  \param marks mark and the corresponding mutation rate
-  \param delta optionnal parameter, depending on the chosen mutation model
+	\param marks (std::vector<std::pair<size_t, double>>): mark and the corresponding mutation rate
+	\param delta (double): used to calculate mutation probabilities (see mainpage)
 */
 	void mutation(const std::vector<std::pair<size_t, double>>& marks, double delta);
 
