@@ -18,18 +18,18 @@ Alleles Population::setAlleles(size_t nb_alleles, const std::vector<double>& nb_
 
 void Population::step()
 {
-	std::vector<double> start;
-	std::vector<double> end(popAlleles.size(),0);
-	start.reserve(popAlleles.size());
+	std::vector<double> vec;
+	vec.reserve(popAlleles.size());
 	size_t i(0);
 	for (Alleles::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
 	{
-		start.push_back(it->second);
+		vec.push_back(it->second);
 	}
-	end = _RNG->multinomial(size, start, fitness);
+
+	vec = _RNG->multinomial(size, vec, fitness);
 	for (Alleles::iterator it = popAlleles.begin(); it != popAlleles.end(); ++it)
 	{
-		it->second = end[i];
+		it->second = vec[i];
 		++i;
 	}
 }

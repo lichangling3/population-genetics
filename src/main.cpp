@@ -169,9 +169,12 @@ int main(int argc, char **argv)
 					}
 				}
 			}
+			
+			std::map<std::string, double> retrieveAlleles= FastaReader::retrieveData(marks.getValue(), file_name.getValue());
+			
 			if (fit.isSet())
 			{
-				if ((fit.getValue()).size() > FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size())
+				if ((fit.getValue()).size() > retrieveAlleles.size())
 				{
 					throw std::runtime_error("The number of fitness coefficients should not exceed the number of alleles");
 				}
@@ -189,7 +192,8 @@ int main(int argc, char **argv)
 			}
 			else if (!fit.isSet())
 			{
-				for (size_t i(0); i < FastaReader::retrieveData(marks.getValue(), file_name.getValue()).size(); ++i)
+								
+				for (size_t i(0); i < retrieveAlleles.size(); ++i)
 				{
 					new_fit.push_back(0.0);
 				}
@@ -204,7 +208,7 @@ int main(int argc, char **argv)
 				mutation_sites.push_back(0);
 			}
 
-			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation);
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles);
 			sim.run();
 		}
 		else if (!file_name.isSet())

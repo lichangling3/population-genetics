@@ -122,7 +122,9 @@ TEST(GlobalTest, SmallTest)
 		throw("Error with display.txt file " and e.what());
 	}
 	//with fasta file
-	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false);
+
+	std::map<std::string, double> all= FastaReader::retrieveData({1, 3, 6}, "../tests/test_for_retrieveData.fasta");
+	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all);
 	sim_file.run();
 	try
 	{

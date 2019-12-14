@@ -14,7 +14,7 @@ Simulation::Simulation(size_t pop_size_, size_t sim_duration_, size_t nb_alleles
 	my_flow = std::ofstream("display.txt");
 }
 
-Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<size_t> sites, double delta_, bool isMutation_)
+Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<size_t> sites, double delta_, bool isMutation_, Alleles alleles)
 	: sim_duration(sim_duration_), nb_marks(nb_marks_), delta(delta_), repetitions(repetitions_), isMutation(isMutation_)
 {
 	for (size_t i(0); i < sites.size(); ++i)
@@ -22,7 +22,7 @@ Simulation::Simulation(std::string file_name_, std::vector<size_t> nb_marks_, si
 		marks_mu.push_back(std::make_pair(sites[i], mu[i]));
 	}
 	size_t size_ (FastaReader::size(nb_marks, file_name_));
-	Alleles alleles (FastaReader::retrieveData(nb_marks, file_name_));
+	
 	populations.reserve(repetitions);
 	for (size_t i(0); i < repetitions; ++i)
 	{
