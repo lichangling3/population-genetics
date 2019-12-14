@@ -39,8 +39,8 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                             }
                         }
                         all_combinations.push_back(combination);
-                        combination.clear();
-                        genome.clear();
+                        std::string().swap(combination);
+                        std::string().swap(genome);
                     }
                 }
                 else if (!id.empty())
@@ -70,10 +70,10 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     }
                 }
                 all_combinations.push_back(combination);
-                combination.clear();
-                genome.clear();
-                id.clear();
-                line.clear();
+                std::string().swap(combination);
+                std::string().swap(genome);
+                std::string().swap(id);
+                std::string().swap(line);
             }
             confstr.close();
             return all_combinations;
@@ -100,6 +100,7 @@ std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> mark
     {
         alleles_freq[all_combinations_[i]] += init_freq;
     }
+    std::vector<std::string>().swap(all_combinations_);
     return alleles_freq;
 }
 

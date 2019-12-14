@@ -6,22 +6,52 @@
 #include "Display.h"
 RandomNumbers *_RNG;
 
-TEST(readFileTest, retrieveData)
-{
-	std::map<std::string, double> freq_received = FastaReader::retrieveData({1, 3, 9}, "../tests/test_for_retrieveData.fasta");
-	std::map<std::string, double> freq_test;
-	freq_test["ACA"] = 0.25;
-	freq_test["AGA"] = 0.25;
-	freq_test["TGT"] = 0.5;
-	size_t N_test = 4;
-
-	std::map<std::string, double>::const_iterator i, j;
-	for (i = freq_received.begin(), j = freq_test.begin(); j != freq_test.end(); ++i, ++j)
-	{
-		EXPECT_EQ(i->first, j->first);
-		EXPECT_DOUBLE_EQ(i->second, j->second);
+TEST(FastaReader, retrieveData) {
+	std::map<std::string, double> freq_received = FastaReader::retrieveData({9, 1, 25, 0}, "../tests/test_for_retrieveData.fasta");
+	std::map<std::string, double>::const_iterator i;
+	double sum;
+	for (i = freq_received.begin(); i != freq_received.end(); ++i) {
+		EXPECT_TRUE(i->first.substr(1,3) == "AA" || "TT");
+		EXPECT_TRUE(i->first[3] == 'A' || 'T' || 'C' || 'G');
+		EXPECT_TRUE(i->first[0] == 'A' || 'T' || 'C' || 'G');
+		sum += i->second;
 	}
-	EXPECT_EQ(N_test, FastaReader::size({1, 3, 9}, "../tests/test_for_retrieveData.fasta"));
+	freq_received.clear();
+	EXPECT_DOUBLE_EQ(1.0, sum);
+}
+
+TEST(FastaReader, size) {
+	EXPECT_EQ(FastaReader::size({1, 2}, "../tests/test_for_retrieveData.fasta"), 4);
+}
+
+TEST(FastaReader, retrieveDataError) {
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::string);
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../tests/test_for_retrieveDataError.fasta"), std::runtime_error);
+}
+
+TEST(Random, randomLetter) {
+	int A = 0;
+	int C = 0;
+	int T = 0;
+	int G = 0;
+	std::string nucleotide;
+	for (int i = 0; i < 1000; ++i) {
+		nucleotide = _RNG->randomLetter();
+		if (nucleotide == "A") {
+			++A;
+		} else if (nucleotide == "C") {
+			++C;
+		} else if (nucleotide == "T") {
+			++T;
+		} else if (nucleotide == "G") {
+			++G;
+		}
+	}
+	EXPECT_NEAR(A, 250, 63);
+	EXPECT_NEAR(C, 250, 63);
+	EXPECT_NEAR(T, 250, 63);
+	EXPECT_NEAR(G, 250, 63);
+	EXPECT_EQ(A+C+T+G, 1000);
 }
 
 TEST(Random, multinomial)
