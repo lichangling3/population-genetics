@@ -40,11 +40,11 @@
   
   When run with a Fasta file, the programm can also simulate natural selection. To add this phenomenon,
   provide a fitness coefficient for each allele  \b in the order you entered them. Mutations can also be introduced 
-  when a Fasta file is provided. To produce them, provide a mutation rate and the corresponding marker for every site be mutated.
-  The order of mutation rates should match that of the marks.The marks without mutation rates will not be mutated. The chances of being mutated
+  when a Fasta file is provided. To produce them, provide a mutation rate and the corresponding marker for every site be mutated, as well as a default mutation rate.
+  The order of mutation rates should match that of the marks. The chances of being mutated
   to one nucleotide or another are proportional to a number delta if using the Kimura model (see below).
   \verbatim
-  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12 -d 2/3
+  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12 -d 2/3 -D 1.8e-20
   \endverbatim
   Mutations are either based on the Jukes-Cantor or on the Kimura model. \n
   [(Jukes-Cantor model of DNA substition)](https://www.megasoftware.net/web_help_7/hc_jukes_cantor_distance.htm) \n
@@ -82,6 +82,8 @@ int main(int argc, char **argv)
 		cmd.add(fit);
 		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1 / 3, "double");
 		cmd.add(delta);
+		TCLAP::ValueArg<double> mu_default ("D", "default_rate", "Mutation rate by default", false, 0.0, "double");
+		cmd.add(mu_default);
 
 		cmd.parse(argc, argv);
 
@@ -123,6 +125,10 @@ int main(int argc, char **argv)
 				{
 					throw std::runtime_error("Please set mutation rates for provided mutation sites");
 				}
+				else if (!(mu_sites.isSet()) and (mu_default.isSet()))
+				{
+					throw std::runtime_error("Please set mutation rates");
+				}
 				else
 				{
 					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
@@ -134,12 +140,28 @@ int main(int argc, char **argv)
 				{
 					throw std::runtime_error("Please provided mutation sites.");
 				}
+				else if (!mu_default.isSet())
+				{
+					throw std::runtime_error ("Please set a default mutation rate");
+				}	
 				else if (mu.getValue().size() != (mu_sites.getValue().size()))
 				{
 					throw std::runtime_error("The number of mutation rates should matches the number of mutation sites");
 				}
 			}
-			if (mu_sites.isSet() && mu.isSet())
+			if (mu_default.isSet())
+			{
+				if (!mu.isSet())
+				{
+					throw std::runtime_error ("Please set non-default mutation rates");
+				}
+				if (!mu_sites.isSet())
+				{
+					throw std::runtime_error("Please provided mutation sites.");
+				}
+			}
+				
+			if (mu_sites.isSet() && mu.isSet() && mu_default.isSet())
 			{
 				isMutation = true;
 				bool match(false);
