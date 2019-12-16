@@ -61,28 +61,28 @@ int main(int argc, char **argv)
 	{
 		TCLAP::CmdLine cmd("Population definition");
 
-		TCLAP::ValueArg<size_t> duration("T", "time", "Simulation's duration", false, 10, "size_t");
+		TCLAP::ValueArg<int> duration("T", "time", "Simulation's duration", false, 10, "size_t");
 		cmd.add(duration);
-		TCLAP::ValueArg<size_t> repeat("R", "repeat", "Number of repetitions of simulation", false, 2, "size_t");
+		TCLAP::ValueArg<int> repeat("R", "repeat", "Number of repetitions of simulation", false, 2, "size_t");
 		cmd.add(repeat);
-		TCLAP::ValueArg<size_t> nsample("N", "population_size", "Number of individuals", false, 100, "size_t");
+		TCLAP::ValueArg<int> nsample("N", "population_size", "Number of individuals", false, 100, "size_t");
 		cmd.add(nsample);
-		TCLAP::ValueArg<size_t> number_alleles("A", "number_of_alleles", "Number of alleles", false, 2, "size_t");
+		TCLAP::ValueArg<int> number_alleles("A", "number_of_alleles", "Number of alleles", false, 2, "size_t");
 		cmd.add(number_alleles);
 		TCLAP::ValueArg<std::string> file_name("F", "file_name", "Name of the FASTA file", false, "../tests/test_for_retrieveData.fasta", "string");
 		cmd.add(file_name);
 		TCLAP::MultiArg<double> freq("f", "frequences", "Initial frequences of the alleles", false, "double");
-		TCLAP::MultiArg<size_t> marks("m", "marks", "Sequence positions when FASTA file provided", false, "size_t");
+		TCLAP::MultiArg<int> marks("m", "marks", "Sequence positions when FASTA file provided", false, "size_t");
 		cmd.xorAdd(marks, freq);
-		TCLAP::MultiArg<double> mu("M", "mutation", "Mutation rate (<=1), please specifiy mutation sites", false, "double");
+		TCLAP::MultiArg<double> mu("M", "mutation", "Mutation rate (<=1.0), please specifiy mutation sites", false, "double");
 		cmd.add(mu);
-		TCLAP::MultiArg<size_t> mu_sites("s", "mutation_site", "Mutation sites (should be the same as marks)", false, "size_t");
+		TCLAP::MultiArg<int> mu_sites("s", "mutation_site", "Mutation sites (should be the same as marks)", false, "size_t");
 		cmd.add(mu_sites);
 		TCLAP::MultiArg<double> fit("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)", false, "double");
 		cmd.add(fit);
 		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1 / 3, "double");
 		cmd.add(delta);
-		TCLAP::ValueArg<double> mu_default ("D", "default_rate", "Mutation rate by default", false, 0.0, "double");
+		TCLAP::ValueArg<double> mu_default ("D", "default_rate", "Mutation rate by default (should be between 0.0 and 1.0)", false, 0.0, "double");
 		cmd.add(mu_default);
 
 		cmd.parse(argc, argv);
@@ -91,21 +91,39 @@ int main(int argc, char **argv)
 		{
 			throw std::runtime_error("Simulation duration needed");
 		}
+		else if (duration.isSet() && duration.getValue() < 0)
+		{
+			throw std::runtime_error ("Simulation's duration should be positive");
+		}
 		if (!repeat.isSet())
 		{
 			throw std::runtime_error("Number of repetitions of simulation needed");
 		}
+		else if (repeat.isSet() && repeat.getValue() < 0)
+		{
+			throw std::runtime_error ("Number of repetitions should be positive");
+		}
 
 		std::vector<double> new_fit;
 		std::vector<double> mutations;
-		std::vector<size_t> mutation_sites;
+		std::vector<int> mutation_sites;
 		bool isMutation(false);
 
 		if (file_name.isSet())
 		{
 			if (!marks.isSet())
 			{
-				throw std::runtime_error("Provide marks, frequencies not needed");
+				throw std::runtime_error("Provide marks");
+			}
+			else if (marks.isSet())
+			{
+				for (auto site : marks)
+				{
+					if (site <= 0.0)
+					{
+						throw std::runtime_error ("Marks should be positive");
+					}
+				}
 			}
 			else if (nsample.isSet())
 			{
@@ -148,6 +166,17 @@ int main(int argc, char **argv)
 				{
 					throw std::runtime_error("The number of mutation rates should matches the number of mutation sites");
 				}
+				for (auto mu_coeff : mu.getValue())
+				{
+					if (mu_coeff < 0.0)
+					{
+						throw std::runtime_error ("Mutation rates should be positive");
+					}
+					else if (mu_coeff > 1.0)
+					{
+						throw std::runtime_error ("Mutation rates should not be bigger than 1");
+					}
+				}
 			}
 			if (mu_default.isSet())
 			{
@@ -158,6 +187,14 @@ int main(int argc, char **argv)
 				if (!mu_sites.isSet())
 				{
 					throw std::runtime_error("Please provided mutation sites.");
+				}
+				if (mu_default.getValue() < 0)
+				{
+					throw std::runtime_error ("Default mutation rate should be positive");
+				}
+				else if (mu_default.getValue() > 1)
+				{
+					throw std::runtime_error ("Default mutation rate should not exceed 1");
 				}
 			}
 				
@@ -235,6 +272,7 @@ int main(int argc, char **argv)
 		}
 		else if (!file_name.isSet())
 		{
+			int freq_size = freq.getValue().size();
 			if (marks.isSet())
 			{
 				throw std::runtime_error("Provide frequences, marks not needed");
@@ -243,11 +281,19 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("Initial frequences of each allele needed");
 			}
+			else if (nsample.getValue() < 0)
+			{
+				throw std::runtime_error ("Sample size should be positive");
+			}
 			else if (nsample.getValue() < number_alleles.getValue())
 			{
 				throw std::runtime_error("There are too many alleles compared to the size of population");
 			}
-			else if (number_alleles.getValue() != (freq.getValue()).size())
+			else if (number_alleles.getValue() < 0)
+			{
+				throw std::runtime_error ("The number of alleles should be positive");
+			}
+			else if (number_alleles.getValue() != freq_size)
 			{
 				throw std::runtime_error("The number of alleles must be equal to the number of frequences provided");
 			}
@@ -269,7 +315,8 @@ int main(int argc, char **argv)
 				{
 					new_fit.push_back(coeff);
 				}
-				if ((fit.getValue()).size() != number_alleles.getValue())
+				size_t nb_alleles = number_alleles.getValue();
+				if ((fit.getValue()).size() != nb_alleles)
 				{
 					throw std::runtime_error("The number of fitness coefficients should match the number of alleles");
 				}
@@ -286,7 +333,7 @@ int main(int argc, char **argv)
 			}
 			else if (!fit.isSet())
 			{
-				for (size_t i(0); i < number_alleles.getValue(); ++i)
+				for (int i(0); i < number_alleles.getValue(); ++i)
 				{
 					new_fit.push_back(0.0);
 				}

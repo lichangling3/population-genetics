@@ -223,7 +223,7 @@ TEST(Random, multinomial_average_freq)
 TEST(mutation, new_frequencies)
 {
 	Alleles alleles;
-	std::vector<std::pair<size_t, double>> marks{std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3, 0.01)};
+	std::vector<std::pair<int, double>> marks{std::make_pair(1, 0.01), std::make_pair(2, 0.01), std::make_pair(3, 0.01)};
 	alleles["ACG"] = 0.2;
 	alleles["TCC"] = 0.3;
 	alleles["GAT"] = 0.5;
@@ -270,7 +270,7 @@ TEST(mutation, new_frequencies)
 TEST(Mutation, modelMut)
 {
 	Alleles alleles;
-	std::vector<std::pair<size_t, double>> marks;
+	std::vector<std::pair<int, double>> marks;
 	for (size_t i(1); i < 21; ++i)
 	{
 		marks.push_back(std::make_pair(i, 0.05));
@@ -284,7 +284,7 @@ TEST(Mutation, modelMut)
 	std::vector<double> fit(5, 0);
 	Population Pop(alleles, 1000, fit);
 
-	std::map<char, size_t> init_map;
+	std::map<char, int> init_map;
 	init_map['A'] = 0;
 	init_map['C'] = 0;
 	init_map['T'] = 0;
@@ -358,8 +358,8 @@ TEST(Mutations, delta_and_mu)
 		pop1.push_back(pop);
 		pop2.push_back(pop);
 	}
-	std::vector<std::pair<size_t, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
-	std::vector<std::pair<size_t, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
+	std::vector<std::pair<int, double>> marks{std::make_pair(0, 0.5), std::make_pair(1, 0.), std::make_pair(2, 0.)};
+	std::vector<std::pair<int, double>> marks2{std::make_pair(0, 0.001), std::make_pair(1, 0.), std::make_pair(2, 0.)};
 
 	for (size_t i(0); i < 20; ++i)
 	{

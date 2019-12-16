@@ -22,18 +22,18 @@ public:
   \param fitness_
 */
 	///@{
-	Population(const Alleles &popAlleles_, size_t size_, const std::vector<double> &fitness_);
+	Population(const Alleles &popAlleles_, int size_, const std::vector<double> &fitness_);
 
 	/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
 	 \param nb_freq_  frequencies of alleles
 	 \param nb_alleles: number of alleles
 */
-	static Alleles setAlleles(size_t nb_alleles, const std::vector<double> &nb_freq_);
+	static Alleles setAlleles(int nb_alleles, const std::vector<double> &nb_freq_);
 
 	/// @name Getters
 	///@{
-	size_t getSize() const { return size; };
-	size_t getAllelesSize() const { return popAlleles.size(); };
+	int getSize() const { return size; };
+	int getAllelesSize() const { return popAlleles.size(); };
 	Alleles getpopAlleles() const { return popAlleles; };
 	std::vector<double> getFitness() const { return fitness; };
 	///@}
@@ -52,7 +52,7 @@ public:
 	\param marks (std::vector<std::pair<size_t, double>>): mark and the corresponding mutation rate
 	\param delta (double): used to calculate mutation probabilities (see mainpage)
 */
-	void mutation(const std::vector<std::pair<size_t, double>> &marks, double delta);
+	void mutation(const std::vector<std::pair<int, double>> &marks, double delta);
 
 	/*! Changes a base to another, each of the other bases having a probability depending on delta.
 	 \param base the base that needs to be mutated
@@ -66,7 +66,7 @@ private:
 	///typedef of a map with a string as key (sequence) and a double as value (frequency)
 	Alleles popAlleles;
 	///size of the population
-	size_t size;
+	int size;
 
 	///the fitness coefficient of each allele. It is assumed that these coefficients correspond to the alleles of popAlleles (same order)
 	std::vector<double> fitness;

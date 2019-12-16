@@ -30,14 +30,14 @@ public:
     \return map of alleles and the corresponding initial frequency.
     \see readFile
   */
-  static std::map<std::string, double> retrieveData(std::vector<size_t> marks, const std::string file_to_read);
+  static std::map<std::string, double> retrieveData(std::vector<int> marks, const std::string file_to_read);
 
   /*! Retrieves the size of the Population in the provided Fasta file.
   \param marks (vector<size_t>): divide the alleles of the file 
   \param file_to_read (string) name of the file 
   \return population size.
 */
-  static size_t size(std::vector<size_t> marks, const std::string file_to_read);
+  static size_t size(std::vector<int> marks, const std::string file_to_read);
 
   /*! @name Private function
   This function is used by retrieveData and size. It should not be used outside of the class.
@@ -51,7 +51,7 @@ private:
   \return a string containing all alleles in the provided file, all in capital letters and without spaces.
   \see RandomNumbers::randomLetter()
   */
-  static std::vector<std::string> readFile(std::vector<size_t> marks, const std::string file_to_read);
+  static std::vector<std::string> readFile(std::vector<int> marks, const std::string file_to_read);
 };
 
 #endif //FASTAREADER_H
