@@ -29,7 +29,7 @@ public:
  \see Population::setAlleles (std::vector<double>,  size:t)
  \see Population::setFitness (std::vector<double>)
  */
-  Simulation(size_t pop_size_ = 100, size_t sim_duration_ = 10, size_t nb_alleles_ = 2, std::vector<double> nb_freq_ = std::vector<double>{0.8, 0.2}, size_t repetitions_ = 2, std::vector<double> new_fit = std::vector<double>{0.0, 0.0});
+  Simulation(int pop_size_ = 100, int sim_duration_ = 10, int nb_alleles_ = 2, std::vector<double> nb_freq_ = std::vector<double>{0.8, 0.2}, int repetitions_ = 2, std::vector<double> new_fit = std::vector<double>{0.0, 0.0});
 
   /*! 
   Constructor used when a Fasta fille is provided.
@@ -47,7 +47,8 @@ public:
   \see Population::setSize (size_t)
   \see Population::setWithFile (Alleles)
  */
-  Simulation(std::string file_name_, std::vector<size_t> nb_marks_, size_t sim_duration_, size_t repetitions_, std::vector<double> new_fit_, std::vector<double> mu, std::vector<size_t> sites, double delta_, bool isMutation_, Alleles alleles, double mu_default_);
+
+  Simulation(std::string file_name_, std::vector<int> nb_marks_, int sim_duration_, int repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<int> sites, double delta_, bool isMutation_, Alleles alleles, double mu_default_);
 
   /// Method that runs the simulation itself
   /*! This method calls Display to show the evolution of a number of alleles in a Population.
@@ -62,17 +63,17 @@ private:
   /// \see Population
   std::vector<Population> populations;
   ///length of the simulation
-  size_t sim_duration;
+  int sim_duration;
   ///marks of the alleles to read if Fasta file provided
-  std::vector<size_t> nb_marks;
+  std::vector<int> nb_marks;
   ///chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   double delta;
 
   /// a vector containg pairs of marks indexes (size_t) and the corresponding mutation rates
-  std::vector<std::pair<size_t, double>> marks_mu;
+  std::vector<std::pair<int, double>> marks_mu;
 
   ///number of generations in a population
-  size_t repetitions;
+  int repetitions;
   ///file to which the output will be written
   std::ofstream my_flow;
 

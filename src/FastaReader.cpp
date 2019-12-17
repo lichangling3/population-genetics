@@ -3,7 +3,7 @@
 
 FastaReader::FastaReader() {}
 
-std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const std::string file_to_read)
+std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std::string file_to_read)
 {
     std::vector<std::string> all_combinations;
     try
@@ -27,9 +27,10 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
                     }
                     if (!genome.empty())
                     {
+						int genome_size = genome.size();
                         for (size_t i(0); i < marks.size(); ++i)
                         {
-                            if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
+                            if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome_size)
                             {
                                 combination += _RNG->randomLetter();
                             }
@@ -58,9 +59,10 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
             }
             if (!genome.empty())
             {
+				int genome_size = genome.size();
                 for (size_t i(0); i < marks.size(); ++i)
                 {
-                    if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome.size())
+                    if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome_size)
                     {
                         combination += _RNG->randomLetter();
                     }
@@ -89,7 +91,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<size_t> marks, const 
     }
 }
 
-std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> marks, const std::string file_to_read)
+std::map<std::string, double> FastaReader::retrieveData(std::vector<int> marks, const std::string file_to_read)
 {
     std::map<std::string, double> alleles_freq;
     std::vector<std::string> all_combinations_ = readFile(marks, file_to_read);
@@ -104,7 +106,7 @@ std::map<std::string, double> FastaReader::retrieveData(std::vector<size_t> mark
     return alleles_freq;
 }
 
-size_t FastaReader::size(std::vector<size_t> marks, const std::string file_to_read)
+size_t FastaReader::size(std::vector<int> marks, const std::string file_to_read)
 {
     return readFile(marks, file_to_read).size();
 }
