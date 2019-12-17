@@ -167,7 +167,7 @@ TEST(GlobalTest, SmallTest)
 
 	//with fasta file
 	std::map<std::string, double> all = FastaReader::retrieveData({1, 3, 6}, "../tests/test_for_retrieveData.fasta");
-	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all);
+	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all, 0.0);
 	sim_file.run();
 	try
 	{

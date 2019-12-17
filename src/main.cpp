@@ -6,6 +6,8 @@
 #include <Display.h>
 #include <FastaReader.h>
 #include <iostream>
+#include <algorithm>
+
 
 /*!
   \mainpage Genetic drift dynamics
@@ -80,7 +82,7 @@ int main(int argc, char **argv)
 		cmd.add(mu_sites);
 		TCLAP::MultiArg<double> fit("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)", false, "double");
 		cmd.add(fit);
-		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1 / 3, "double");
+		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1./3, "double");
 		cmd.add(delta);
 		TCLAP::ValueArg<double> mu_default ("D", "default_rate", "Mutation rate by default", false, 0.0, "double");
 		cmd.add(mu_default);
@@ -125,11 +127,11 @@ int main(int argc, char **argv)
 				{
 					throw std::runtime_error("Please set mutation rates for provided mutation sites");
 				}
-				else if (!(mu_sites.isSet()) and (mu_default.isSet()))
+				/*else if (!mu_sites.isSet() && !mu_default.isSet())
 				{
 					throw std::runtime_error("Please set mutation rates");
-				}
-				else
+				}*/
+				else if (mu_default.isSet())
 				{
 					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
 				}
@@ -149,48 +151,34 @@ int main(int argc, char **argv)
 					throw std::runtime_error("The number of mutation rates should matches the number of mutation sites");
 				}
 			}
-			if (mu_default.isSet())
-			{
-				if (!mu.isSet())
-				{
-					throw std::runtime_error ("Please set non-default mutation rates");
-				}
-				if (!mu_sites.isSet())
-				{
-					throw std::runtime_error("Please provided mutation sites.");
-				}
-			}
 				
 			if (mu_sites.isSet() && mu.isSet() && mu_default.isSet())
 			{
+				for (auto site : mu_sites.getValue())
+				{
+					mutation_sites.push_back(site);
+				}
+				for (auto mu_coeff : mu)
+				{
+					mutations.push_back(mu_coeff);
+				}
 				isMutation = true;
-				bool match(false);
 				for (size_t i(0); i < mu_sites.getValue().size(); ++i)
 				{
-					for (size_t j(0); j < marks.getValue().size(); ++j)
+					if (std::find(marks.getValue().begin(), marks.getValue().end(), mutation_sites[i]) != marks.getValue().end())
 					{
-						if (mu_sites.getValue()[i] == marks.getValue()[j])
-						{
-							match = true;
-							break;
-						}
+					   continue;
+				    }
+					else
+					{
+					   throw std::runtime_error("Mutation sites should be contained in the marks sites");
 					}
 				}
-				if (!match)
-				{
-					throw std::runtime_error("Mutation sites should match marks.");
-				}
-				else
-				{
-					for (auto site : mu_sites.getValue())
-					{
-						mutation_sites.push_back(site);
-					}
-					for (auto mu_coeff : mu)
-					{
-						mutations.push_back(mu_coeff);
-					}
-				}
+			}
+			
+			if (mu_default.isSet())
+			{
+				isMutation = true;
 			}
 
 			std::map<std::string, double> retrieveAlleles = FastaReader::retrieveData(marks.getValue(), file_name.getValue());
@@ -224,13 +212,13 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("Delta value should be between 1/3 and 1.");
 			}
-			if (!mu.isSet() && !mu_sites.isSet())
+			if (!mu.isSet() && !mu_sites.isSet() && !mu_default.isSet())
 			{
 				mutations.push_back(0.0);
 				mutation_sites.push_back(0);
 			}
-
-			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles);
+			std::cout<< marks.getValue().size()<<"\t"<<duration.getValue() <<"\t"<<repeat.getValue() <<"\t"<<new_fit.size() <<"\t"<< mutations.size() <<"\t"<< mutation_sites.size() <<"\t"<< delta.getValue() <<"\t"<< isMutation <<"\t"<< retrieveAlleles.size() <<"\t"<< mu_default.getValue()<<std::endl;
+			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles, mu_default.getValue());
 			sim.run();
 		}
 		else if (!file_name.isSet())
