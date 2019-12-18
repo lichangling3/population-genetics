@@ -47,6 +47,7 @@ Simulation::Simulation(std::string file_name_, std::vector<int> nb_marks_, int s
 
 void Simulation::run()
 {
+	std::cout<<"Computations are running ..."<<std::endl;
 	if (my_flow.is_open())
 	{
 		size_t gen_counter = 0;
@@ -75,4 +76,5 @@ void Simulation::run()
 		std::cerr << "error while opening text file" << std::endl;
 	}
 	my_flow.close();
+	std::cout<<"Computations done."<<std::endl;
 }
