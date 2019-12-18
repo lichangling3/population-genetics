@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 		{
 			throw std::runtime_error("Simulation duration needed");
 		}
-		else if (duration.isSet() && duration.getValue() < 0)
+		else if (duration.isSet() && duration.getValue() <= 0)
 		{
 			throw std::runtime_error("Simulation's duration should be positive");
 		}
@@ -275,7 +275,16 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("Initial frequences of each allele needed");
 			}
-			else if (nsample.getValue() < 0)
+			else if (freq.isSet())
+			{ for (auto element : freq)
+				{
+					if (element < 0.0 || element > 1.0)
+					{
+						throw std::runtime_error ("Frequencies should be positive and not bigger than 1");
+					}
+				}
+			}
+			if (nsample.getValue() < 0)
 			{
 				throw std::runtime_error("Sample size should be positive");
 			}
@@ -283,7 +292,7 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("There are too many alleles compared to the size of population");
 			}
-			else if (number_alleles.getValue() < 0)
+			if (number_alleles.getValue() < 0)
 			{
 				throw std::runtime_error("The number of alleles should be positive");
 			}
