@@ -34,18 +34,22 @@
   \n 
   \b Extensions \n 
   When run without Fasta file, the program can also simulate natural selection. To add this phenomenon,
-  provide a fitness coefficient for each allele \b in the order you entered them.
+  provide a fitness coefficient for each allele in the order you entered them.
   \verbatim 
   ./PopulationGenetic -T 10 -R 2 -N 100 -A 2 -f 0.5 -f 0.5 -S 0.5 -S 0.8
   \endverbatim
   
   When run with a Fasta file, the programm can also simulate natural selection. To add this phenomenon,
-  provide a fitness coefficient for each allele  \b in the order you entered them. Mutations can also be introduced 
-  when a Fasta file is provided. To produce them, provide a mutation rate and the corresponding marker for every site be mutated, as well as a default mutation rate.
-  The order of mutation rates should match that of the marks. The chances of being mutated
-  to one nucleotide or another are proportional to a number delta if using the Kimura model (see below).
+  provide a fitness coefficient for each allele in the order you entered them. Mutations can also be
+  introduced when a Fasta file is provided. Two different ways of producing mutations are possible: \n
+  - either enter one default mutation rate that is the same for every marker \n
+  - or provide a mutation rate and the corresponding marker for every site be mutated, as well as a default
+   mutation rate that will be used to mutate all other sites (or not, if the default rate is 0). The order 
+   of mutation rates should match that of the marks. \n
+   \n
+  The chances of being mutated to one nucleotide or another are proportional to a number delta if using the Kimura model (see below).
   \verbatim
-  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12 -d 2/3 -D 1.8e-20
+  ./PopulationGenetic -T 10 -R 2 -F ../tests/test_for_retrieveData.fasta -m 3 -m 6 -m 9 -m 12 -M 0.3 -M 0.4 -s 3 -s 12 -d 2/3 -D 0.00001
   \endverbatim
   Mutations are either based on the Jukes-Cantor or on the Kimura model. \n
   [(Jukes-Cantor model of DNA substition)](https://www.megasoftware.net/web_help_7/hc_jukes_cantor_distance.htm) \n
@@ -144,14 +148,10 @@ int main(int argc, char **argv)
 				{
 					throw std::runtime_error("Please set mutation rates for provided mutation sites");
 				}
-				/*else if (!mu_sites.isSet() && !mu_default.isSet())
-				{
-					throw std::runtime_error("Please set mutation rates");
-				}
-				else if (mu_default.isSet())
+				else if (!mu_default.isSet())
 				{
 					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
-				}*/
+				}
 			}
 			if (mu.isSet())
 			{
@@ -182,14 +182,6 @@ int main(int argc, char **argv)
 
 			if (mu_default.isSet())
 			{
-				/*if (!mu.isSet())
-				{
-					throw std::runtime_error("Please set non-default mutation rates");
-				}
-				if (!mu_sites.isSet())
-				{
-					throw std::runtime_error("Please provided mutation sites.");
-				}*/
 				if (mu_default.getValue() < 0)
 				{
 					throw std::runtime_error("Default mutation rate should be positive");
