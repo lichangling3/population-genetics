@@ -29,7 +29,7 @@ TEST(FastaReader, size)
 
 TEST(FastaReader, retrieveDataError)
 {
-	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::string);
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::runtime_error);
 	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../tests/test_for_retrieveDataError.fasta"), std::runtime_error);
 }
 
@@ -71,12 +71,17 @@ TEST(Random, multinomial)
 {
 	int N(10);
 	std::vector<double> n_frequence{0.1, 0.4, 0.3, 0.2};
-	std::vector<double> new_frequence(_RNG->multinomial(N, n_frequence, {0, 0, 0, 0}));
+	std::vector<double> sec_frequence(_RNG->multinomial(N, n_frequence, {0, 0, 0, 0}));
+	std::vector<double> third_frequence(_RNG->multinomial(N, n_frequence, {-1, -1, -1, -1}));
+
 	double total_freq(0.0);
-	for (auto freq : new_frequence)
+	
+	for ( size_t i(0); i < n_frequence.size();++i)
 	{
-		total_freq += freq;
+		total_freq += sec_frequence[i];
+		EXPECT_EQ (third_frequence[i], 0.0);
 	}
+	
 	EXPECT_NEAR(1, total_freq, 0.0001);
 }
 

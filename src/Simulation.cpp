@@ -14,11 +14,10 @@ Simulation::Simulation(int pop_size_, int sim_duration_, int nb_alleles_, std::v
 	my_flow = std::ofstream("display.txt");
 }
 
-
 Simulation::Simulation(std::string file_name_, std::vector<int> nb_marks_, int sim_duration_, int repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<int> sites, double delta_, bool isMutation_, Alleles alleles, double mu_default_)
 	: sim_duration(sim_duration_), nb_marks(nb_marks_), delta(delta_), repetitions(repetitions_), isMutation(isMutation_)
 {
-	if(isMutation)
+	if (isMutation)
 	{
 		for (size_t i(0); i < nb_marks.size(); ++i)
 		{
@@ -28,7 +27,7 @@ Simulation::Simulation(std::string file_name_, std::vector<int> nb_marks_, int s
 		{
 			for (size_t j(0); j < sites.size(); ++j)
 			{
-				if(nb_marks[i] == sites[j])
+				if (nb_marks[i] == sites[j])
 				{
 					marks_mu[i].second = mu[j];
 				}

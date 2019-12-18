@@ -8,7 +8,6 @@
 #include <iostream>
 #include <algorithm>
 
-
 /*!
   \mainpage Genetic drift dynamics
   This is an implementation of the model of Wright-Fisher
@@ -82,9 +81,9 @@ int main(int argc, char **argv)
 		cmd.add(mu_sites);
 		TCLAP::MultiArg<double> fit("S", "fitness_coeff_without_file", "Fitness coefficient for each allele (>0 is favourable, between -1 and 0 is unfavourable and 0 or -1 is lethal)", false, "double");
 		cmd.add(fit);
-		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1./3, "double");
+		TCLAP::ValueArg<double> delta("d", "mutation_delta", "Delta for Kimura model(should be between 1/3 and 1)", false, 1. / 3, "double");
 		cmd.add(delta);
-		TCLAP::ValueArg<double> mu_default ("D", "default_rate", "Mutation rate by default (should be between 0.0 and 1.0)", false, 0.0, "double");
+		TCLAP::ValueArg<double> mu_default("D", "default_rate", "Mutation rate by default (should be between 0.0 and 1.0)", false, 0.0, "double");
 		cmd.add(mu_default);
 
 		cmd.parse(argc, argv);
@@ -95,7 +94,7 @@ int main(int argc, char **argv)
 		}
 		else if (duration.isSet() && duration.getValue() < 0)
 		{
-			throw std::runtime_error ("Simulation's duration should be positive");
+			throw std::runtime_error("Simulation's duration should be positive");
 		}
 		if (!repeat.isSet())
 		{
@@ -103,7 +102,7 @@ int main(int argc, char **argv)
 		}
 		else if (repeat.isSet() && repeat.getValue() < 0)
 		{
-			throw std::runtime_error ("Number of repetitions should be positive");
+			throw std::runtime_error("Number of repetitions should be positive");
 		}
 
 		std::vector<double> new_fit;
@@ -123,7 +122,7 @@ int main(int argc, char **argv)
 				{
 					if (site <= 0.0)
 					{
-						throw std::runtime_error ("Marks should be positive");
+						throw std::runtime_error("Marks should be positive");
 					}
 				}
 			}
@@ -162,8 +161,8 @@ int main(int argc, char **argv)
 				}
 				else if (!mu_default.isSet())
 				{
-					throw std::runtime_error ("Please set a default mutation rate");
-				}	
+					throw std::runtime_error("Please set a default mutation rate");
+				}
 				else if (mu.getValue().size() != (mu_sites.getValue().size()))
 				{
 					throw std::runtime_error("The number of mutation rates should matches the number of mutation sites");
@@ -172,11 +171,11 @@ int main(int argc, char **argv)
 				{
 					if (mu_coeff < 0.0)
 					{
-						throw std::runtime_error ("Mutation rates should be positive");
+						throw std::runtime_error("Mutation rates should be positive");
 					}
 					else if (mu_coeff > 1.0)
 					{
-						throw std::runtime_error ("Mutation rates should not be bigger than 1");
+						throw std::runtime_error("Mutation rates should not be bigger than 1");
 					}
 				}
 			}
@@ -185,7 +184,7 @@ int main(int argc, char **argv)
 			{
 				/*if (!mu.isSet())
 				{
-					throw std::runtime_error ("Please set non-default mutation rates");
+					throw std::runtime_error("Please set non-default mutation rates");
 				}
 				if (!mu_sites.isSet())
 				{
@@ -193,15 +192,14 @@ int main(int argc, char **argv)
 				}*/
 				if (mu_default.getValue() < 0)
 				{
-					throw std::runtime_error ("Default mutation rate should be positive");
+					throw std::runtime_error("Default mutation rate should be positive");
 				}
 				else if (mu_default.getValue() > 1)
 				{
-					throw std::runtime_error ("Default mutation rate should not exceed 1");
+					throw std::runtime_error("Default mutation rate should not exceed 1");
 				}
 			}
 
-				
 			if (mu_sites.isSet() && mu.isSet() && mu_default.isSet())
 			{
 				for (auto site : mu_sites.getValue())
@@ -217,15 +215,15 @@ int main(int argc, char **argv)
 				{
 					if (std::find(marks.getValue().begin(), marks.getValue().end(), mutation_sites[i]) != marks.getValue().end())
 					{
-					   continue;
-				    }
+						continue;
+					}
 					else
 					{
-					   throw std::runtime_error("Mutation sites should be contained in the marks sites");
+						throw std::runtime_error("Mutation sites should be contained in the marks sites");
 					}
 				}
 			}
-			
+
 			if (mu_default.isSet())
 			{
 				isMutation = true;
@@ -267,7 +265,7 @@ int main(int argc, char **argv)
 				mutations.push_back(0.0);
 				mutation_sites.push_back(0);
 			}
-			
+
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles, mu_default.getValue());
 			sim.run();
 		}
@@ -284,7 +282,7 @@ int main(int argc, char **argv)
 			}
 			else if (nsample.getValue() < 0)
 			{
-				throw std::runtime_error ("Sample size should be positive");
+				throw std::runtime_error("Sample size should be positive");
 			}
 			else if (nsample.getValue() < number_alleles.getValue())
 			{
@@ -292,7 +290,7 @@ int main(int argc, char **argv)
 			}
 			else if (number_alleles.getValue() < 0)
 			{
-				throw std::runtime_error ("The number of alleles should be positive");
+				throw std::runtime_error("The number of alleles should be positive");
 			}
 			else if (number_alleles.getValue() != freq_size)
 			{
