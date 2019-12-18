@@ -29,7 +29,7 @@ public:
  \see Population::setAlleles (std::vector<double>, int)
  \see Population::setFitness (std::vector<double>)
  */
-  Simulation(int pop_size_ = 100, int sim_duration_ = 10, int nb_alleles_ = 2, std::vector<double> nb_freq_ = std::vector<double>{0.8, 0.2}, int repetitions_ = 2, std::vector<double> new_fit = std::vector<double>{0.0, 0.0});
+  Simulation(int pop_size_, int sim_duration_, int nb_alleles_, std::vector<double> nb_freq_, int repetitions_, std::vector<double> new_fit);
 
   /*! 
   Constructor used when a Fasta fille is provided.

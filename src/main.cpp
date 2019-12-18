@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 				}
 				else if (!mu_default.isSet())
 				{
-					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
+					std::cout << "You will not have any mutations." << std::endl;
 				}
 			}
 			if (mu.isSet())
@@ -257,7 +257,10 @@ int main(int argc, char **argv)
 				mutations.push_back(0.0);
 				mutation_sites.push_back(0);
 			}
-
+			if (!fit.isSet())
+			{
+				std::cout << "You will not have natural selection."<< std::endl;
+			}
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles, mu_default.getValue());
 			sim.run();
 		}
@@ -337,12 +340,12 @@ int main(int argc, char **argv)
 			{
 				throw std::runtime_error("Mutations only possible with Fasta file");
 			}
+			if (!fit.isSet())
+			{
+				std::cout << "You will not have natural selection."<< std::endl;
+			}
 			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue(), new_fit);
 			sim.run();
-		}
-		if (!fit.isSet())
-		{
-			std::cout << "You will not have natural selection (programm still runs)." << std::endl;
 		}
 	}
 	catch (std::runtime_error &e)
@@ -355,7 +358,6 @@ int main(int argc, char **argv)
 		std::cerr << "Error: " + e.error() + " " + e.argId();
 		nerr = 2;
 	}
-
 	if (_RNG)
 		delete _RNG;
 	return nerr;
