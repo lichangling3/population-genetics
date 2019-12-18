@@ -19,32 +19,32 @@ public:
   /*! 
   Constructor used when no Fasta file is provided.
   It will generate as many Population as repetitions, each initialised with the given parameters
- \param pop_size_ (size_t): used to initialise a Population
- \param sim_duration_ (size_t): used to initialise \ref sim_duration attribute
- \param nb_alleles_ (size_t): used to initialise a Population
+ \param pop_size_ (int): used to initialise a Population
+ \param sim_duration_ (int): used to initialise \ref sim_duration attribute
+ \param nb_alleles_ (int): used to initialise a Population
  \param nb_freq_ (std::vector <double>): used to initialise a Population
- \param repetitions_ (size_t): used to initialise \ref repetition attribute
+ \param repetitions_ (int): used to initialise \ref repetition attribute
  \param new_fit(std::vector <double>): used to initialise a Population
- \see Population::setSize(size_t)
- \see Population::setAlleles (std::vector<double>,  size:t)
+ \see Population::setSize(int)
+ \see Population::setAlleles (std::vector<double>, int)
  \see Population::setFitness (std::vector<double>)
  */
-  Simulation(int pop_size_ = 100, int sim_duration_ = 10, int nb_alleles_ = 2, std::vector<double> nb_freq_ = std::vector<double>{0.8, 0.2}, int repetitions_ = 2, std::vector<double> new_fit = std::vector<double>{0.0, 0.0});
+  Simulation(int pop_size_, int sim_duration_, int nb_alleles_, std::vector<double> nb_freq_, int repetitions_, std::vector<double> new_fit);
 
   /*! 
   Constructor used when a Fasta fille is provided.
    It will generate as many Population as repetitions, each initialised with the given parameters.
   \param file_name_ (std::string): name of the Fasta file containing the alleles
-  \param nb_marks: (std::vector<size_t>): used to initialise Population
-  \param sim_duration_ (size_t): used to initialise \ref sim_duration attribute
-  \param repetitions_ (size_t): used to initialise \ref repetition attribute
+  \param nb_marks: (std::vector<int>): used to initialise Population
+  \param sim_duration_ (int): used to initialise \ref sim_duration attribute
+  \param repetitions_ (int): used to initialise \ref repetition attribute
   \param new_fit(std::vector <double>): used to initialise a Population
   \param new_mu(std::vector <double>): used to initialise \ref marks_mu attribute
-  \param sites (std::vector<size_t>): sites that should be mutated
+  \param sites (std::vector<int>): sites that should be mutated
   \param delta (double): chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   \param isMutation_ (bool): used to initialise the isMutation attribute
   \param alleles (Alleles): used to initialise a Population
-  \see Population::setSize (size_t)
+  \see Population::setSize (int)
   \see Population::setWithFile (Alleles)
  */
 
@@ -69,7 +69,7 @@ private:
   ///chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   double delta;
 
-  /// a vector containg pairs of marks indexes (size_t) and the corresponding mutation rates
+  /// a vector containg pairs of marks indexes (int) and the corresponding mutation rates
   std::vector<std::pair<int, double>> marks_mu;
 
   ///number of generations in a population

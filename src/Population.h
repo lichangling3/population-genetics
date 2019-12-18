@@ -25,8 +25,8 @@ public:
 	Population(const Alleles &popAlleles_, int size_, const std::vector<double> &fitness_);
 
 	/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
-	 \param nb_freq_  frequencies of alleles
-	 \param nb_alleles: number of alleles
+	 \param nb_freq_ (std::vector<double>): frequencies of alleles
+	 \param nb_alleles (int): number of alleles
 */
 	static Alleles setAlleles(int nb_alleles, const std::vector<double> &nb_freq_);
 
@@ -40,7 +40,7 @@ public:
 
 	/// @name Evolution function
 	/*! Assignes a random new frequency to each allele of the population using the multinomial method of RandomNumbers.
- \see RandomNumbers::multinomial (int, vector<double>&).
+   \see RandomNumbers::multinomial (int, vector<double>&).
  */
 	///@{
 	void step();
@@ -49,7 +49,7 @@ public:
 	///@name Mutation functions
 	///@{
 	/*! Mutates all alleles that need to be mutated according to user's input.
-	\param marks (std::vector<std::pair<size_t, double>>): mark and the corresponding mutation rate
+	\param marks (std::vector<std::pair<snt, double>>): mark and the corresponding mutation rate
 	\param delta (double): used to calculate mutation probabilities (see mainpage)
 */
 	void mutation(const std::vector<std::pair<int, double>> &marks, double delta);

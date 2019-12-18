@@ -25,7 +25,7 @@ public:
  */
 
   /*! Retrieves the alleles' sequences and their frequencies from the provided Fasta file.
-    \param marks(vector<size_t>): divide the alleles of the file 
+    \param marks(vector<int>): divide the alleles of the file 
     \param file_to_read (string): the name of the file
     \return map of alleles and the corresponding initial frequency.
     \see readFile
@@ -33,7 +33,7 @@ public:
   static std::map<std::string, double> retrieveData(std::vector<int> marks, const std::string file_to_read);
 
   /*! Retrieves the size of the Population in the provided Fasta file.
-  \param marks (vector<size_t>): divide the alleles of the file 
+  \param marks (vector<int>): divide the alleles of the file 
   \param file_to_read (string) name of the file 
   \return population size.
 */
@@ -45,8 +45,9 @@ public:
 private:
   /*! 
   Reads the provided Fasta file and returns a string containing all alleles in the provided file. 
-  In case the file contains an undefined nucleotide (N), it is replaced by a random nucleotide using RandomNumbers::randomLetter().
-  \param marks (vector<size_t>):  marks demarcating the alleles.
+  In case the file contains a letter that is not a DNA base (not A, C, G or T), it is replaced 
+  by a random nucleotide using RandomNumbers::randomLetter().
+  \param marks (vector<int>):  marks demarcating the alleles.
   \param file_to_read (string): name of the Fasta file containing the data.
   \return a string containing all alleles in the provided file, all in capital letters and without spaces.
   \see RandomNumbers::randomLetter()
