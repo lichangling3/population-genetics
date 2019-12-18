@@ -148,11 +148,11 @@ int main(int argc, char **argv)
 				/*else if (!mu_sites.isSet() && !mu_default.isSet())
 				{
 					throw std::runtime_error("Please set mutation rates");
-				}*/
+				}
 				else if (mu_default.isSet())
 				{
 					std::cout << "You will not have any mutations (programm still runs)." << std::endl;
-				}
+				}*/
 			}
 			if (mu.isSet())
 			{
@@ -183,14 +183,14 @@ int main(int argc, char **argv)
 
 			if (mu_default.isSet())
 			{
-				if (!mu.isSet())
+				/*if (!mu.isSet())
 				{
 					throw std::runtime_error ("Please set non-default mutation rates");
 				}
 				if (!mu_sites.isSet())
 				{
 					throw std::runtime_error("Please provided mutation sites.");
-				}
+				}*/
 				if (mu_default.getValue() < 0)
 				{
 					throw std::runtime_error ("Default mutation rate should be positive");
