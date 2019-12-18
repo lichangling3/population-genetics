@@ -29,7 +29,7 @@ TEST(FastaReader, size)
 
 TEST(FastaReader, retrieveDataError)
 {
-	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::string);
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::runtime_error);
 	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../tests/test_for_retrieveDataError.fasta"), std::runtime_error);
 }
 
