@@ -11,7 +11,8 @@ std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std
         std::ifstream confstr(file_to_read);
         if (confstr.is_open())
         {
-            if (!(std::is_sorted(marks.begin(), marks.end()))) {
+            if (!(std::is_sorted(marks.begin(), marks.end())))
+            {
                 std::sort(marks.begin(), marks.end());
             }
             std::string line, id, genome, combination;
@@ -29,7 +30,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std
                     }
                     if (!genome.empty())
                     {
-						int genome_size = genome.size();
+                        int genome_size = genome.size();
                         for (size_t i(0); i < marks.size(); ++i)
                         {
                             if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] - 1 > genome_size)
@@ -61,7 +62,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std
             }
             if (!genome.empty())
             {
-				int genome_size = genome.size();
+                int genome_size = genome.size();
                 for (size_t i(0); i < marks.size(); ++i)
                 {
                     if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome_size)
