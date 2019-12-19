@@ -23,6 +23,7 @@ public:
 */
 	///@{
 	Population(const Alleles &popAlleles_, int size_, const std::vector<double> &fitness_);
+	///@}
 
 	/*!  Sets the frequencies of the alleles contained in \ref PopAlleles to those of nb_freq_
 	 \param nb_freq_ (std::vector<double>): frequencies of alleles

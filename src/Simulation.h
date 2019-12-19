@@ -54,6 +54,9 @@ public:
   */
   void run();
   
+  /*! Method that sets the name of the output file (my_flow attribute) to the parameter.
+   \param file_name (string): name of the file where the output should be written
+   */
   void setFlowName(std::string file_name_);
 
 private:
