@@ -37,13 +37,13 @@ If you want to use a fasta file to perform the simulation, you need to enter the
 * The number of repetitions of the simulation with -R (default value : 2)
 * The name of the fasta file with -F (default value : ../tests/test_for_retrieveData.fasta)
 * The marks of the nucleotides of the alleles with -m (no default value)
+* The fitness coefficient of the alleles with -S (default value : 0 for each allele)
 
 If you use a faste file, you have the possibility to create mutations in the Population. 
 Then you will have to specify these parameters : 
-* The mutation rate by default for all alleles with -D (default value : 0)
+* The mutation rate by default for all the sites with -D (default value : 0)
 * The mutation rate of the alleles with -M (default value : 0 for each allele)
 * The mutations sites with -s (default value : 0 for each allele)
-* The fitness coefficient of the alleles with -S (default value : 0 for each allele)
 * The delta coefficient of the mutation with -d (default value : 1/3)  
 
 You can create some mutations in two different ways : 
