@@ -126,9 +126,9 @@ int main(int argc, char **argv)
 				}
 				std::sort(sorted_marks.begin(), sorted_marks.end());
 				bool hasDuplicates;
-				for(auto it = sorted_marks.begin(); it != sorted_marks.end(); ++it)
+				for (auto it = sorted_marks.begin(); it != sorted_marks.end(); ++it)
 				{
-					if(std::find(it+1, sorted_marks.end(), *it) != sorted_marks.end())
+					if (std::find(it + 1, sorted_marks.end(), *it) != sorted_marks.end())
 					{
 						hasDuplicates = true;
 					}
@@ -275,7 +275,7 @@ int main(int argc, char **argv)
 			}
 			if (!fit.isSet())
 			{
-				std::cout << "You will not have natural selection."<< std::endl;
+				std::cout << "You will not have natural selection." << std::endl;
 			}
 			Simulation sim(file_name.getValue(), marks.getValue(), duration.getValue(), repeat.getValue(), new_fit, mutations, mutation_sites, delta.getValue(), isMutation, retrieveAlleles, mu_default.getValue());
 			sim.run();
@@ -292,11 +292,12 @@ int main(int argc, char **argv)
 				throw std::runtime_error("Initial frequences of each allele needed");
 			}
 			else if (freq.isSet())
-			{ for (auto element : freq)
+			{
+				for (auto element : freq)
 				{
 					if (element < 0.0 || element > 1.0)
 					{
-						throw std::runtime_error ("Frequencies should be positive and not bigger than 1");
+						throw std::runtime_error("Frequencies should be positive and not bigger than 1");
 					}
 				}
 			}
@@ -363,7 +364,7 @@ int main(int argc, char **argv)
 			}
 			if (!fit.isSet())
 			{
-				std::cout << "You will not have natural selection."<< std::endl;
+				std::cout << "You will not have natural selection." << std::endl;
 			}
 			Simulation sim(nsample.getValue(), duration.getValue(), number_alleles.getValue(), freq.getValue(), repeat.getValue(), new_fit);
 			sim.run();

@@ -75,13 +75,13 @@ TEST(Random, multinomial)
 	std::vector<double> third_frequence(_RNG->multinomial(N, n_frequence, {-1, -1, -1, -1}));
 
 	double total_freq(0.0);
-	
-	for ( size_t i(0); i < n_frequence.size();++i)
+
+	for (size_t i(0); i < n_frequence.size(); ++i)
 	{
 		total_freq += sec_frequence[i];
-		EXPECT_EQ (third_frequence[i], 0.0);
+		EXPECT_EQ(third_frequence[i], 0.0);
 	}
-	
+
 	EXPECT_NEAR(1, total_freq, 0.0001);
 }
 
