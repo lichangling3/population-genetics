@@ -41,10 +41,10 @@ If you want to use a fasta file, you can decide to add mutations or not. So with
 
 However, only the marks of the nucleotides are obligatory because the other parameters are set by default.
 3) If you want to use a fasta file and to add mutations, you have two possible ways to perform the simulation : 
-You can give the same mutation rate for all the sites indicated by the marks, in this case you only need to precise : 
+-You can give the same mutation rate for all the sites indicated by the marks, in this case you only need to precise : 
   * The parameters for a simulation with fasta file without mutations
   * The mutation rate by default with -D (default value : 0, should be between 0 and 1)
-You can specify the mutation rate of the sites one by one, in this case you also need to precise :
+-You can specify the mutation rate of the sites one by one, in this case you also need to precise :
   * The parameters for a simulation with fasta file without mutations
   * The mutation rates with with -M for each site specified (should be between 0 and 1)
   * The marks of the sites mutated with -s  
