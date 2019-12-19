@@ -19,15 +19,12 @@ public:
   /*! 
   Constructor used when no Fasta file is provided.
   It will generate as many Population as repetitions, each initialised with the given parameters
- \param pop_size_ (int): used to initialise a Population
+ \param pop_size_ (int): used to initialise a Population with its constructor
  \param sim_duration_ (int): used to initialise \ref sim_duration attribute
- \param nb_alleles_ (int): used to initialise a Population
- \param nb_freq_ (std::vector <double>): used to initialise a Population
+ \param nb_alleles_ (int): used to initialise a Population with Population::setAlleles
+ \param nb_freq_ (std::vector <double>): used to initialise a Population with its constructor
  \param repetitions_ (int): used to initialise \ref repetition attribute
- \param new_fit(std::vector <double>): used to initialise a Population
- \see Population::setSize(int)
- \see Population::setAlleles (std::vector<double>, int)
- \see Population::setFitness (std::vector<double>)
+ \param new_fit(std::vector <double>): used to initialise a Population with its constructor
  */
   Simulation(int pop_size_, int sim_duration_, int nb_alleles_, std::vector<double> nb_freq_, int repetitions_, std::vector<double> new_fit);
 
@@ -35,7 +32,7 @@ public:
   Constructor used when a Fasta fille is provided.
    It will generate as many Population as repetitions, each initialised with the given parameters.
   \param file_name_ (std::string): name of the Fasta file containing the alleles
-  \param nb_marks: (std::vector<int>): used to initialise Population
+  \param nb_marks: (std::vector<int>): used to initialise the nb_marks attribute and a Population
   \param sim_duration_ (int): used to initialise \ref sim_duration attribute
   \param repetitions_ (int): used to initialise \ref repetition attribute
   \param new_fit(std::vector <double>): used to initialise a Population
@@ -44,8 +41,6 @@ public:
   \param delta (double): chances of being mutated to one nucleotide or another are proportional to delta (Kimura model)
   \param isMutation_ (bool): used to initialise the isMutation attribute
   \param alleles (Alleles): used to initialise a Population
-  \see Population::setSize (int)
-  \see Population::setWithFile (Alleles)
  */
 
   Simulation(std::string file_name_, std::vector<int> nb_marks_, int sim_duration_, int repetitions_, std::vector<double> new_fit, std::vector<double> mu, std::vector<int> sites, double delta_, bool isMutation_, Alleles alleles, double mu_default_);
