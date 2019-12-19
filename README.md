@@ -32,13 +32,6 @@ needs. :
 * The frequencies of the alleles with -f (no default value)
 * The fitness coefficient of the alleles with -S (default value : 0 for each allele)  
 
-If you want to use a fasta file to perform the simulation, you need to enter these factors :  
-* The time of simulation or the number of generations with -T (default value : 10)
-* The number of repetitions of the simulation with -R (default value : 2)
-* The name of the fasta file with -F (default value : ../fasta/test_for_retrieveData.fasta)
-* The marks of the nucleotides of the alleles with -m (no default value)
-* The fitness coefficient of the alleles with -S (default value : 0 for each allele)
-
 If you want to use a fasta file, you can decide to add mutations or not. So without mutations, you need to precise : 
 * The time of simulation or the number of generations with -T (default value : 10)
 * The number of repetitions of the simulation with -R (default value : 2)
