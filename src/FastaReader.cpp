@@ -65,7 +65,7 @@ std::vector<std::string> FastaReader::readFile(std::vector<int> marks, const std
                 int genome_size = genome.size();
                 for (size_t i(0); i < marks.size(); ++i)
                 {
-                    if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] == 0 || marks[i] - 1 > genome_size)
+                    if (!(genome[marks[i] - 1] == 'A' || genome[marks[i] - 1] == 'C' || genome[marks[i] - 1] == 'T' || genome[marks[i] - 1] == 'G') || marks[i] - 1 > genome_size)
                     {
                         combination += _RNG->randomLetter();
                     }
