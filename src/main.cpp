@@ -7,6 +7,8 @@
 #include <FastaReader.h>
 #include <iostream>
 #include <algorithm>
+#include <iterator>
+#include <iostream>
 
 /*!
   \mainpage Genetic drift dynamics
@@ -74,7 +76,7 @@ int main(int argc, char **argv)
 		cmd.add(nsample);
 		TCLAP::ValueArg<int> number_alleles("A", "number_of_alleles", "Number of alleles", false, 2, "size_t");
 		cmd.add(number_alleles);
-		TCLAP::ValueArg<std::string> file_name("F", "file_name", "Name of the FASTA file", false, "../tests/test_for_retrieveData.fasta", "string");
+		TCLAP::ValueArg<std::string> file_name("F", "file_name", "Name of the FASTA file", false, "../fasta/test_for_retrieveData.fasta", "string");
 		cmd.add(file_name);
 		TCLAP::MultiArg<double> freq("f", "frequences", "Initial frequences of the alleles", false, "double");
 		TCLAP::MultiArg<int> marks("m", "marks", "Sequence positions when FASTA file provided", false, "size_t");
@@ -92,23 +94,16 @@ int main(int argc, char **argv)
 
 		cmd.parse(argc, argv);
 
-		if (!duration.isSet())
-		{
-			throw std::runtime_error("Simulation duration needed");
-		}
-		else if (duration.isSet() && duration.getValue() <= 0)
+		if (duration.isSet() && duration.getValue() <= 0)
 		{
 			throw std::runtime_error("Simulation's duration should be positive");
 		}
-		if (!repeat.isSet())
-		{
-			throw std::runtime_error("Number of repetitions of simulation needed");
-		}
-		else if (repeat.isSet() && repeat.getValue() < 0)
+		if (repeat.isSet() && repeat.getValue() < 0)
 		{
 			throw std::runtime_error("Number of repetitions should be positive");
 		}
 
+		std::vector<int> sorted_marks(marks.getValue());
 		std::vector<double> new_fit;
 		std::vector<double> mutations;
 		std::vector<int> mutation_sites;
@@ -122,21 +117,38 @@ int main(int argc, char **argv)
 			}
 			else if (marks.isSet())
 			{
-				for (auto site : marks)
+				for (auto site : marks.getValue())
 				{
-					if (site <= 0.0)
+					if (site <= 0)
 					{
 						throw std::runtime_error("Marks should be positive");
 					}
 				}
+				std::sort(sorted_marks.begin(), sorted_marks.end());
+				bool hasDuplicates;
+				for(auto it = sorted_marks.begin(); it != sorted_marks.end(); ++it)
+				{
+					if(std::find(it+1, sorted_marks.end(), *it) != sorted_marks.end())
+					{
+						hasDuplicates = true;
+					}
+				}
+				if (hasDuplicates)
+				{
+					throw std::runtime_error("Each mark must be different");
+				}
 			}
-			else if (nsample.isSet())
+			if (nsample.isSet())
 			{
 				throw std::runtime_error("Population size not needed");
 			}
-			else if (freq.isSet())
+			if (freq.isSet())
 			{
 				throw std::runtime_error("Frequences not needed");
+			}
+			if (number_alleles.isSet())
+			{
+				throw std::runtime_error("Alleles number not needed");
 			}
 			else if (!marks.isSet())
 			{
@@ -147,6 +159,10 @@ int main(int argc, char **argv)
 				if (mu_sites.isSet())
 				{
 					throw std::runtime_error("Please set mutation rates for provided mutation sites");
+				}
+				else if (!mu_default.isSet() && delta.isSet())
+				{
+					throw std::runtime_error("The mutation delta can be specified only when there are mutations");
 				}
 				else if (!mu_default.isSet())
 				{
@@ -248,7 +264,7 @@ int main(int argc, char **argv)
 					new_fit.push_back(0.0);
 				}
 			}
-			if (delta.getValue() < 1 / 3 || delta.getValue() > 1.0)
+			if (delta.getValue() < 1. / 3 || delta.getValue() > 1.0)
 			{
 				throw std::runtime_error("Delta value should be between 1/3 and 1.");
 			}
@@ -341,11 +357,7 @@ int main(int argc, char **argv)
 					new_fit.push_back(0.0);
 				}
 			}
-			if (mu.isSet())
-			{
-				throw std::runtime_error("Mutations only possible with Fasta file");
-			}
-			if (delta.isSet())
+			if (mu.isSet() || mu_default.isSet() || delta.isSet() || mu_sites.isSet())
 			{
 				throw std::runtime_error("Mutations only possible with Fasta file");
 			}

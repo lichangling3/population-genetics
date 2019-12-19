@@ -58,6 +58,8 @@ public:
    \see Display
   */
   void run();
+  
+  void setFlowName(std::string file_name_);
 
 private:
   /// \see Population

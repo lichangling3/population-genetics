@@ -78,3 +78,8 @@ void Simulation::run()
 	my_flow.close();
 	std::cout<<"Computations done."<<std::endl;
 }
+
+void Simulation::setFlowName(std::string file_name_)
+{
+	my_flow =std::ofstream(file_name_);
+}

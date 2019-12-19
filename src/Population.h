@@ -28,7 +28,7 @@ public:
 	 \param nb_freq_ (std::vector<double>): frequencies of alleles
 	 \param nb_alleles (int): number of alleles
 */
-	static Alleles setAlleles(int nb_alleles, const std::vector<double> &nb_freq_);
+	static Alleles setAlleles(int nb_alleles, const std::vector<double>& nb_freq_);
 
 	/// @name Getters
 	///@{

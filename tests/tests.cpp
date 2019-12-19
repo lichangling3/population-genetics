@@ -8,7 +8,7 @@ RandomNumbers *_RNG;
 
 TEST(FastaReader, retrieveData)
 {
-	std::map<std::string, double> freq_received = FastaReader::retrieveData({9, 1, 25, 0}, "../tests/test_for_retrieveData.fasta");
+	std::map<std::string, double> freq_received = FastaReader::retrieveData({9, 1, 25, 0}, "../fasta/test_for_retrieveData.fasta");
 	std::map<std::string, double>::const_iterator i;
 	double sum;
 	for (i = freq_received.begin(); i != freq_received.end(); ++i)
@@ -24,13 +24,13 @@ TEST(FastaReader, retrieveData)
 
 TEST(FastaReader, size)
 {
-	EXPECT_EQ(FastaReader::size({1, 2}, "../tests/test_for_retrieveData.fasta"), 4);
+	EXPECT_EQ(FastaReader::size({1, 2}, "../fasta/test_for_retrieveData.fasta"), 4);
 }
 
 TEST(FastaReader, retrieveDataError)
 {
-	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "test_for_retrieveData.fasta"), std::runtime_error);
-	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../tests/test_for_retrieveDataError.fasta"), std::runtime_error);
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../build/test_for_retrieveData.fasta"), std::runtime_error);
+	EXPECT_THROW(FastaReader::retrieveData({1, 2}, "../fasta/test_for_retrieveDataError.fasta"), std::runtime_error);
 }
 
 TEST(Random, randomLetter)
@@ -95,7 +95,7 @@ TEST(Random, fixation)
 
 TEST(Display, displayGen)
 {
-	std::ofstream my_flow = std::ofstream("../tests/test_for_display.txt");
+	std::ofstream my_flow = std::ofstream("../build/test1.txt");
 	Alleles alleles;
 	for (double i(1); i < 5; ++i)
 	{
@@ -110,7 +110,7 @@ TEST(Display, displayGen)
 	my_flow.close();
 	try
 	{
-		std::ifstream confstr("../tests/test_for_display.txt");
+		std::ifstream confstr("../build/test1.txt");
 		if (confstr.is_open())
 		{
 			while (std::getline(confstr, line))
@@ -124,12 +124,12 @@ TEST(Display, displayGen)
 		}
 		else
 		{
-			throw("Could not open FASTA file ../tests/test_for_display.txt");
+			throw("Could not open FASTA file ../build/test1.txt");
 		}
 	}
 	catch (std::ifstream::failure &e)
 	{
-		throw("Error with FASTA file ../tests/test_for_display:" and e.what());
+		throw("Error with FASTA file ../build/test1.txt:" and e.what());
 	}
 	EXPECT_EQ(split[0], "\t0.1");
 	EXPECT_EQ(split[1], "0.2");
@@ -141,10 +141,11 @@ TEST(GlobalTest, SmallTest)
 {
 	//without fasta file
 	Simulation sim(4, 0, 3, {0.4, 0.5, 0.1}, 3, {0, 0, 0});
+	sim.setFlowName("../build/test2.txt");
 	sim.run();
 	try
 	{
-		std::ifstream confstr("display.txt");
+		std::ifstream confstr("../build/test2.txt");
 		if (confstr.is_open())
 		{
 			std::string line;
@@ -162,21 +163,22 @@ TEST(GlobalTest, SmallTest)
 		}
 		else
 		{
-			throw std::runtime_error("Could not open display.txt");
+			throw std::runtime_error("Could not open test2.txt");
 		}
 	}
 	catch (std::ifstream::failure &e)
 	{
-		throw("Error with display.txt file " and e.what());
+		throw("Error with test2.txt file " and e.what());
 	}
 
 	//with fasta file
-	std::map<std::string, double> all = FastaReader::retrieveData({1, 3, 6}, "../tests/test_for_retrieveData.fasta");
-	Simulation sim_file("../tests/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all, 0.0);
+	std::map<std::string, double> all = FastaReader::retrieveData({1, 3, 6}, "../fasta/test_for_retrieveData.fasta");
+	Simulation sim_file("../fasta/test_for_retrieveData.fasta", {1, 3, 6}, 0, 3, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, 0, false, all, 0.0);
+	sim_file.setFlowName("../build/test3.txt");
 	sim_file.run();
 	try
 	{
-		std::ifstream confstr("display.txt");
+		std::ifstream confstr("../build/test3.txt");
 		if (confstr.is_open())
 		{
 			std::string line;
@@ -194,12 +196,12 @@ TEST(GlobalTest, SmallTest)
 		}
 		else
 		{
-			throw std::runtime_error("Could not open display.txt");
+			throw std::runtime_error("Could not open test3.txt");
 		}
 	}
 	catch (std::ifstream::failure &e)
 	{
-		throw("Error with display.txt file " and e.what());
+		throw("Error with test3.txt file " and e.what());
 	}
 }
 
