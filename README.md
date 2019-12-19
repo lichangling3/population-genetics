@@ -35,20 +35,27 @@ needs. :
 If you want to use a fasta file to perform the simulation, you need to enter these factors :  
 * The time of simulation or the number of generations with -T (default value : 10)
 * The number of repetitions of the simulation with -R (default value : 2)
-* The name of the fasta file with -F (default value : ../tests/test_for_retrieveData.fasta)
+* The name of the fasta file with -F (default value : ../fasta/test_for_retrieveData.fasta)
 * The marks of the nucleotides of the alleles with -m (no default value)
 * The fitness coefficient of the alleles with -S (default value : 0 for each allele)
 
-If you use a faste file, you have the possibility to create mutations in the Population. 
-Then you will have to specify these parameters : 
-* The mutation rate by default for all the sites with -D (default value : 0)
-* The mutation rate of the alleles with -M (default value : 0 for each allele)
-* The mutations sites with -s (default value : 0 for each allele)
-* The delta coefficient of the mutation with -d (default value : 1/3)  
+If you want to use a fasta file, you can decide to add mutations or not. So without mutations, you need to precise : 
+* The time of simulation or the number of generations with -T (default value : 10)
+* The number of repetitions of the simulation with -R (default value : 2)
+* The name of the fasta file with -F (default value : ../fasta/test_for_retrieveData.fasta)
+* The marks of the nucleotides of the alleles with -m (no default value)
+* The fitness coefficient of the alleles with -S (default value : 0 for each allele)
 
-You can create some mutations in two different ways : 
-* you can choose a mutation rate by default for all the sites indicated by the marks with -D
-* you can precise the mutation rate of some sites one by one with -M (mutation rate) and -s (marks of the sites mutated) for each site you want to define; and add the mutation rate by default D for the others if their mutation rate is not specified.
+However, only the marks of the nucleotides are obligatory because the other parameters are set by default.
+3) If you want to use a fasta file and to add mutations, you have two possible ways to perform the simulation : 
+- You can give the same mutation rate for all the sites indicated by the marks, in this case you only need to precise : 
+* The parameters for a simulation with fasta file without mutations
+* The mutation rate by default with -D (default value : 0, should be between 0 and 1)
+- You can specify the mutation rate of the sites one by one, in this case you also need to precise :
+* The parameters for a simulation with fasta file without mutations
+* The mutation rates with with -M for each site specified (should be between 0 and 1)
+* The marks of the sites mutated with -s  
+* The mutation rate by default with -D (default value : 0, should be between 0 and 1) for all the sites you didn’t specify
 
 Examples of command :
 - Without a fasta file and with selection :
